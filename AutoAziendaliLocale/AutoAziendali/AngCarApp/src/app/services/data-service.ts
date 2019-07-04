@@ -4,6 +4,7 @@ import { Veicolo } from '../models/Veicolo';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Utilizzo } from '../models/utilizzo';
+import { Province } from '../models/province';
 
 @Injectable()
 export class DataService {
@@ -35,6 +36,18 @@ export class DataService {
 
     addVeicolo(veicolo: Veicolo): Observable<Veicolo>{
         return this.http.post<Veicolo>('http://localhost:50680/api/addveicolo', veicolo);
+    }
+
+    public getListProvince(callback: (items: Array<Province>) => void): void {
+        var item = this.http.get<Array<Province>>("http://localhost:50680/api/getProvince")
+            .subscribe(
+                data => {
+                    callback(data);
+                },
+                error => {
+                    console.log("errore");
+                }
+            );
     }
 
     public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {

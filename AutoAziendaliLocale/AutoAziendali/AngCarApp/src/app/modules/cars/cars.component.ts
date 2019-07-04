@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data-service';
 import { Veicolo } from 'src/app/models/veicolo';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { from } from 'rxjs';
+import { Provider } from '@angular/compiler/src/core';
+import { Province } from 'src/app/models/province';
 
 @Component({
   selector: 'app-cars',
@@ -19,6 +21,8 @@ export class CarsComponent {
   public isEditing: boolean;
   public list: Array<Veicolo>;
   public isButtonDisabled: boolean;
+  public listProvince: Array<Province>;
+  public picker: Date;
 
   constructor(private data: DataService) {
     var self = this;
@@ -29,9 +33,16 @@ export class CarsComponent {
     this.isEditing = false;
     this.page = 'listaVeicolo';
     this.veicoloDetail = null;
-   
+
   }
-  
+
+  getListProvince(data: DataService) {
+    var self = this;
+    data.getListProvince(function (items: Array<Province>): void {
+      self.listProvince = items;
+
+    })
+  }
   // displayedColums: string[] = ['Targa', 'Marca', 'Modello','Dettaglio', 'Elimina'];
   // dataSource = new MatTableDataSource(this.list);
 
@@ -55,6 +66,7 @@ export class CarsComponent {
   beginEdit() {
     if (this.isEditing == false) {
       this.isEditing = true;
+      this.getListProvince(this.data);
     }
 
     else {
@@ -105,8 +117,9 @@ export class CarsComponent {
 
   addVeicoloView() {
     this.page = 'aggiungi';
-    this.newVeicolo = new Veicolo(1, "", "", "","","",new Date(),0,0,0,0,"","","","",null);
-}
+    this.newVeicolo = new Veicolo(1, "", "", "", "", "", new Date(), 0, 0, 0, 0, "", "", "", "", null);
+    this.getListProvince(this.data)
+  }
 
   returnList() {
     this.page = "listaVeicolo";

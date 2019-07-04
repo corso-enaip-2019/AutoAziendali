@@ -105,13 +105,20 @@ namespace AutoAziendali.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getprovince")]
+        public List<Province> GetProvince()
+        {
+            var p = _context.Province.ToList();
+            return p;
+        }
 
         [HttpGet]
         [Route("getutilizzo")]
         public List<UtilizzoVeicoli> GetUtilizzoveicoli()
         {
-            var l = _context.UtilizzoVeicoli.ToList();
-            return l;
+            var u = _context.UtilizzoVeicoli.ToList();
+            return u;
         }
         //}
         //[HttpGet]
