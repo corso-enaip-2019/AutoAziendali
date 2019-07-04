@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1d4d926283454ed0862af47ac18b8ff9" Name="Diagram1">
+        <EntityTypeShape EntityType="CarDbModel.AnagraficaVecchia" Width="1.5" PointX="5.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.BusinessUnit" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.CausaliManutenzione" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.CommesseVecchia" Width="1.5" PointX="6" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Documenti" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Email" Width="1.5" PointX="5.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Fornitori" Width="1.5" PointX="0.75" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.ManutenzioniVeicoli" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Modalita" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Pedaggi" Width="1.5" PointX="7.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Province" Width="1.5" PointX="1.5" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Scadenze" Width="1.5" PointX="3.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.ScadenzeVeicoli" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Societa" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Stati" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.StatoVeicoli" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.sysdiagrams" Width="1.5" PointX="8.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.TelepassViacard" Width="1.5" PointX="0.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.UtilizzoVeicoli" Width="1.5" PointX="3" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDbModel.Veicoli" Width="1.5" PointX="0.75" PointY="21.375" IsExpanded="true" />
+        <AssociationConnector Association="CarDbModel.FK_Commesse_BusinessUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_BusinessUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ManutenzioniVeicoli_CausaliManutenzione" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_Commesse_Societa" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ManutenzioniVeicoli_Documenti" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ScadenzeVeicoli_Documenti" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Documenti" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Documenti1" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ManutenzioniVeicoli_Fornitori" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ManutenzioniVeicoli_Veicoli" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Modalita" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_Veicoli_Province" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ScadenzeVeicoli_Scadenze" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_ScadenzeVeicoli_Veicoli" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Societa" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Stati" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_TelepassViacard" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_TelepassViacard1" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Veicoli" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDbModel.FK_UtilizzoVeicoli_Veicoli" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,22 @@
+<div *ngIf="page == 'listaUtilizzo'">
+    <h1 class="title">Lista Utilizzo</h1>
+
+
+    <table mat-tableid>
+        <th> Id </th>
+        <th> Data Inizio </th>
+        <th> Data Fine</th>
+        <th> Costo Carburante</th>
+        <th> Id Anagrafica</th>
+        <tr *ngFor="let utilizzo of list">
+            <td>{{utilizzo.IdUtilizzo}}</td>
+            <td>{{utilizzo.DataInizio}}</td>
+            <td>{{utilizzo.DataFine}}</td>
+            <td>{{utilizzo.CostoCarburante}}</td>
+            <td>{{utilizzo.IdAnagrafica}}</td>
+            <!-- <td><button mat-flat-button (click)="detailItemView(veicolo)">Dettaglio</button></td>
+            <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td> -->
+        </tr>
+    </table>
+    <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
+</div>

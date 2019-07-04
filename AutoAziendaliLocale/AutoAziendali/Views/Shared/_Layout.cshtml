@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>@ViewBag.Title - Car Application</title>
+
+
+
+
+    <base href="/">
+</head>
+<body>
+    @RenderBody()
+    <script src="~/AngCarApp/dist/carapp/main-es2015.js"></script>
+    <script src="~/AngCarApp/dist/carapp/main-es5.js"></script>
+    <script src="~/AngCarApp/dist/carapp/polyfills-es2015.js"></script>
+    <script src="~/AngCarApp/dist/carapp/polyfills-es5.js"></script>
+    <script src="~/AngCarApp/dist/carapp/runtime-es2015.js"></script>
+    <script src="~/AngCarApp/dist/carapp/runtime-es5.js"></script>
+    <script src="~/AngCarApp/dist/carapp/styles-es2015.js"></script>
+    <script src="~/AngCarApp/dist/carapp/styles-es5.js"></script>
+    <script src="~/AngCarApp/dist/carapp/vendor-es2015.js"></script>
+    <script src="~/AngCarApp/dist/carapp/vendor-es5.js"></script>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

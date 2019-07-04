@@ -1,0 +1,27 @@
+.container{
+    width: 100%;
+    height: 100vh;
+    
+    background-color: white
+  }
+
+.mat-sidenav{
+    background: #003d7e;
+    
+    width: 200px;
+}
+
+.mat-toolbar{
+    background: #003d7e;
+    color: white;
+    
+
+}
+
+img{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: auto;
+    width: auto
+}

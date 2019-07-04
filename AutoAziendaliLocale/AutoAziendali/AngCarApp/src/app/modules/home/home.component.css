@@ -1,0 +1,28 @@
+.title{
+  margin-left: 20px;
+  font-family: Helvetica;
+  color: black;
+}
+
+.bottoni-container{
+  text-align: center;
+  
+}
+
+
+
+button{
+  height: 200px;
+  width: 200px;
+  margin: 20px;
+  background-color: whitesmoke;
+  font-size: 20px;
+  color: black;
+}
+
+.mat-icon{
+  font-size: 100px;
+  width: 100px;
+  height: 100px;
+  
+}

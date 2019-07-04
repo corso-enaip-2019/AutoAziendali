@@ -1,0 +1,114 @@
+import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data-service';
+import { Veicolo } from 'src/app/models/veicolo';
+import {MatTableDataSource} from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { from } from 'rxjs';
+
+@Component({
+  selector: 'app-cars',
+  templateUrl: './cars.component.html',
+  styleUrls: ['./cars.component.css']
+})
+
+export class CarsComponent {
+
+  public newVeicolo: Veicolo;
+  public veicoloDetail: Veicolo;
+  public page: string;
+  public isEditing: boolean;
+  public list: Array<Veicolo>;
+  public isButtonDisabled: boolean;
+
+  constructor(private data: DataService) {
+    var self = this;
+    data.getList(function (items: Array<Veicolo>): void {
+      self.list = items;
+    })
+    this.isButtonDisabled = false;
+    this.isEditing = false;
+    this.page = 'listaVeicolo';
+    this.veicoloDetail = null;
+   
+  }
+  
+  // displayedColums: string[] = ['Targa', 'Marca', 'Modello','Dettaglio', 'Elimina'];
+  // dataSource = new MatTableDataSource(this.list);
+
+  deleteVeicolo(id: number) {
+    if (Veicolo.operationConfirm()) {
+      this.data.deleteVeicolo(id)
+        .subscribe(
+          data => {
+            let index = this.list.findIndex(a => a.IdVeicolo == id);
+            this.list.splice(index, 1);
+
+          },
+          error => {
+
+          }
+        );
+    }
+  }
+
+
+  beginEdit() {
+    if (this.isEditing == false) {
+      this.isEditing = true;
+    }
+
+    else {
+      this.isEditing = false;
+    }
+  }
+
+  editVeicolo(veicolo: Veicolo): void {
+
+    // if (!veicolo.isCilindrataValid || !veicolo.isKwValid) {
+    //   window.alert(`Dato inserito non corretto:`);
+    //   return;
+    // }
+    // else {
+    this.data.editVeicolo(veicolo)
+      .subscribe(
+        data => {
+          this.isEditing = false;
+          this.veicoloDetail = veicolo;
+        },
+        error => {
+
+        }
+      );
+  }
+
+  detailItemView(veicolo: Veicolo): void {
+    this.page = "dettaglio";
+    this.veicoloDetail = veicolo;
+  }
+
+  addVeicolo(veicolo: Veicolo): void {
+    // if (!veicolo.isCilindrataValid || !veicolo.isKwValid) {
+    //   window.alert("Dato inserito non corretto");
+    //   return;
+    // }
+
+    this.data.addVeicolo(veicolo)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listaVeicolo';
+        },
+        error => {
+        }
+      );
+  }
+
+  addVeicoloView() {
+    this.page = 'aggiungi';
+    this.newVeicolo = new Veicolo(1, "", "", "","","",new Date(),0,0,0,0,"","","","",null);
+}
+
+  returnList() {
+    this.page = "listaVeicolo";
+  }
+}

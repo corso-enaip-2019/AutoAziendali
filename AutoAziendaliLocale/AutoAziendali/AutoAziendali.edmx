@@ -1,0 +1,1411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnagraficaVecchia">
+          <Key>
+            <PropertyRef Name="IdAnagrafica" />
+          </Key>
+          <Property Name="IdAnagrafica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cognome" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdSocieta" Type="int" />
+          <Property Name="IdBusinessUnit" Type="int" />
+        </EntityType>
+        <EntityType Name="BusinessUnit">
+          <Key>
+            <PropertyRef Name="IdBusinessUnit" />
+          </Key>
+          <Property Name="IdBusinessUnit" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BusinessUnit" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CausaliManutenzione">
+          <Key>
+            <PropertyRef Name="IdCausaleManutenzione" />
+          </Key>
+          <Property Name="IdCausaleManutenzione" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CausaleManutenzione" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CommesseVecchia">
+          <Key>
+            <PropertyRef Name="IdCommessa" />
+          </Key>
+          <Property Name="IdCommessa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Commessa" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdSocieta" Type="int" />
+          <Property Name="IdBusinessUnit" Type="int" />
+        </EntityType>
+        <EntityType Name="Documenti">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+          </Key>
+          <Property Name="IdDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Documento" Type="image" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="server" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="username" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="destinatario" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Fornitori">
+          <Key>
+            <PropertyRef Name="IdFornitore" />
+          </Key>
+          <Property Name="IdFornitore" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fornitore" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errori trovati durante la generazione:
+avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata definita alcuna chiave primaria e non è possibile dedurre una chiave primaria valida. La tabella/visualizzazione è stata esclusa. Per utilizzare l'entità, è necessario esaminare lo schema, aggiungere le chiavi corrette e rimuovere i commenti.
+        <EntityType Name="Jofri">
+          <Property Name="Nominativo" Type="nchar" MaxLength="50" />
+          <Property Name="Nome" Type="nchar" MaxLength="25" />
+          <Property Name="Cognome" Type="nchar" MaxLength="25" />
+          <Property Name="Societa" Type="nchar" MaxLength="20" />
+          <Property Name="CodiceDirezioneServizio" Type="nchar" MaxLength="10" />
+          <Property Name="DirezioneServizio" Type="nchar" MaxLength="50" />
+          <Property Name="MeseValidita" Type="smalldatetime" />
+          <Property Name="DataCessazione" Type="smalldatetime" />
+          <Property Name="ID" Type="uniqueidentifier" />
+        </EntityType>-->
+        <EntityType Name="ManutenzioniVeicoli">
+          <Key>
+            <PropertyRef Name="IdManutenzioneVeicoli" />
+          </Key>
+          <Property Name="IdManutenzioneVeicoli" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="IdVeicolo" Type="int" Nullable="false" />
+          <Property Name="IdCausaleManutenzione" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdFornitore" Type="int" Nullable="false" />
+          <Property Name="Costo" Type="money" Nullable="false" />
+          <Property Name="IdDocumento" Type="int" />
+        </EntityType>
+        <EntityType Name="Modalita">
+          <Key>
+            <PropertyRef Name="IdModalita" />
+          </Key>
+          <Property Name="IdModalita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modalita" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pedaggi">
+          <Key>
+            <PropertyRef Name="IdPedaggi" />
+          </Key>
+          <Property Name="IdPedaggi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TelepassViacard" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mese" Type="int" />
+          <Property Name="Data" Type="datetime" />
+          <Property Name="Percorso" Type="nvarchar" MaxLength="50" />
+          <Property Name="Classe" Type="nvarchar" MaxLength="50" />
+          <Property Name="Costo" Type="money" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Sigla" />
+          </Key>
+          <Property Name="Sigla" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="Provincia" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Scadenze">
+          <Key>
+            <PropertyRef Name="IdScadenza" />
+          </Key>
+          <Property Name="IdScadenza" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Scadenza" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GiorniPreavviso" Type="int" />
+        </EntityType>
+        <EntityType Name="ScadenzeVeicoli">
+          <Key>
+            <PropertyRef Name="IdScadenzeVeicoli" />
+          </Key>
+          <Property Name="IdScadenzeVeicoli" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVeicolo" Type="int" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="IdScadenza" Type="int" Nullable="false" />
+          <Property Name="Costo" Type="money" />
+          <Property Name="IdDocumento" Type="int" />
+          <Property Name="Note" Type="nvarchar" MaxLength="50" />
+          <Property Name="Avviso" Type="bit" />
+          <Property Name="AvvisoInviato" Type="bit" />
+        </EntityType>
+        <EntityType Name="Societa">
+          <Key>
+            <PropertyRef Name="IdSocieta" />
+          </Key>
+          <Property Name="IdSocieta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Societa" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Stati">
+          <Key>
+            <PropertyRef Name="IdStato" />
+          </Key>
+          <Property Name="IdStato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Stato" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatoVeicoli">
+          <Key>
+            <PropertyRef Name="IdStatoVeicolo" />
+          </Key>
+          <Property Name="IdStatoVeicolo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVeicolo" Type="int" Nullable="false" />
+          <Property Name="IdProprieta" Type="int" />
+          <Property Name="IdLibretto" Type="int" />
+          <Property Name="IdTelepass" Type="int" />
+          <Property Name="IdViacard" Type="int" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="IdStato" Type="int" Nullable="false" />
+          <Property Name="ChilometriRental" Type="int" />
+          <Property Name="IdSocieta" Type="int" Nullable="false" />
+          <Property Name="IdBusinessUnit" Type="int" />
+          <Property Name="IdModalita" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdAnagrafica" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TelepassViacard">
+          <Key>
+            <PropertyRef Name="IdTelepassViacard" />
+          </Key>
+          <Property Name="IdTelepassViacard" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TelepassViacard" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UtilizzoVeicoli">
+          <Key>
+            <PropertyRef Name="IdUtilizzoVeicoli" />
+          </Key>
+          <Property Name="IdUtilizzoVeicoli" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVeicolo" Type="int" Nullable="false" />
+          <Property Name="DataInizio" Type="datetime" Nullable="false" />
+          <Property Name="DataFine" Type="datetime" Nullable="false" />
+          <Property Name="KmInizio" Type="int" />
+          <Property Name="KmFine" Type="int" />
+          <Property Name="Destinazione" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CostoCarburante" Type="money" />
+          <Property Name="CostoPedaggio" Type="money" />
+          <Property Name="IdAnagrafica" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IdCommessa" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Veicoli">
+          <Key>
+            <PropertyRef Name="IdVeicolo" />
+          </Key>
+          <Property Name="IdVeicolo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Targa" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Marca" Type="nvarchar" MaxLength="50" />
+          <Property Name="Modello" Type="nvarchar" MaxLength="50" />
+          <Property Name="Versione" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telaio" Type="nvarchar" MaxLength="50" />
+          <Property Name="Immatricolazione" Type="datetime" />
+          <Property Name="Cilindrata" Type="int" />
+          <Property Name="CvVapore" Type="int" />
+          <Property Name="Kw" Type="int" />
+          <Property Name="CvFiscali" Type="int" />
+          <Property Name="Colore" Type="nvarchar" MaxLength="50" />
+          <Property Name="Formato" Type="nvarchar" MaxLength="50" />
+          <Property Name="Alimentazione" Type="nvarchar" MaxLength="50" />
+          <Property Name="NormativaEuro" Type="nchar" MaxLength="10" />
+          <Property Name="Provincia" Type="nchar" MaxLength="2" />
+        </EntityType>
+        <Association Name="FK_Commesse_BusinessUnit">
+          <End Role="BusinessUnit" Type="Self.BusinessUnit" Multiplicity="0..1" />
+          <End Role="CommesseVecchia" Type="Self.CommesseVecchia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessUnit">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Principal>
+            <Dependent Role="CommesseVecchia">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commesse_Societa">
+          <End Role="Societa" Type="Self.Societa" Multiplicity="0..1" />
+          <End Role="CommesseVecchia" Type="Self.CommesseVecchia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Societa">
+              <PropertyRef Name="IdSocieta" />
+            </Principal>
+            <Dependent Role="CommesseVecchia">
+              <PropertyRef Name="IdSocieta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_CausaliManutenzione">
+          <End Role="CausaliManutenzione" Type="Self.CausaliManutenzione" Multiplicity="1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CausaliManutenzione">
+              <PropertyRef Name="IdCausaleManutenzione" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdCausaleManutenzione" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_Documenti">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_Fornitori">
+          <End Role="Fornitori" Type="Self.Fornitori" Multiplicity="1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fornitori">
+              <PropertyRef Name="IdFornitore" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdFornitore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScadenzeVeicoli_Documenti">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="ScadenzeVeicoli" Type="Self.ScadenzeVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="ScadenzeVeicoli">
+              <PropertyRef Name="IdDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScadenzeVeicoli_Scadenze">
+          <End Role="Scadenze" Type="Self.Scadenze" Multiplicity="1" />
+          <End Role="ScadenzeVeicoli" Type="Self.ScadenzeVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scadenze">
+              <PropertyRef Name="IdScadenza" />
+            </Principal>
+            <Dependent Role="ScadenzeVeicoli">
+              <PropertyRef Name="IdScadenza" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScadenzeVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="ScadenzeVeicoli" Type="Self.ScadenzeVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="ScadenzeVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_BusinessUnit">
+          <End Role="BusinessUnit" Type="Self.BusinessUnit" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessUnit">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Documenti">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdLibretto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Documenti1">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdProprieta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Modalita">
+          <End Role="Modalita" Type="Self.Modalita" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modalita">
+              <PropertyRef Name="IdModalita" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdModalita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Societa">
+          <End Role="Societa" Type="Self.Societa" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Societa">
+              <PropertyRef Name="IdSocieta" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdSocieta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Stati">
+          <End Role="Stati" Type="Self.Stati" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stati">
+              <PropertyRef Name="IdStato" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdStato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_TelepassViacard">
+          <End Role="TelepassViacard" Type="Self.TelepassViacard" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TelepassViacard">
+              <PropertyRef Name="IdTelepassViacard" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdTelepass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_TelepassViacard1">
+          <End Role="TelepassViacard" Type="Self.TelepassViacard" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TelepassViacard">
+              <PropertyRef Name="IdTelepassViacard" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdViacard" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizzoVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="UtilizzoVeicoli" Type="Self.UtilizzoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="UtilizzoVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Veicoli_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Sigla" />
+            </Principal>
+            <Dependent Role="Veicoli">
+              <PropertyRef Name="Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarDbModelStoreContainer">
+          <EntitySet Name="AnagraficaVecchia" EntityType="Self.AnagraficaVecchia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BusinessUnit" EntityType="Self.BusinessUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CausaliManutenzione" EntityType="Self.CausaliManutenzione" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommesseVecchia" EntityType="Self.CommesseVecchia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documenti" EntityType="Self.Documenti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fornitori" EntityType="Self.Fornitori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ManutenzioniVeicoli" EntityType="Self.ManutenzioniVeicoli" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modalita" EntityType="Self.Modalita" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pedaggi" EntityType="Self.Pedaggi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Scadenze" EntityType="Self.Scadenze" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScadenzeVeicoli" EntityType="Self.ScadenzeVeicoli" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Societa" EntityType="Self.Societa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stati" EntityType="Self.Stati" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatoVeicoli" EntityType="Self.StatoVeicoli" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TelepassViacard" EntityType="Self.TelepassViacard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UtilizzoVeicoli" EntityType="Self.UtilizzoVeicoli" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Veicoli" EntityType="Self.Veicoli" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Commesse_BusinessUnit" Association="Self.FK_Commesse_BusinessUnit">
+            <End Role="BusinessUnit" EntitySet="BusinessUnit" />
+            <End Role="CommesseVecchia" EntitySet="CommesseVecchia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commesse_Societa" Association="Self.FK_Commesse_Societa">
+            <End Role="Societa" EntitySet="Societa" />
+            <End Role="CommesseVecchia" EntitySet="CommesseVecchia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_CausaliManutenzione" Association="Self.FK_ManutenzioniVeicoli_CausaliManutenzione">
+            <End Role="CausaliManutenzione" EntitySet="CausaliManutenzione" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_Documenti" Association="Self.FK_ManutenzioniVeicoli_Documenti">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_Fornitori" Association="Self.FK_ManutenzioniVeicoli_Fornitori">
+            <End Role="Fornitori" EntitySet="Fornitori" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_Veicoli" Association="Self.FK_ManutenzioniVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScadenzeVeicoli_Documenti" Association="Self.FK_ScadenzeVeicoli_Documenti">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="ScadenzeVeicoli" EntitySet="ScadenzeVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScadenzeVeicoli_Scadenze" Association="Self.FK_ScadenzeVeicoli_Scadenze">
+            <End Role="Scadenze" EntitySet="Scadenze" />
+            <End Role="ScadenzeVeicoli" EntitySet="ScadenzeVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScadenzeVeicoli_Veicoli" Association="Self.FK_ScadenzeVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="ScadenzeVeicoli" EntitySet="ScadenzeVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_BusinessUnit" Association="Self.FK_StatoVeicoli_BusinessUnit">
+            <End Role="BusinessUnit" EntitySet="BusinessUnit" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Documenti" Association="Self.FK_StatoVeicoli_Documenti">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Documenti1" Association="Self.FK_StatoVeicoli_Documenti1">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Modalita" Association="Self.FK_StatoVeicoli_Modalita">
+            <End Role="Modalita" EntitySet="Modalita" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Societa" Association="Self.FK_StatoVeicoli_Societa">
+            <End Role="Societa" EntitySet="Societa" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Stati" Association="Self.FK_StatoVeicoli_Stati">
+            <End Role="Stati" EntitySet="Stati" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_TelepassViacard" Association="Self.FK_StatoVeicoli_TelepassViacard">
+            <End Role="TelepassViacard" EntitySet="TelepassViacard" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_TelepassViacard1" Association="Self.FK_StatoVeicoli_TelepassViacard1">
+            <End Role="TelepassViacard" EntitySet="TelepassViacard" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Veicoli" Association="Self.FK_StatoVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizzoVeicoli_Veicoli" Association="Self.FK_UtilizzoVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="UtilizzoVeicoli" EntitySet="UtilizzoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Veicoli_Province" Association="Self.FK_Veicoli_Province">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="Veicoli" EntitySet="Veicoli" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AnagraficaVecchia">
+          <Key>
+            <PropertyRef Name="IdAnagrafica" />
+          </Key>
+          <Property Name="IdAnagrafica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cognome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdSocieta" Type="Int32" />
+          <Property Name="IdBusinessUnit" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BusinessUnit">
+          <Key>
+            <PropertyRef Name="IdBusinessUnit" />
+          </Key>
+          <Property Name="IdBusinessUnit" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BusinessUnit1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CommesseVecchia" Relationship="Self.FK_Commesse_BusinessUnit" FromRole="BusinessUnit" ToRole="CommesseVecchia" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_BusinessUnit" FromRole="BusinessUnit" ToRole="StatoVeicoli" />
+        </EntityType>
+        <EntityType Name="CausaliManutenzione">
+          <Key>
+            <PropertyRef Name="IdCausaleManutenzione" />
+          </Key>
+          <Property Name="IdCausaleManutenzione" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CausaleManutenzione" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ManutenzioniVeicoli" Relationship="Self.FK_ManutenzioniVeicoli_CausaliManutenzione" FromRole="CausaliManutenzione" ToRole="ManutenzioniVeicoli" />
+        </EntityType>
+        <EntityType Name="CommesseVecchia">
+          <Key>
+            <PropertyRef Name="IdCommessa" />
+          </Key>
+          <Property Name="IdCommessa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Commessa" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IdSocieta" Type="Int32" />
+          <Property Name="IdBusinessUnit" Type="Int32" />
+          <NavigationProperty Name="BusinessUnit" Relationship="Self.FK_Commesse_BusinessUnit" FromRole="CommesseVecchia" ToRole="BusinessUnit" />
+          <NavigationProperty Name="Societa" Relationship="Self.FK_Commesse_Societa" FromRole="CommesseVecchia" ToRole="Societa" />
+        </EntityType>
+        <EntityType Name="Documenti">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+          </Key>
+          <Property Name="IdDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Documento" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="ManutenzioniVeicoli" Relationship="Self.FK_ManutenzioniVeicoli_Documenti" FromRole="Documenti" ToRole="ManutenzioniVeicoli" />
+          <NavigationProperty Name="ScadenzeVeicoli" Relationship="Self.FK_ScadenzeVeicoli_Documenti" FromRole="Documenti" ToRole="ScadenzeVeicoli" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_Documenti" FromRole="Documenti" ToRole="StatoVeicoli" />
+          <NavigationProperty Name="StatoVeicoli1" Relationship="Self.FK_StatoVeicoli_Documenti1" FromRole="Documenti" ToRole="StatoVeicoli" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="server" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="destinatario" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Fornitori">
+          <Key>
+            <PropertyRef Name="IdFornitore" />
+          </Key>
+          <Property Name="IdFornitore" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fornitore" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ManutenzioniVeicoli" Relationship="Self.FK_ManutenzioniVeicoli_Fornitori" FromRole="Fornitori" ToRole="ManutenzioniVeicoli" />
+        </EntityType>
+        <EntityType Name="ManutenzioniVeicoli">
+          <Key>
+            <PropertyRef Name="IdManutenzioneVeicoli" />
+          </Key>
+          <Property Name="IdManutenzioneVeicoli" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdVeicolo" Type="Int32" Nullable="false" />
+          <Property Name="IdCausaleManutenzione" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdFornitore" Type="Int32" Nullable="false" />
+          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IdDocumento" Type="Int32" />
+          <NavigationProperty Name="CausaliManutenzione" Relationship="Self.FK_ManutenzioniVeicoli_CausaliManutenzione" FromRole="ManutenzioniVeicoli" ToRole="CausaliManutenzione" />
+          <NavigationProperty Name="Documenti" Relationship="Self.FK_ManutenzioniVeicoli_Documenti" FromRole="ManutenzioniVeicoli" ToRole="Documenti" />
+          <NavigationProperty Name="Fornitori" Relationship="Self.FK_ManutenzioniVeicoli_Fornitori" FromRole="ManutenzioniVeicoli" ToRole="Fornitori" />
+          <NavigationProperty Name="Veicoli" Relationship="Self.FK_ManutenzioniVeicoli_Veicoli" FromRole="ManutenzioniVeicoli" ToRole="Veicoli" />
+        </EntityType>
+        <EntityType Name="Modalita">
+          <Key>
+            <PropertyRef Name="IdModalita" />
+          </Key>
+          <Property Name="IdModalita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modalita1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_Modalita" FromRole="Modalita" ToRole="StatoVeicoli" />
+        </EntityType>
+        <EntityType Name="Pedaggi">
+          <Key>
+            <PropertyRef Name="IdPedaggi" />
+          </Key>
+          <Property Name="IdPedaggi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TelepassViacard" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mese" Type="Int32" />
+          <Property Name="Data" Type="DateTime" Precision="3" />
+          <Property Name="Percorso" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Classe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Sigla" />
+          </Key>
+          <Property Name="Sigla" Type="String" MaxLength="2" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Provincia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Veicoli" Relationship="Self.FK_Veicoli_Province" FromRole="Province" ToRole="Veicoli" />
+        </EntityType>
+        <EntityType Name="Scadenze">
+          <Key>
+            <PropertyRef Name="IdScadenza" />
+          </Key>
+          <Property Name="IdScadenza" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Scadenza" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GiorniPreavviso" Type="Int32" />
+          <NavigationProperty Name="ScadenzeVeicoli" Relationship="Self.FK_ScadenzeVeicoli_Scadenze" FromRole="Scadenze" ToRole="ScadenzeVeicoli" />
+        </EntityType>
+        <EntityType Name="ScadenzeVeicoli">
+          <Key>
+            <PropertyRef Name="IdScadenzeVeicoli" />
+          </Key>
+          <Property Name="IdScadenzeVeicoli" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVeicolo" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdScadenza" Type="Int32" Nullable="false" />
+          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IdDocumento" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Avviso" Type="Boolean" />
+          <Property Name="AvvisoInviato" Type="Boolean" />
+          <NavigationProperty Name="Documenti" Relationship="Self.FK_ScadenzeVeicoli_Documenti" FromRole="ScadenzeVeicoli" ToRole="Documenti" />
+          <NavigationProperty Name="Scadenze" Relationship="Self.FK_ScadenzeVeicoli_Scadenze" FromRole="ScadenzeVeicoli" ToRole="Scadenze" />
+          <NavigationProperty Name="Veicoli" Relationship="Self.FK_ScadenzeVeicoli_Veicoli" FromRole="ScadenzeVeicoli" ToRole="Veicoli" />
+        </EntityType>
+        <EntityType Name="Societa">
+          <Key>
+            <PropertyRef Name="IdSocieta" />
+          </Key>
+          <Property Name="IdSocieta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Societa1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CommesseVecchia" Relationship="Self.FK_Commesse_Societa" FromRole="Societa" ToRole="CommesseVecchia" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_Societa" FromRole="Societa" ToRole="StatoVeicoli" />
+        </EntityType>
+        <EntityType Name="Stati">
+          <Key>
+            <PropertyRef Name="IdStato" />
+          </Key>
+          <Property Name="IdStato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_Stati" FromRole="Stati" ToRole="StatoVeicoli" />
+        </EntityType>
+        <EntityType Name="StatoVeicoli">
+          <Key>
+            <PropertyRef Name="IdStatoVeicolo" />
+          </Key>
+          <Property Name="IdStatoVeicolo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVeicolo" Type="Int32" Nullable="false" />
+          <Property Name="IdProprieta" Type="Int32" />
+          <Property Name="IdLibretto" Type="Int32" />
+          <Property Name="IdTelepass" Type="Int32" />
+          <Property Name="IdViacard" Type="Int32" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdStato" Type="Int32" Nullable="false" />
+          <Property Name="ChilometriRental" Type="Int32" />
+          <Property Name="IdSocieta" Type="Int32" Nullable="false" />
+          <Property Name="IdBusinessUnit" Type="Int32" />
+          <Property Name="IdModalita" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdAnagrafica" Type="Guid" />
+          <NavigationProperty Name="BusinessUnit" Relationship="Self.FK_StatoVeicoli_BusinessUnit" FromRole="StatoVeicoli" ToRole="BusinessUnit" />
+          <NavigationProperty Name="Documenti" Relationship="Self.FK_StatoVeicoli_Documenti" FromRole="StatoVeicoli" ToRole="Documenti" />
+          <NavigationProperty Name="Documenti1" Relationship="Self.FK_StatoVeicoli_Documenti1" FromRole="StatoVeicoli" ToRole="Documenti" />
+          <NavigationProperty Name="Modalita" Relationship="Self.FK_StatoVeicoli_Modalita" FromRole="StatoVeicoli" ToRole="Modalita" />
+          <NavigationProperty Name="Societa" Relationship="Self.FK_StatoVeicoli_Societa" FromRole="StatoVeicoli" ToRole="Societa" />
+          <NavigationProperty Name="Stati" Relationship="Self.FK_StatoVeicoli_Stati" FromRole="StatoVeicoli" ToRole="Stati" />
+          <NavigationProperty Name="TelepassViacard" Relationship="Self.FK_StatoVeicoli_TelepassViacard" FromRole="StatoVeicoli" ToRole="TelepassViacard" />
+          <NavigationProperty Name="TelepassViacard1" Relationship="Self.FK_StatoVeicoli_TelepassViacard1" FromRole="StatoVeicoli" ToRole="TelepassViacard" />
+          <NavigationProperty Name="Veicoli" Relationship="Self.FK_StatoVeicoli_Veicoli" FromRole="StatoVeicoli" ToRole="Veicoli" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TelepassViacard">
+          <Key>
+            <PropertyRef Name="IdTelepassViacard" />
+          </Key>
+          <Property Name="IdTelepassViacard" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TelepassViacard1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_TelepassViacard" FromRole="TelepassViacard" ToRole="StatoVeicoli" />
+          <NavigationProperty Name="StatoVeicoli1" Relationship="Self.FK_StatoVeicoli_TelepassViacard1" FromRole="TelepassViacard" ToRole="StatoVeicoli" />
+        </EntityType>
+        <EntityType Name="UtilizzoVeicoli">
+          <Key>
+            <PropertyRef Name="IdUtilizzoVeicoli" />
+          </Key>
+          <Property Name="IdUtilizzoVeicoli" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVeicolo" Type="Int32" Nullable="false" />
+          <Property Name="DataInizio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataFine" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KmInizio" Type="Int32" />
+          <Property Name="KmFine" Type="Int32" />
+          <Property Name="Destinazione" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CostoCarburante" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CostoPedaggio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IdAnagrafica" Type="Guid" Nullable="false" />
+          <Property Name="IdCommessa" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Veicoli" Relationship="Self.FK_UtilizzoVeicoli_Veicoli" FromRole="UtilizzoVeicoli" ToRole="Veicoli" />
+        </EntityType>
+        <EntityType Name="Veicoli">
+          <Key>
+            <PropertyRef Name="IdVeicolo" />
+          </Key>
+          <Property Name="IdVeicolo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Targa" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Modello" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Versione" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telaio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Immatricolazione" Type="DateTime" Precision="3" />
+          <Property Name="Cilindrata" Type="Int32" />
+          <Property Name="CvVapore" Type="Int32" />
+          <Property Name="Kw" Type="Int32" />
+          <Property Name="CvFiscali" Type="Int32" />
+          <Property Name="Colore" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Formato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Alimentazione" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NormativaEuro" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Provincia" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ManutenzioniVeicoli" Relationship="Self.FK_ManutenzioniVeicoli_Veicoli" FromRole="Veicoli" ToRole="ManutenzioniVeicoli" />
+          <NavigationProperty Name="Province" Relationship="Self.FK_Veicoli_Province" FromRole="Veicoli" ToRole="Province" />
+          <NavigationProperty Name="ScadenzeVeicoli" Relationship="Self.FK_ScadenzeVeicoli_Veicoli" FromRole="Veicoli" ToRole="ScadenzeVeicoli" />
+          <NavigationProperty Name="StatoVeicoli" Relationship="Self.FK_StatoVeicoli_Veicoli" FromRole="Veicoli" ToRole="StatoVeicoli" />
+          <NavigationProperty Name="UtilizzoVeicoli" Relationship="Self.FK_UtilizzoVeicoli_Veicoli" FromRole="Veicoli" ToRole="UtilizzoVeicoli" />
+        </EntityType>
+        <Association Name="FK_Commesse_BusinessUnit">
+          <End Role="BusinessUnit" Type="Self.BusinessUnit" Multiplicity="0..1" />
+          <End Role="CommesseVecchia" Type="Self.CommesseVecchia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessUnit">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Principal>
+            <Dependent Role="CommesseVecchia">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_BusinessUnit">
+          <End Role="BusinessUnit" Type="Self.BusinessUnit" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusinessUnit">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdBusinessUnit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_CausaliManutenzione">
+          <End Role="CausaliManutenzione" Type="Self.CausaliManutenzione" Multiplicity="1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CausaliManutenzione">
+              <PropertyRef Name="IdCausaleManutenzione" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdCausaleManutenzione" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commesse_Societa">
+          <End Role="Societa" Type="Self.Societa" Multiplicity="0..1" />
+          <End Role="CommesseVecchia" Type="Self.CommesseVecchia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Societa">
+              <PropertyRef Name="IdSocieta" />
+            </Principal>
+            <Dependent Role="CommesseVecchia">
+              <PropertyRef Name="IdSocieta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_Documenti">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScadenzeVeicoli_Documenti">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="ScadenzeVeicoli" Type="Self.ScadenzeVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="ScadenzeVeicoli">
+              <PropertyRef Name="IdDocumento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Documenti">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdLibretto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Documenti1">
+          <End Role="Documenti" Type="Self.Documenti" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documenti">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdProprieta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_Fornitori">
+          <End Role="Fornitori" Type="Self.Fornitori" Multiplicity="1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fornitori">
+              <PropertyRef Name="IdFornitore" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdFornitore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ManutenzioniVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="ManutenzioniVeicoli" Type="Self.ManutenzioniVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="ManutenzioniVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Modalita">
+          <End Role="Modalita" Type="Self.Modalita" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modalita">
+              <PropertyRef Name="IdModalita" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdModalita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Veicoli_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Sigla" />
+            </Principal>
+            <Dependent Role="Veicoli">
+              <PropertyRef Name="Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScadenzeVeicoli_Scadenze">
+          <End Role="Scadenze" Type="Self.Scadenze" Multiplicity="1" />
+          <End Role="ScadenzeVeicoli" Type="Self.ScadenzeVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scadenze">
+              <PropertyRef Name="IdScadenza" />
+            </Principal>
+            <Dependent Role="ScadenzeVeicoli">
+              <PropertyRef Name="IdScadenza" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScadenzeVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="ScadenzeVeicoli" Type="Self.ScadenzeVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="ScadenzeVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Societa">
+          <End Role="Societa" Type="Self.Societa" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Societa">
+              <PropertyRef Name="IdSocieta" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdSocieta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Stati">
+          <End Role="Stati" Type="Self.Stati" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stati">
+              <PropertyRef Name="IdStato" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdStato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_TelepassViacard">
+          <End Role="TelepassViacard" Type="Self.TelepassViacard" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TelepassViacard">
+              <PropertyRef Name="IdTelepassViacard" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdTelepass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_TelepassViacard1">
+          <End Role="TelepassViacard" Type="Self.TelepassViacard" Multiplicity="0..1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TelepassViacard">
+              <PropertyRef Name="IdTelepassViacard" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdViacard" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatoVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="StatoVeicoli" Type="Self.StatoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="StatoVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UtilizzoVeicoli_Veicoli">
+          <End Role="Veicoli" Type="Self.Veicoli" Multiplicity="1" />
+          <End Role="UtilizzoVeicoli" Type="Self.UtilizzoVeicoli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Principal>
+            <Dependent Role="UtilizzoVeicoli">
+              <PropertyRef Name="IdVeicolo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarDbEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="AnagraficaVecchia" EntityType="Self.AnagraficaVecchia" />
+          <EntitySet Name="BusinessUnit" EntityType="Self.BusinessUnit" />
+          <EntitySet Name="CausaliManutenzione" EntityType="Self.CausaliManutenzione" />
+          <EntitySet Name="CommesseVecchia" EntityType="Self.CommesseVecchia" />
+          <EntitySet Name="Documenti" EntityType="Self.Documenti" />
+          <EntitySet Name="Email" EntityType="Self.Email" />
+          <EntitySet Name="Fornitori" EntityType="Self.Fornitori" />
+          <EntitySet Name="ManutenzioniVeicoli" EntityType="Self.ManutenzioniVeicoli" />
+          <EntitySet Name="Modalita" EntityType="Self.Modalita" />
+          <EntitySet Name="Pedaggi" EntityType="Self.Pedaggi" />
+          <EntitySet Name="Province" EntityType="Self.Province" />
+          <EntitySet Name="Scadenze" EntityType="Self.Scadenze" />
+          <EntitySet Name="ScadenzeVeicoli" EntityType="Self.ScadenzeVeicoli" />
+          <EntitySet Name="Societa" EntityType="Self.Societa" />
+          <EntitySet Name="Stati" EntityType="Self.Stati" />
+          <EntitySet Name="StatoVeicoli" EntityType="Self.StatoVeicoli" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TelepassViacard" EntityType="Self.TelepassViacard" />
+          <EntitySet Name="UtilizzoVeicoli" EntityType="Self.UtilizzoVeicoli" />
+          <EntitySet Name="Veicoli" EntityType="Self.Veicoli" />
+          <AssociationSet Name="FK_Commesse_BusinessUnit" Association="Self.FK_Commesse_BusinessUnit">
+            <End Role="BusinessUnit" EntitySet="BusinessUnit" />
+            <End Role="CommesseVecchia" EntitySet="CommesseVecchia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_BusinessUnit" Association="Self.FK_StatoVeicoli_BusinessUnit">
+            <End Role="BusinessUnit" EntitySet="BusinessUnit" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_CausaliManutenzione" Association="Self.FK_ManutenzioniVeicoli_CausaliManutenzione">
+            <End Role="CausaliManutenzione" EntitySet="CausaliManutenzione" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commesse_Societa" Association="Self.FK_Commesse_Societa">
+            <End Role="Societa" EntitySet="Societa" />
+            <End Role="CommesseVecchia" EntitySet="CommesseVecchia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_Documenti" Association="Self.FK_ManutenzioniVeicoli_Documenti">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScadenzeVeicoli_Documenti" Association="Self.FK_ScadenzeVeicoli_Documenti">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="ScadenzeVeicoli" EntitySet="ScadenzeVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Documenti" Association="Self.FK_StatoVeicoli_Documenti">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Documenti1" Association="Self.FK_StatoVeicoli_Documenti1">
+            <End Role="Documenti" EntitySet="Documenti" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_Fornitori" Association="Self.FK_ManutenzioniVeicoli_Fornitori">
+            <End Role="Fornitori" EntitySet="Fornitori" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ManutenzioniVeicoli_Veicoli" Association="Self.FK_ManutenzioniVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="ManutenzioniVeicoli" EntitySet="ManutenzioniVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Modalita" Association="Self.FK_StatoVeicoli_Modalita">
+            <End Role="Modalita" EntitySet="Modalita" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Veicoli_Province" Association="Self.FK_Veicoli_Province">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="Veicoli" EntitySet="Veicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScadenzeVeicoli_Scadenze" Association="Self.FK_ScadenzeVeicoli_Scadenze">
+            <End Role="Scadenze" EntitySet="Scadenze" />
+            <End Role="ScadenzeVeicoli" EntitySet="ScadenzeVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScadenzeVeicoli_Veicoli" Association="Self.FK_ScadenzeVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="ScadenzeVeicoli" EntitySet="ScadenzeVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Societa" Association="Self.FK_StatoVeicoli_Societa">
+            <End Role="Societa" EntitySet="Societa" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Stati" Association="Self.FK_StatoVeicoli_Stati">
+            <End Role="Stati" EntitySet="Stati" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_TelepassViacard" Association="Self.FK_StatoVeicoli_TelepassViacard">
+            <End Role="TelepassViacard" EntitySet="TelepassViacard" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_TelepassViacard1" Association="Self.FK_StatoVeicoli_TelepassViacard1">
+            <End Role="TelepassViacard" EntitySet="TelepassViacard" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatoVeicoli_Veicoli" Association="Self.FK_StatoVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="StatoVeicoli" EntitySet="StatoVeicoli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UtilizzoVeicoli_Veicoli" Association="Self.FK_UtilizzoVeicoli_Veicoli">
+            <End Role="Veicoli" EntitySet="Veicoli" />
+            <End Role="UtilizzoVeicoli" EntitySet="UtilizzoVeicoli" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarDbModelStoreContainer" CdmEntityContainer="CarDbEntities">
+          <EntitySetMapping Name="AnagraficaVecchia">
+            <EntityTypeMapping TypeName="CarDbModel.AnagraficaVecchia">
+              <MappingFragment StoreEntitySet="AnagraficaVecchia">
+                <ScalarProperty Name="IdAnagrafica" ColumnName="IdAnagrafica" />
+                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="IdSocieta" ColumnName="IdSocieta" />
+                <ScalarProperty Name="IdBusinessUnit" ColumnName="IdBusinessUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusinessUnit">
+            <EntityTypeMapping TypeName="CarDbModel.BusinessUnit">
+              <MappingFragment StoreEntitySet="BusinessUnit">
+                <ScalarProperty Name="IdBusinessUnit" ColumnName="IdBusinessUnit" />
+                <ScalarProperty Name="BusinessUnit1" ColumnName="BusinessUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CausaliManutenzione">
+            <EntityTypeMapping TypeName="CarDbModel.CausaliManutenzione">
+              <MappingFragment StoreEntitySet="CausaliManutenzione">
+                <ScalarProperty Name="IdCausaleManutenzione" ColumnName="IdCausaleManutenzione" />
+                <ScalarProperty Name="CausaleManutenzione" ColumnName="CausaleManutenzione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommesseVecchia">
+            <EntityTypeMapping TypeName="CarDbModel.CommesseVecchia">
+              <MappingFragment StoreEntitySet="CommesseVecchia">
+                <ScalarProperty Name="IdCommessa" ColumnName="IdCommessa" />
+                <ScalarProperty Name="Commessa" ColumnName="Commessa" />
+                <ScalarProperty Name="IdSocieta" ColumnName="IdSocieta" />
+                <ScalarProperty Name="IdBusinessUnit" ColumnName="IdBusinessUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documenti">
+            <EntityTypeMapping TypeName="CarDbModel.Documenti">
+              <MappingFragment StoreEntitySet="Documenti">
+                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Email">
+            <EntityTypeMapping TypeName="CarDbModel.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="server" ColumnName="server" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="destinatario" ColumnName="destinatario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fornitori">
+            <EntityTypeMapping TypeName="CarDbModel.Fornitori">
+              <MappingFragment StoreEntitySet="Fornitori">
+                <ScalarProperty Name="IdFornitore" ColumnName="IdFornitore" />
+                <ScalarProperty Name="Fornitore" ColumnName="Fornitore" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ManutenzioniVeicoli">
+            <EntityTypeMapping TypeName="CarDbModel.ManutenzioniVeicoli">
+              <MappingFragment StoreEntitySet="ManutenzioniVeicoli">
+                <ScalarProperty Name="IdManutenzioneVeicoli" ColumnName="IdManutenzioneVeicoli" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="IdVeicolo" ColumnName="IdVeicolo" />
+                <ScalarProperty Name="IdCausaleManutenzione" ColumnName="IdCausaleManutenzione" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="IdFornitore" ColumnName="IdFornitore" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modalita">
+            <EntityTypeMapping TypeName="CarDbModel.Modalita">
+              <MappingFragment StoreEntitySet="Modalita">
+                <ScalarProperty Name="IdModalita" ColumnName="IdModalita" />
+                <ScalarProperty Name="Modalita1" ColumnName="Modalita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pedaggi">
+            <EntityTypeMapping TypeName="CarDbModel.Pedaggi">
+              <MappingFragment StoreEntitySet="Pedaggi">
+                <ScalarProperty Name="IdPedaggi" ColumnName="IdPedaggi" />
+                <ScalarProperty Name="TelepassViacard" ColumnName="TelepassViacard" />
+                <ScalarProperty Name="Mese" ColumnName="Mese" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Percorso" ColumnName="Percorso" />
+                <ScalarProperty Name="Classe" ColumnName="Classe" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Province">
+            <EntityTypeMapping TypeName="CarDbModel.Province">
+              <MappingFragment StoreEntitySet="Province">
+                <ScalarProperty Name="Sigla" ColumnName="Sigla" />
+                <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Scadenze">
+            <EntityTypeMapping TypeName="CarDbModel.Scadenze">
+              <MappingFragment StoreEntitySet="Scadenze">
+                <ScalarProperty Name="IdScadenza" ColumnName="IdScadenza" />
+                <ScalarProperty Name="Scadenza" ColumnName="Scadenza" />
+                <ScalarProperty Name="GiorniPreavviso" ColumnName="GiorniPreavviso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScadenzeVeicoli">
+            <EntityTypeMapping TypeName="CarDbModel.ScadenzeVeicoli">
+              <MappingFragment StoreEntitySet="ScadenzeVeicoli">
+                <ScalarProperty Name="IdScadenzeVeicoli" ColumnName="IdScadenzeVeicoli" />
+                <ScalarProperty Name="IdVeicolo" ColumnName="IdVeicolo" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="IdScadenza" ColumnName="IdScadenza" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Avviso" ColumnName="Avviso" />
+                <ScalarProperty Name="AvvisoInviato" ColumnName="AvvisoInviato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Societa">
+            <EntityTypeMapping TypeName="CarDbModel.Societa">
+              <MappingFragment StoreEntitySet="Societa">
+                <ScalarProperty Name="IdSocieta" ColumnName="IdSocieta" />
+                <ScalarProperty Name="Societa1" ColumnName="Societa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stati">
+            <EntityTypeMapping TypeName="CarDbModel.Stati">
+              <MappingFragment StoreEntitySet="Stati">
+                <ScalarProperty Name="IdStato" ColumnName="IdStato" />
+                <ScalarProperty Name="Stato" ColumnName="Stato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatoVeicoli">
+            <EntityTypeMapping TypeName="CarDbModel.StatoVeicoli">
+              <MappingFragment StoreEntitySet="StatoVeicoli">
+                <ScalarProperty Name="IdStatoVeicolo" ColumnName="IdStatoVeicolo" />
+                <ScalarProperty Name="IdVeicolo" ColumnName="IdVeicolo" />
+                <ScalarProperty Name="IdProprieta" ColumnName="IdProprieta" />
+                <ScalarProperty Name="IdLibretto" ColumnName="IdLibretto" />
+                <ScalarProperty Name="IdTelepass" ColumnName="IdTelepass" />
+                <ScalarProperty Name="IdViacard" ColumnName="IdViacard" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="IdStato" ColumnName="IdStato" />
+                <ScalarProperty Name="ChilometriRental" ColumnName="ChilometriRental" />
+                <ScalarProperty Name="IdSocieta" ColumnName="IdSocieta" />
+                <ScalarProperty Name="IdBusinessUnit" ColumnName="IdBusinessUnit" />
+                <ScalarProperty Name="IdModalita" ColumnName="IdModalita" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="IdAnagrafica" ColumnName="IdAnagrafica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CarDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TelepassViacard">
+            <EntityTypeMapping TypeName="CarDbModel.TelepassViacard">
+              <MappingFragment StoreEntitySet="TelepassViacard">
+                <ScalarProperty Name="IdTelepassViacard" ColumnName="IdTelepassViacard" />
+                <ScalarProperty Name="TelepassViacard1" ColumnName="TelepassViacard" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UtilizzoVeicoli">
+            <EntityTypeMapping TypeName="CarDbModel.UtilizzoVeicoli">
+              <MappingFragment StoreEntitySet="UtilizzoVeicoli">
+                <ScalarProperty Name="IdUtilizzoVeicoli" ColumnName="IdUtilizzoVeicoli" />
+                <ScalarProperty Name="IdVeicolo" ColumnName="IdVeicolo" />
+                <ScalarProperty Name="DataInizio" ColumnName="DataInizio" />
+                <ScalarProperty Name="DataFine" ColumnName="DataFine" />
+                <ScalarProperty Name="KmInizio" ColumnName="KmInizio" />
+                <ScalarProperty Name="KmFine" ColumnName="KmFine" />
+                <ScalarProperty Name="Destinazione" ColumnName="Destinazione" />
+                <ScalarProperty Name="CostoCarburante" ColumnName="CostoCarburante" />
+                <ScalarProperty Name="CostoPedaggio" ColumnName="CostoPedaggio" />
+                <ScalarProperty Name="IdAnagrafica" ColumnName="IdAnagrafica" />
+                <ScalarProperty Name="IdCommessa" ColumnName="IdCommessa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veicoli">
+            <EntityTypeMapping TypeName="CarDbModel.Veicoli">
+              <MappingFragment StoreEntitySet="Veicoli">
+                <ScalarProperty Name="IdVeicolo" ColumnName="IdVeicolo" />
+                <ScalarProperty Name="Targa" ColumnName="Targa" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Modello" ColumnName="Modello" />
+                <ScalarProperty Name="Versione" ColumnName="Versione" />
+                <ScalarProperty Name="Telaio" ColumnName="Telaio" />
+                <ScalarProperty Name="Immatricolazione" ColumnName="Immatricolazione" />
+                <ScalarProperty Name="Cilindrata" ColumnName="Cilindrata" />
+                <ScalarProperty Name="CvVapore" ColumnName="CvVapore" />
+                <ScalarProperty Name="Kw" ColumnName="Kw" />
+                <ScalarProperty Name="CvFiscali" ColumnName="CvFiscali" />
+                <ScalarProperty Name="Colore" ColumnName="Colore" />
+                <ScalarProperty Name="Formato" ColumnName="Formato" />
+                <ScalarProperty Name="Alimentazione" ColumnName="Alimentazione" />
+                <ScalarProperty Name="NormativaEuro" ColumnName="NormativaEuro" />
+                <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Nessuno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
