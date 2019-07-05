@@ -5,15 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Data.Entity;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 
 namespace AutoAziendali.Controllers
 {
     [RoutePrefix("api")]
     public class MainController : BaseController
     {
+        #region Veicolo
+
         [HttpGet]
         [Route("getveicolo")]
         public List<Veicoli> GetVeicolo()
@@ -29,7 +30,7 @@ namespace AutoAziendali.Controllers
         [Route("deleteVeicolo")]
         public async Task<HttpResponseMessage> DeleteAuto([FromBody]int id)
         {
-            var currentVeicolo = await _context.Veicoli.FirstOrDefaultAsync(a => a.IdVeicolo == id);
+            var currentVeicolo = await _context.Veicoli.FirstOrDefaultAsync(v => v.IdVeicolo == id);
             if (currentVeicolo == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
@@ -67,9 +68,6 @@ namespace AutoAziendali.Controllers
             }
         }
 
-
-
-
         [HttpPost]
         [Route("addVeicolo")]
         public async Task<HttpResponseMessage> AddVeicolo([FromBody]Veicoli veicolo)
@@ -101,9 +99,12 @@ namespace AutoAziendali.Controllers
                 await _context.SaveChangesAsync();
 
                 return Request.CreateResponse(HttpStatusCode.OK);
-
             }
         }
+
+        #endregion
+
+        #region Province
 
         [HttpGet]
         [Route("getprovince")]
@@ -113,7 +114,10 @@ namespace AutoAziendali.Controllers
             return p;
         }
 
-        [HttpGet]
+        #endregion        [HttpGet]
+
+        #region Utilizzo veicoli
+
         [Route("getutilizzo")]
         public List<UtilizzoVeicoli> GetUtilizzoveicoli()
         {
@@ -142,6 +146,161 @@ namespace AutoAziendali.Controllers
             await _context.SaveChangesAsync();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        #endregion
+
+        #region TipiScadenze
+
+        [HttpGet]
+        [Route("getscadenza")]
+        public List<Scadenze> GetScadenza()
+        {
+            return _context.Scadenze.ToList();
+        }
+
+        [HttpPost]
+        [Route("deletescadenza")]
+        public async Task<HttpResponseMessage> DeleteScadenza([FromBody]int id)
+        {
+            var currentScadenza = await _context.Scadenze.FirstOrDefaultAsync(s => s.IdScadenza == id);
+            if (currentScadenza == null)
+            {
+                /* Non è stata trovata una scadenza con quell'id. */
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            _context.Scadenze.Remove(currentScadenza);
+            await _context.SaveChangesAsync();
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("editscadenza")]
+        public async Task<HttpResponseMessage> EditScadenza([FromBody]Scadenze scadenza)
+        {
+            var currentScadenza = await _context.Scadenze.FirstOrDefaultAsync(s => s.IdScadenza == scadenza.IdScadenza);
+            if (currentScadenza == null)
+            {
+                /* Non è stata trovata una scadenza con quell'id. */
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+
+            else
+            {
+                _context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
+                //currentScadenza.Scadenza = scadenza.Scadenza;
+                //currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
+
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+
+        [HttpPost]
+        [Route("addscadenza")]
+        public async Task<HttpResponseMessage> AddScadenza([FromBody]Scadenze scadenza)
+        {
+            var currentScadenza = new Scadenze();
+            if (scadenza == null)
+            {
+                /* Scadenza arrivata dal browser è null. */
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            else
+            {
+                _context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
+                //currentScadenza.Scadenza = scadenza.Scadenza;
+                //currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
+
+                _context.Scadenze.Add(currentScadenza);
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+
+        #endregion
+
+        #region ScadenzePerVeicolo
+        /* Singole scadenze per singolo veicolo. */
+
+        [HttpGet]
+        [Route("getscadenzaveicolo")]
+        public List<ScadenzeVeicoli> GetScadenzaVeicolo()
+        {
+            return _context.ScadenzeVeicoli.ToList();
+        }
+
+        [HttpPost]
+        [Route("deletescadenzaveicolo")]
+        public async Task<HttpResponseMessage> DeleteScadenzaVeicolo([FromBody]int id)
+        {
+            var currentScadenzaVeicolo = await _context.ScadenzeVeicoli.FirstOrDefaultAsync(sv => sv.IdScadenzeVeicoli == id);
+            if (currentScadenzaVeicolo == null)
+            {
+                /* Non è stata trovata una scadenzaVeicolo con quell'id. */
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            _context.ScadenzeVeicoli.Remove(currentScadenzaVeicolo);
+            await _context.SaveChangesAsync();
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("editscadenzaveicolo")]
+        public async Task<HttpResponseMessage> EditScadenzaVeicolo([FromBody]ScadenzeVeicoli scadVeicolo)
+        {
+            var currentScadenzaVeicolo = await _context.ScadenzeVeicoli.FirstOrDefaultAsync(sv => sv.IdScadenza == scadVeicolo.IdScadenza);
+            if (currentScadenzaVeicolo == null)
+            {
+                /* Non è stata trovata una scadenzaVeicolo con quell'id. */
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            else
+            {
+                _context.Entry(currentScadenzaVeicolo).CurrentValues.SetValues(scadVeicolo);
+                currentScadenzaVeicolo.IdScadenzeVeicoli = scadVeicolo.IdScadenzeVeicoli;
+                currentScadenzaVeicolo.IdVeicolo = scadVeicolo.IdVeicolo;
+                currentScadenzaVeicolo.Data = scadVeicolo.Data;
+                currentScadenzaVeicolo.IdScadenza = scadVeicolo.IdScadenza;
+                currentScadenzaVeicolo.Costo = scadVeicolo.Costo;
+                currentScadenzaVeicolo.IdDocumento = scadVeicolo.IdDocumento;
+                currentScadenzaVeicolo.Note = scadVeicolo.Note;
+                currentScadenzaVeicolo.Avviso = scadVeicolo.Avviso;
+                currentScadenzaVeicolo.AvvisoInviato = scadVeicolo.AvvisoInviato;
+
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+
+        [HttpPost]
+        [Route("addscadenzaveicolo")]
+        public async Task<HttpResponseMessage> AddScadenzaVeicolo([FromBody]Scadenze scadVeicolo)
+        {
+            var currentScadenzaVeicolo = new ScadenzeVeicoli();
+            if (currentScadenzaVeicolo == null)
+            {
+                /* Scadenza arrivata dal browser è null. */
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            else
+            {
+                _context.Entry(currentScadenzaVeicolo).CurrentValues.SetValues(scadVeicolo);
+                //currentScadenzaVeicolo.Scadenza = scadVeicolo.Scadenza;
+                //currentScadenzaVeicolo.GiorniPreavviso = scadVeicolo.GiorniPreavviso;
+
+                _context.ScadenzeVeicoli.Add(currentScadenzaVeicolo);
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+        #endregion
+
+        //#region email
+        //
         //}
         //[HttpGet]
         //[Route("getEmail")]
@@ -149,7 +308,7 @@ namespace AutoAziendali.Controllers
         //{
         //    return await _context.Email.ToListAsync();
         //}
+        //
+        //#endregion
     }
 }
-
-    
