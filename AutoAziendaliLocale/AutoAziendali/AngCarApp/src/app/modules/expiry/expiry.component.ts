@@ -20,7 +20,7 @@ export class ExpiryComponent implements OnInit {
 
   public listVeicoli: Array<Veicolo>; //Per la schermata scelta del veicolo.
   public listScad: Array<Scadenza>; //Per la scelta del tipo di scadenza nell'edit/aggiunta d'una scadenza per un veicolo.
-  public listScadXVeicolo: Array<ScadenzaVeicolo>; //Sono le scadenze di un singolo veicolo.
+  public listScadPerVeicolo: Array<ScadenzaVeicolo>; //Sono le scadenze di un singolo veicolo.
   public newTipoScadenza: Scadenza; // Per la creazione d'un nuovo tipo di scadenza.
   public newScadenzaXVeicolo: ScadenzaVeicolo; // Per l'aggiunta (ad un veicolo) d'una nuova scadenza.
   public scadenzaDetail: Scadenza; // Per mostrare oltre al nome anche i gg di preavviso
@@ -35,6 +35,7 @@ export class ExpiryComponent implements OnInit {
     this.page = 'listaScadenze';
     var self=this;
     dtSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void { self.listScad = items; });
+    dtSrvc.getListScadenzaVeicolo(function (items: Array<ScadenzaVeicolo>): void { self.listScadPerVeicolo = items; });
   }
 
   ngOnInit() {
