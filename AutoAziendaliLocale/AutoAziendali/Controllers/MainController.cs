@@ -128,6 +128,20 @@ namespace AutoAziendali.Controllers
             var a = _context.Anagrafica.ToList();
             return a;
         }
+
+        [HttpPost]
+        [Route("deleteUtilizzo")]
+        public async Task<HttpResponseMessage> DeleteUtilizzo([FromBody]int id)
+        {
+            var currentUtilizzo = await _context.UtilizzoVeicoli.FirstOrDefaultAsync(a => a.IdUtilizzoVeicoli == id);
+            if (currentUtilizzo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            _context.UtilizzoVeicoli.Remove(currentUtilizzo);
+            await _context.SaveChangesAsync();
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
         //}
         //[HttpGet]
         //[Route("getEmail")]

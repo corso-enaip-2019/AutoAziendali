@@ -43,4 +43,20 @@ export class UtilizationComponent {
      var cognome= this.listAnagrafica.find(v => v.IdAnagrafica == id).Cognome;
      return (cognome + "  " + nome);
    }
+
+   deleteUtilizzo(id: number) {
+    if (Utilizzo.operationConfirm()) {
+      this.data.deleteUtilizzo(id)
+        .subscribe(
+          data => {
+            let index = this.listUtilizzo.findIndex(a => a.IdVeicolo == id);
+            this.listUtilizzo.splice(index, 1);
+
+          },
+          error => {
+
+          }
+        );
+    }
+  }
 }

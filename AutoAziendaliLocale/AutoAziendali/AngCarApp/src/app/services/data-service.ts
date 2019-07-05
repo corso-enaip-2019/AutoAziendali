@@ -74,4 +74,8 @@ export class DataService {
                 }
             );
     }
+
+    deleteUtilizzo(id: number): Observable<number>{
+        return this.http.post<number>('http://localhost:50680/api/deleteUtilizzo/', id);
+    }
 }

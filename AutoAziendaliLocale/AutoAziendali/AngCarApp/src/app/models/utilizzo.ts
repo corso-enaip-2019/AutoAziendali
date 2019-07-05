@@ -7,4 +7,8 @@ export class Utilizzo{
          public IdAnagrafica: string, public IdCommessa: string){
 
     }
+
+    public static operationConfirm() : boolean {
+        return window.confirm("Vuoi procedere con l'operazione?");
+    }
 }
