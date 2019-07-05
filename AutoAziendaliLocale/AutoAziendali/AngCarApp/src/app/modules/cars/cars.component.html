@@ -6,7 +6,7 @@
         <th> Targa </th>
         <th> Marca </th>
         <th> Modello </th>
-        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of list">
+        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicolo">
             <td>{{veicolo.Targa}}</td>
             <td>{{veicolo.Marca}}</td>
             <td>{{veicolo.Modello}}</td>
@@ -77,11 +77,11 @@
             <mat-divider></mat-divider>
             <mat-list-item>Cilindrata: {{veicoloDetail.Cilindrata}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>CvVapore: {{veicoloDetail.CvVapore}}</mat-list-item>
+            <mat-list-item>Cv Vapore: {{veicoloDetail.CvVapore}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Kw: {{veicoloDetail.Kw}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>CvFiscali: {{veicoloDetail.CvFiscali}}</mat-list-item>
+            <mat-list-item>Cv Fiscali: {{veicoloDetail.CvFiscali}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Colore: {{veicoloDetail.Colore}}</mat-list-item>
             <mat-divider></mat-divider>
@@ -89,7 +89,7 @@
             <mat-divider></mat-divider>
             <mat-list-item>Alimentazione: {{veicoloDetail.Alimentazione}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>NormativaEuro: {{veicoloDetail.NormativaEuro}}</mat-list-item>
+            <mat-list-item>Normativa Euro: {{veicoloDetail.NormativaEuro}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Provincia: {{veicoloDetail.Provincia}}</mat-list-item>
         </mat-list>

@@ -120,6 +120,14 @@ namespace AutoAziendali.Controllers
             var u = _context.UtilizzoVeicoli.ToList();
             return u;
         }
+
+        [HttpGet]
+        [Route("getanagrafica")]
+        public List<Anagrafica> GetAnagrafica()
+        {
+            var a = _context.Anagrafica.ToList();
+            return a;
+        }
         //}
         //[HttpGet]
         //[Route("getEmail")]

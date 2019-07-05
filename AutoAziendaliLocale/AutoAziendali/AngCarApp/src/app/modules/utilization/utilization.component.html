@@ -3,17 +3,18 @@
 
 
     <table mat-tableid>
-        <th> Id </th>
-        <th> Data Inizio </th>
-        <th> Data Fine</th>
-        <th> Costo Carburante</th>
-        <th> Id Anagrafica</th>
-        <tr *ngFor="let utilizzo of list">
-            <td>{{utilizzo.IdUtilizzo}}</td>
-            <td>{{utilizzo.DataInizio}}</td>
-            <td>{{utilizzo.DataFine}}</td>
-            <td>{{utilizzo.CostoCarburante}}</td>
-            <td>{{utilizzo.IdAnagrafica}}</td>
+        <th> Targa </th>
+        <th> Cognome </th>
+        <th> Data Inizio</th>
+        <th> Destinazione</th>
+        <tr *ngFor="let a of listAnagrafica">
+            <td>{{a.Nome}}</td>
+        </tr>
+        <tr *ngFor="let utilizzo of listUtilizzo">
+            <td>{{getTargaById(utilizzo.IdVeicolo)}}</td>
+                <td >{{utilizzo.IdVeicolo}}</td>
+                <td>{{utilizzo.DataInizio}}</td>
+                <td>{{utilizzo.Destinazione}}</td>
             <!-- <td><button mat-flat-button (click)="detailItemView(veicolo)">Dettaglio</button></td>
             <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td> -->
         </tr>

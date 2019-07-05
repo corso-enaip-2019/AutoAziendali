@@ -4,7 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CarDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CarDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Anagrafica">
+          <Key>
+            <PropertyRef Name="IdAnagrafica" />
+          </Key>
+          <Property Name="IdAnagrafica" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Cognome" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdSocieta" Type="int" />
+          <Property Name="IdBusinessUnit" Type="int" />
+        </EntityType>
         <EntityType Name="AnagraficaVecchia">
           <Key>
             <PropertyRef Name="IdAnagrafica" />
@@ -463,6 +473,7 @@ avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata defin
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CarDbModelStoreContainer">
+          <EntitySet Name="Anagrafica" EntityType="Self.Anagrafica" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AnagraficaVecchia" EntityType="Self.AnagraficaVecchia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BusinessUnit" EntityType="Self.BusinessUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CausaliManutenzione" EntityType="Self.CausaliManutenzione" Schema="dbo" store:Type="Tables" />
@@ -564,8 +575,7 @@ avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata defin
             <End Role="Veicoli" EntitySet="Veicoli" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CarDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1154,7 +1164,18 @@ avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata defin
             <End Role="Veicoli" EntitySet="Veicoli" />
             <End Role="UtilizzoVeicoli" EntitySet="UtilizzoVeicoli" />
           </AssociationSet>
+          <EntitySet Name="Anagrafica" EntityType="CarDbModel.Anagrafica" />
         </EntityContainer>
+        <EntityType Name="Anagrafica">
+          <Key>
+            <PropertyRef Name="IdAnagrafica" />
+          </Key>
+          <Property Name="IdAnagrafica" Type="Guid" Nullable="false" />
+          <Property Name="Cognome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdSocieta" Type="Int32" />
+          <Property Name="IdBusinessUnit" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1382,6 +1403,17 @@ avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata defin
                 <ScalarProperty Name="Alimentazione" ColumnName="Alimentazione" />
                 <ScalarProperty Name="NormativaEuro" ColumnName="NormativaEuro" />
                 <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Anagrafica">
+            <EntityTypeMapping TypeName="CarDbModel.Anagrafica">
+              <MappingFragment StoreEntitySet="Anagrafica">
+                <ScalarProperty Name="IdBusinessUnit" ColumnName="IdBusinessUnit" />
+                <ScalarProperty Name="IdSocieta" ColumnName="IdSocieta" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cognome" ColumnName="Cognome" />
+                <ScalarProperty Name="IdAnagrafica" ColumnName="IdAnagrafica" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

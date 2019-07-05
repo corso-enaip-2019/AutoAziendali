@@ -5,13 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Utilizzo } from '../models/utilizzo';
 import { Province } from '../models/province';
+import { Anagrafica } from '../models/anagrafica';
 
 @Injectable()
 export class DataService {
     constructor(private http: HttpClient) {
     }
 
-    public getList(callback: (items: Array<Veicolo>) => void): void {
+    public getListVeicoli(callback: (items: Array<Veicolo>) => void): void {
         var item = this.http.get<Array<Veicolo>>("http://localhost:50680/api/getveicolo")
             .subscribe(
                 data => {
@@ -52,6 +53,18 @@ export class DataService {
 
     public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {
         var item = this.http.get<Array<Utilizzo>>("http://localhost:50680/api/getUtilizzo")
+            .subscribe(
+                data => {
+                    callback(data);
+                },
+                error => {
+                    console.log("errore");
+                }
+            );
+    }
+
+    public getListAnagrafica(callback: (items: Array<Anagrafica>) => void): void {
+        var item = this.http.get<Array<Anagrafica>>("http://localhost:50680/api/getanagrafica")
             .subscribe(
                 data => {
                     callback(data);

@@ -46,5 +46,6 @@ namespace AutoAziendali
         public virtual DbSet<TelepassViacard> TelepassViacard { get; set; }
         public virtual DbSet<UtilizzoVeicoli> UtilizzoVeicoli { get; set; }
         public virtual DbSet<Veicoli> Veicoli { get; set; }
+        public virtual DbSet<Anagrafica> Anagrafica { get; set; }
     }
 }

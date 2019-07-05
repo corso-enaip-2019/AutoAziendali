@@ -19,15 +19,15 @@ export class CarsComponent {
   public veicoloDetail: Veicolo;
   public page: string;
   public isEditing: boolean;
-  public list: Array<Veicolo>;
+  public listVeicolo: Array<Veicolo>;
   public isButtonDisabled: boolean;
   public listProvince: Array<Province>;
   public picker: Date;
 
   constructor(private data: DataService) {
     var self = this;
-    data.getList(function (items: Array<Veicolo>): void {
-      self.list = items;
+    data.getListVeicoli(function (items: Array<Veicolo>): void {
+      self.listVeicolo = items;
     })
     this.isButtonDisabled = false;
     this.isEditing = false;
@@ -51,8 +51,8 @@ export class CarsComponent {
       this.data.deleteVeicolo(id)
         .subscribe(
           data => {
-            let index = this.list.findIndex(a => a.IdVeicolo == id);
-            this.list.splice(index, 1);
+            let index = this.listVeicolo.findIndex(a => a.IdVeicolo == id);
+            this.listVeicolo.splice(index, 1);
 
           },
           error => {
@@ -113,13 +113,13 @@ export class CarsComponent {
         error => {
         }
       );
-  }
+  };
 
   addVeicoloView() {
     this.page = 'aggiungi';
     this.newVeicolo = new Veicolo(1, "", "", "", "", "", new Date(), 0, 0, 0, 0, "", "", "", "", null);
     this.getListProvince(this.data)
-  }
+  };
 
   returnList() {
     this.page = "listaVeicolo";

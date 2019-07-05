@@ -45,6 +45,7 @@
         <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_TelepassViacard1" ManuallyRouted="false" />
         <AssociationConnector Association="CarDbModel.FK_StatoVeicoli_Veicoli" ManuallyRouted="false" />
         <AssociationConnector Association="CarDbModel.FK_UtilizzoVeicoli_Veicoli" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CarDbModel.Anagrafica" Width="1.5" PointX="8.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

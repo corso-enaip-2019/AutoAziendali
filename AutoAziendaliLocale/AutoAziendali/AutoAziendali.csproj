@@ -143,6 +143,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anagrafica.cs">
+      <DependentUpon>AutoAziendali.tt</DependentUpon>
+    </Compile>
     <Compile Include="AnagraficaVecchia.cs">
       <DependentUpon>AutoAziendali.tt</DependentUpon>
     </Compile>
