@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 
 import { Scadenza } from 'src/app/models/scadenza';
 import { Province } from 'src/app/models/province';
@@ -12,7 +12,7 @@ import { Veicolo } from 'src/app/models/Veicolo';
   templateUrl: './expiry.component.html',
   styleUrls: ['./expiry.component.css']
 })
-export class ExpiryComponent implements OnInit {
+export class ExpiryComponent {
   public page: string;
   public titolo: string;
 
@@ -36,9 +36,7 @@ export class ExpiryComponent implements OnInit {
     var self=this;
     dtSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void { self.listScad = items; });
     dtSrvc.getListScadenzaVeicolo(function (items: Array<ScadenzaVeicolo>): void { self.listScadPerVeicolo = items; });
-  }
-
-  ngOnInit() {
+    
     this.titolo = 'Scadenze';
     this.isEditing=false;
     this.isDocBntDisabled=true;
