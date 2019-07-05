@@ -10,4 +10,6 @@ import {ExpiryComponent} from './expiry.component';
 
   ]
 })
-export class ExpiryModule { }
+export class ExpiryModule { 
+  titolo:string='Scedenze';
+}

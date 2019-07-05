@@ -70,7 +70,10 @@
             <mat-divider></mat-divider>
             <mat-list-item>Telaio: {{veicoloDetail.Telaio}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>Immatricolazione: {{veicoloDetail.Immatricolazione}}</mat-list-item>
+            <!-- <mat-list-item>Immatricolazione: {{veicoloDetail.Immatricolazione}} </mat-list-item> -->
+            <!-- Test data -->
+            <mat-list-item>Immatricolazione: {{ veicoloDetail.Immatricolazione | date: 'dd/MM/yyyy' }}</mat-list-item>
+            <!-- Test data -->
             <mat-divider></mat-divider>
             <mat-list-item>Cilindrata: {{veicoloDetail.Cilindrata}}</mat-list-item>
             <mat-divider></mat-divider>
