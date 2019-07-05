@@ -9,11 +9,17 @@ import { Scadenza } from '../models/scadenza';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 
 /* const string per i percorsi*/
-const PERCORSObASE:string="http://localhost:";
-const PORTA:string='50680';
-const GETsCAD:string='getscadenza';
-const GETsCADvEICOLO:string='getscadenzaveicolo';
+const PERCORSObASE:string="http://localhost";
+const PORTA:string=':50680';
 
+const GETsCAD:string='getscadenza';
+const DELsCAD:string='deletescadenza';
+const EDITsCAD:string='editscadenza';
+const ADDsCAD:string='addscadenza';
+const GETsCADvEICOLO:string='getscadenzaveicolo';
+const DELsCADvEICOLO:string='deletescadenzaveicolo';
+const EDITsCADvEICOLO:string='editscadenzaveicolo';
+const ADDsCADvEICOLO:string='addscadenzaveicolo';
 
 @Injectable()
 export class DataService {
@@ -95,9 +101,8 @@ export class DataService {
             );
     }
 
-    /* • ScadenzaVeicolo (singole scadenze per veicolo) */
+    /* • ScadenzaVeicolo (singole scadenze per singolo veicolo) */
 
-    /* /!\ PER ORA VA IN ERRORE PERCHé NON ABBIAMO ANCORA CREATO LA CHIAMATA AL SERVER IN C#. /!\ */
     public getListScadenzaVeicolo(callback: (items: Array<ScadenzaVeicolo>) => void): void {
         var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSObASE}${PORTA}/api/${GETsCADvEICOLO}`)
             .subscribe(
