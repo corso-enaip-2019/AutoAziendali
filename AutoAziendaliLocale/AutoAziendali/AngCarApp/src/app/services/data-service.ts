@@ -5,11 +5,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Utilizzo } from '../models/utilizzo';
 import { Province } from '../models/province';
+import { Scadenza } from '../models/scadenza';
+import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
+
+/* const string per i percorsi*/
+const PERCORSObASE:string="http://localhost:";
+const PORTA:string='50680';
+const GETsCAD:string='getscadenza';
+const GETsCADvEICOLO:string='getscadenzaveicolo';
+
 
 @Injectable()
 export class DataService {
+
     constructor(private http: HttpClient) {
     }
+    
+    /* • Veicolo */
 
     public getList(callback: (items: Array<Veicolo>) => void): void {
         var item = this.http.get<Array<Veicolo>>("http://localhost:50680/api/getveicolo")
@@ -38,6 +50,8 @@ export class DataService {
         return this.http.post<Veicolo>('http://localhost:50680/api/addveicolo', veicolo);
     }
 
+    /* • Province */
+
     public getListProvince(callback: (items: Array<Province>) => void): void {
         var item = this.http.get<Array<Province>>("http://localhost:50680/api/getProvince")
             .subscribe(
@@ -50,6 +64,8 @@ export class DataService {
             );
     }
 
+    /* • Utilizzo */
+
     public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {
         var item = this.http.get<Array<Utilizzo>>("http://localhost:50680/api/getUtilizzo")
             .subscribe(
@@ -58,6 +74,41 @@ export class DataService {
                 },
                 error => {
                     console.log("errore");
+                }
+            );
+    }
+
+    /* • Scadenza (tipi di scadenza) */
+
+    public getListTipiScadenza(callback: (items: Array<Scadenza>) => void): void {
+        var item = this.http.get<Array<Scadenza>>(`${PERCORSObASE}${PORTA}/api/${GETsCAD}`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    console.log(data);
+                    callback(data);
+                },
+                error => {
+                    console.log(`3rrore in ${GETsCAD}`);
+                    // Gestire eventuali errori della chiamata
+                }
+            );
+    }
+
+    /* • ScadenzaVeicolo (singole scadenze per veicolo) */
+
+    /* /!\ PER ORA VA IN ERRORE PERCHé NON ABBIAMO ANCORA CREATO LA CHIAMATA AL SERVER IN C#. /!\ */
+    public getListScadenzaVeicolo(callback: (items: Array<ScadenzaVeicolo>) => void): void {
+        var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSObASE}${PORTA}/api/${GETsCADvEICOLO}`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    console.log(data);
+                    callback(data);
+                },
+                error => {
+                    console.log(`3rrore in «${GETsCADvEICOLO}».`);
+                    // Gestire eventuali errori della chiamata
                 }
             );
     }
