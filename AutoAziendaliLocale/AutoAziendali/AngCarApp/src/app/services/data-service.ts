@@ -1,28 +1,20 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Veicolo } from '../models/Veicolo';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { Veicolo } from '../models/Veicolo';
 import { Utilizzo } from '../models/utilizzo';
 import { Province } from '../models/province';
 import { Scadenza } from '../models/scadenza';
-import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 import { Anagrafica } from '../models/anagrafica';
 import { Commessa } from '../models/commessa';
+import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
+import { Portal } from '@angular/cdk/portal';
 
 /* const string per i percorsi*/
 const PERCORSO_BASE: string = "http://localhost";
 const PORTA: string = ':50680';
-//Scadenze (tipi di s.)
-const GET_SCAD: string = 'getscadenza';
-const DEL_SCAD: string = 'deletescadenza';
-const EDIT_SCAD: string = 'editscadenza';
-const ADD_SCAD: string = 'addscadenza';
-//ScadenzeVeicolo (singole s. per singoli veicoli)
-const GET_SCAD_VEICOLO: string = 'getscadenzaveicolo';
-const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
-const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
-const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';
 
 @Injectable()
 export class DataService {
@@ -31,54 +23,55 @@ export class DataService {
     }
 
     public getListVeicoli(callback: (items: Array<Veicolo>) => void): void {
-        var item = this.http.get<Array<Veicolo>>("http://localhost:50680/api/getveicolo")
+        var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}${PORTA}/api/getveicolo`)
             .subscribe(
                 data => {
                     // Ho i dati
                     callback(data);
                 },
                 error => {
+                    console.log("Errore in «getveicolo».");
                     // Gestire eventuali errori della chiamata
                 }
             );
     }
 
     deleteVeicolo(id: number): Observable<number> {
-        return this.http.post<number>('http://localhost:50680/api/deleteVeicolo/', id);
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteVeicolo/`, id);
     }
 
     editVeicolo(veicolo: Veicolo): Observable<Veicolo> {
-        return this.http.post<Veicolo>('http://localhost:50680/api/editveicolo', veicolo);
+        return this.http.post<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/editveicolo`, veicolo);
     }
 
     addVeicolo(veicolo: Veicolo): Observable<Veicolo> {
-        return this.http.post<Veicolo>('http://localhost:50680/api/addveicolo', veicolo);
+        return this.http.post<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/addveicolo`, veicolo);
     }
 
     /* • Province */
 
     public getListProvince(callback: (items: Array<Province>) => void): void {
-        var item = this.http.get<Array<Province>>("http://localhost:50680/api/getProvince")
+        var item = this.http.get<Array<Province>>(`${PERCORSO_BASE}${PORTA}/api/getProvince`)
             .subscribe(
                 data => {
                     callback(data);
                 },
                 error => {
-                    console.log("errore");
+                    console.log("Errore in «getProvince».");
                 }
             );
     }
 
     /* • Utilizzo */
 
-    public getListUtilizzi(callback: (items: Array<Utilizzo>) => void): void {
-        var item = this.http.get<Array<Utilizzo>>("http://localhost:50680/api/getUtilizzi")
+    public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {
+        var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}${PORTA}/api/getUtilizzo`)
             .subscribe(
                 data => {
                     callback(data);
                 },
                 error => {
-                    console.log("errore");
+                    console.log("Errore in «getUtilizzo».");
                 }
             );
     }
@@ -110,54 +103,67 @@ export class DataService {
     /* • Scadenza (tipi di scadenza) */
 
     public getListTipiScadenza(callback: (items: Array<Scadenza>) => void): void {
-        var item = this.http.get<Array<Scadenza>>(`${PERCORSO_BASE}${PORTA}/api/${GET_SCAD}`)
+        var item = this.http.get<Array<Scadenza>>(`${PERCORSO_BASE}${PORTA}/api/getscadenza`)
             .subscribe(
                 data => {
                     // Ho i dati
 
-                    console.log('dati (tipi scadenze) in data-service');
+                    console.log('Dati (tipi scadenze) in data-service:');
                     console.log(data);
 
                     callback(data);
                 },
                 error => {
-                    console.log(`3rrore in ${GET_SCAD}`);
+                    console.log(`Errore in getscadenza.`);
                     // Gestire eventuali errori della chiamata
                 }
             );
     }
+    // const DEL_SCAD: string = 'deletescadenza';
+    // const EDIT_SCAD: string = 'editscadenza';
+    // const ADD_SCAD: string = 'addscadenza';
 
     /* • ScadenzaVeicolo (singole scadenze per singolo veicolo) */
 
     public getListScadenzaVeicolo(callback: (items: Array<ScadenzaVeicolo>) => void): void {
-        var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/${GET_SCAD_VEICOLO}`)
+        var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getscadenzaveicolo`)
             .subscribe(
                 data => {
                     // Ho i dati
 
-                    console.log('dati (scadVei) in data-service');
+                    console.log('Dati (scadVei) in data-service:');
                     console.log(data);
 
                     callback(data);
                 },
                 error => {
-                    console.log(`3rrore in «${GET_SCAD_VEICOLO}».`);
+                    console.log(`Errore in «getscadenzaveicolo».`);
                     // Gestire eventuali errori della chiamata
                 }
             );
     }
 
+    // const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
+    // const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
+    // const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';
 
-    public getListAnagrafiche(callback: (items: Array<Anagrafica>) => void): void {
-        var item = this.http.get<Array<Anagrafica>>("http://localhost:50680/api/getanagrafiche")
+    /* • Anagrafica */
+
+    public getListAnagrafica(callback: (items: Array<Anagrafica>) => void): void {
+        var item = this.http.get<Array<Anagrafica>>(`${PERCORSO_BASE}${PORTA}/api/getanagrafica`)
             .subscribe(
                 data => {
                     callback(data);
                 },
                 error => {
-                    console.log("errore");
+                    console.log("Errore in «getanagrafica».");
                 }
             );
     }
 
+    /* • Utilizzo */
+
+    deleteUtilizzo(id: number): Observable<number> {
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteUtilizzo/`, id);
+    }
 }

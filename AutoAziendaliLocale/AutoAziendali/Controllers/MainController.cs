@@ -312,7 +312,7 @@ namespace AutoAziendali.Controllers
             var currentScadenzaVeicolo = new ScadenzeVeicoli();
             if (currentScadenzaVeicolo == null)
             {
-                /* Scadenza arrivata dal browser è null. */
+                /* La scadenza arrivata dal browser è null. */
                 return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
             else
