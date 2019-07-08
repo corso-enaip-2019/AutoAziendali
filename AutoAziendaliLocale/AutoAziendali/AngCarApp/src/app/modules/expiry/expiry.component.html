@@ -50,13 +50,12 @@
         <tbody>
             <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
                 *ngFor="let scadVeic of listaScadenzePerVeicolo">
-                <td>Data scadenza</td>
-                <td>gg. alla scadenza</td>
-                <td>Scadenza</td>
-                <td>Targa</td>
-                <td>Marca</td>
-                <td>Modello</td>
-
+                <td>{{ scadVeic.Data | date:'gg/MM/aaaa' }}</td>
+                <td>{{scadVeic.Data}}-oggi</td>
+                <td>{{scadVeic.IdScadenza}}</td>
+                <td>{{scadVeic.IdVeicolo}}targa</td>
+                <td>{{scadVeic.IdVeicolo}}marca</td>
+                <td>{{scadVeic.IdVeicolo}}modello</td>
 
                 <!-- <td>{{veicolo.Targa}}</td>
                 <td>{{veicolo.Marca}}</td>

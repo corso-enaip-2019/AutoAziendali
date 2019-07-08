@@ -22,7 +22,7 @@ export class DataService {
     }
 
     public getListVeicoli(callback: (items: Array<Veicolo>) => void): void {
-        var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}/${PORTA}/api/getveicolo`)
+        var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}${PORTA}/api/getveicolo`)
             .subscribe(
                 data => {
                     // Ho i dati
@@ -37,21 +37,21 @@ export class DataService {
     }
 
     deleteVeicolo(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}/${PORTA}/api/deleteVeicolo/`, id);
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteVeicolo/`, id);
     }
 
     editVeicolo(veicolo: Veicolo): Observable<Veicolo> {
-        return this.http.post<Veicolo>(`${PERCORSO_BASE}/${PORTA}/api/editveicolo`, veicolo);
+        return this.http.post<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/editveicolo`, veicolo);
     }
 
     addVeicolo(veicolo: Veicolo): Observable<Veicolo> {
-        return this.http.post<Veicolo>(`${PERCORSO_BASE}/${PORTA}/api/addveicolo`, veicolo);
+        return this.http.post<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/addveicolo`, veicolo);
     }
 
     /* • Province */
 
     public getListProvince(callback: (items: Array<Province>) => void): void {
-        var item = this.http.get<Array<Province>>(`${PERCORSO_BASE}/${PORTA}/api/getProvince`)
+        var item = this.http.get<Array<Province>>(`${PERCORSO_BASE}${PORTA}/api/getProvince`)
             .subscribe(
                 data => {
                     callback(data);
@@ -65,7 +65,7 @@ export class DataService {
     /* • Utilizzo */
 
     public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {
-        var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}/${PORTA}/api/getUtilizzo`)
+        var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}${PORTA}/api/getUtilizzo`)
             .subscribe(
                 data => {
                     callback(data);
