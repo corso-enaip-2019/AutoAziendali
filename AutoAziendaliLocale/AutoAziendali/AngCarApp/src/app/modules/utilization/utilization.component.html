@@ -4,17 +4,124 @@
 
     <table mat-tableid>
         <th> Targa </th>
-        <th> Cognome e Nome </th>
+        <th> Dipendente </th>
         <th> Data Inizio</th>
         <th> Destinazione</th>
-        <tr *ngFor="let utilizzo of listUtilizzo">
+        <tr *ngFor="let utilizzo of listUtilizzi">
             <td>{{getTargaById(utilizzo.IdVeicolo)}}</td>
-                <td >{{getNameById(utilizzo.IdAnagrafica)}}</td>
-                <td>{{utilizzo.DataInizio | date: 'dd/MM/yyyy'}}</td>
-                <td>{{utilizzo.Destinazione}}</td>
-            <td><button mat-flat-button (click)="detailItemView(veicolo)">Dettaglio</button></td>
+            <td>{{getNameById(utilizzo.IdAnagrafica)}}</td>
+            <td>{{utilizzo.DataInizio | date: 'dd/MM/yyyy'}}</td>
+            <td>{{utilizzo.Destinazione}}</td>
+            <td><button mat-flat-button (click)="detailItemView(utilizzo)">Dettaglio</button></td>
             <td><button mat-flat-button (click)="deleteUtilizzo(utilizzo.IdUtilizzoVeicoli)">Elimina</button></td>
         </tr>
     </table>
     <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
+</div>
+
+<div *ngIf="page == 'dettaglio'">
+
+    <div *ngIf="!isEditing">
+        <div>
+            <h1 class="title">Dettaglio Utilizzo</h1>
+        </div>
+
+        <mat-list>
+            <mat-list-item>Dipendente:{{getNameById(utilizzoDetail.IdAnagrafica)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Targa:{{getTargaById(utilizzoDetail.IdVeicolo)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Destinazione: {{utilizzoDetail.Destinazione}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Commessa: {{getCommessaById(utilizzoDetail.IdCommessa)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Data Inizio:{{utilizzoDetail.DataInizio | date: 'dd/MM/yyyy'}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Data Fine:{{utilizzoDetail.DataFine | date: 'dd/MM/yyyy'}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Km Iniziali: {{ utilizzoDetail.KmInizio}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Km Finali: {{utilizzoDetail.KmFine}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Costo Carburante: {{utilizzoDetail.CostoCarburante}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Costo Pedaggio: {{utilizzoDetail.CostoPedaggio}}</mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+        <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
+        <button class="bigbtn" mat-flat-button (click)="beginEdit()">Modifica</button>
+    </div>
+
+
+    <div *ngIf="isEditing">
+
+        <h1 class="title">Modifica Utilizzo</h1>
+        <div>
+            <mat-form-field>
+                <mat-select placeholder="Cognome Nome" [(ngModel)]="utilizzoDetail.IdAnagrafica" name="Dipendente">
+                    <mat-option *ngFor="let anagrafica of listAnagrafiche" [value]="anagrafica.IdAnagrafica">
+                        {{anagrafica.Cognome + anagrafica.Nome}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Targa" [(ngModel)]="utilizzoDetail.IdVeicolo" name="Targa">
+                    <mat-option *ngFor="let veicolo of listVeicoli" [value]="veicolo.IdVeicolo">
+                        {{veicolo.Targa}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.Destinazione" placeholder="Destinazione">
+            </mat-form-field>
+        </div>
+
+        <div>
+
+            <mat-form-field>
+                <mat-select placeholder="Commessa" [(ngModel)]="utilizzoDetail.IdCommessa" name="Commessa">
+                    <mat-option *ngFor="let commessa of listCommesse" [value]="commessa.commessa">
+                        {{commessa.commessa}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.DataInizio" [matDatepicker]="myDatepickerDataInizio">
+                <mat-datepicker-toggle matSuffix [for]="myDatepickerDataInizio"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.DataFine" [matDatepicker]="myDatepickerDataFine">
+                <mat-datepicker-toggle matSuffix [for]="myDatepickerDataFine"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.KmInizio" placeholder="Km Iniziali">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.KmFine" placeholder="Km Finali">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.CostoCarburante" placeholder="Kw">
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field>
+                <input matInput [(ngModel)]="utilizzoDetail.CostoPedaggio" placeholder="CvFiscali">
+            </mat-form-field>
+        </div>
+        <button mat-flat-button (click)="editVeicolo(utilizzoDetail)">Salva</button>
+        <button mat-flat-button (click)="beginEdit()">Annulla</button>
+        
+    </div>
 </div>

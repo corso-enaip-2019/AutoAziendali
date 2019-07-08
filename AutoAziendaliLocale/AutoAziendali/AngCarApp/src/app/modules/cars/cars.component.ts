@@ -19,7 +19,7 @@ export class CarsComponent {
   public veicoloDetail: Veicolo;
   public page: string;
   public isEditing: boolean;
-  public listVeicolo: Array<Veicolo>;
+  public listVeicoli: Array<Veicolo>;
   public isButtonDisabled: boolean;
   public listProvince: Array<Province>;
   public picker: Date;
@@ -27,7 +27,7 @@ export class CarsComponent {
   constructor(private data: DataService) {
     var self = this;
     data.getListVeicoli(function (items: Array<Veicolo>): void {
-      self.listVeicolo = items;
+      self.listVeicoli = items;
     })
     this.isButtonDisabled = false;
     this.isEditing = false;
@@ -51,8 +51,8 @@ export class CarsComponent {
       this.data.deleteVeicolo(id)
         .subscribe(
           data => {
-            let index = this.listVeicolo.findIndex(a => a.IdVeicolo == id);
-            this.listVeicolo.splice(index, 1);
+            let index = this.listVeicoli.findIndex(a => a.IdVeicolo == id);
+            this.listVeicoli.splice(index, 1);
 
           },
           error => {

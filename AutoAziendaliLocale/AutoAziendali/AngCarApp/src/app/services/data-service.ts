@@ -8,20 +8,21 @@ import { Province } from '../models/province';
 import { Scadenza } from '../models/scadenza';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 import { Anagrafica } from '../models/anagrafica';
+import { Commessa } from '../models/commessa';
 
 /* const string per i percorsi*/
-const PERCORSO_BASE:string="http://localhost";
-const PORTA:string=':50680';
+const PERCORSO_BASE: string = "http://localhost";
+const PORTA: string = ':50680';
 //Scadenze (tipi di s.)
-const GET_SCAD:string='getscadenza';
-const DEL_SCAD:string='deletescadenza';
-const EDIT_SCAD:string='editscadenza';
-const ADD_SCAD:string='addscadenza';
+const GET_SCAD: string = 'getscadenza';
+const DEL_SCAD: string = 'deletescadenza';
+const EDIT_SCAD: string = 'editscadenza';
+const ADD_SCAD: string = 'addscadenza';
 //ScadenzeVeicolo (singole s. per singoli veicoli)
-const GET_SCAD_VEICOLO:string='getscadenzaveicolo';
-const DEL_SCAD_VEICOLO:string='deletescadenzaveicolo';
-const EDIT_SCAD_VEICOLO:string='editscadenzaveicolo';
-const ADD_SCAD_VEICOLO:string='addscadenzaveicolo';
+const GET_SCAD_VEICOLO: string = 'getscadenzaveicolo';
+const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
+const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
+const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';
 
 @Injectable()
 export class DataService {
@@ -34,25 +35,23 @@ export class DataService {
             .subscribe(
                 data => {
                     // Ho i dati
-                    console.log(data);
                     callback(data);
                 },
                 error => {
-                    console.log("errore");
                     // Gestire eventuali errori della chiamata
                 }
             );
     }
 
-    deleteVeicolo(id: number): Observable<number>{
+    deleteVeicolo(id: number): Observable<number> {
         return this.http.post<number>('http://localhost:50680/api/deleteVeicolo/', id);
     }
 
-    editVeicolo(veicolo: Veicolo): Observable<Veicolo>{
+    editVeicolo(veicolo: Veicolo): Observable<Veicolo> {
         return this.http.post<Veicolo>('http://localhost:50680/api/editveicolo', veicolo);
     }
 
-    addVeicolo(veicolo: Veicolo): Observable<Veicolo>{
+    addVeicolo(veicolo: Veicolo): Observable<Veicolo> {
         return this.http.post<Veicolo>('http://localhost:50680/api/addveicolo', veicolo);
     }
 
@@ -72,8 +71,8 @@ export class DataService {
 
     /* • Utilizzo */
 
-    public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {
-        var item = this.http.get<Array<Utilizzo>>("http://localhost:50680/api/getUtilizzo")
+    public getListUtilizzi(callback: (items: Array<Utilizzo>) => void): void {
+        var item = this.http.get<Array<Utilizzo>>("http://localhost:50680/api/getUtilizzi")
             .subscribe(
                 data => {
                     callback(data);
@@ -83,6 +82,30 @@ export class DataService {
                 }
             );
     }
+
+    deleteUtilizzo(id: number): Observable<number> {
+        return this.http.post<number>('http://localhost:50680/api/deleteUtilizzo/', id);
+    }
+
+    editUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo> {
+        return this.http.post<Utilizzo>('http://localhost:50680/api/editutilizzo', utilizzo);
+    }
+
+    /* • Commessa */
+
+    public getListCommesse(callback: (items: Array<Commessa>) => void): void {
+        var items = this.http.get<Array<Commessa>>("http://localhost:50680/api/getCommesse")
+            .subscribe(
+                data => {
+                    callback(data)
+                },
+                error => {
+
+                }
+
+            );
+
+    };
 
     /* • Scadenza (tipi di scadenza) */
 
@@ -111,7 +134,7 @@ export class DataService {
             .subscribe(
                 data => {
                     // Ho i dati
-                    
+
                     console.log('dati (scadVei) in data-service');
                     console.log(data);
 
@@ -124,8 +147,9 @@ export class DataService {
             );
     }
 
-    public getListAnagrafica(callback: (items: Array<Anagrafica>) => void): void {
-        var item = this.http.get<Array<Anagrafica>>("http://localhost:50680/api/getanagrafica")
+
+    public getListAnagrafiche(callback: (items: Array<Anagrafica>) => void): void {
+        var item = this.http.get<Array<Anagrafica>>("http://localhost:50680/api/getanagrafiche")
             .subscribe(
                 data => {
                     callback(data);
@@ -136,7 +160,4 @@ export class DataService {
             );
     }
 
-    deleteUtilizzo(id: number): Observable<number>{
-        return this.http.post<number>('http://localhost:50680/api/deleteUtilizzo/', id);
-    }
 }

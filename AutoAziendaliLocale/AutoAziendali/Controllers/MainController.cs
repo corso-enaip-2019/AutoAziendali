@@ -13,7 +13,7 @@ namespace AutoAziendali.Controllers
     [RoutePrefix("api")]
     public class MainController : BaseController
     {
-        #region Veicolo
+        #region Veicoli
 
         [HttpGet]
         [Route("getveicolo")]
@@ -116,21 +116,23 @@ namespace AutoAziendali.Controllers
 
         #endregion        [HttpGet]
 
-        #region Utilizzo veicoli
-
-        [Route("getutilizzo")]
-        public List<UtilizzoVeicoli> GetUtilizzoveicoli()
-        {
-            var u = _context.UtilizzoVeicoli.ToList();
-            return u;
-        }
-
+        #region Anagrafiche
         [HttpGet]
-        [Route("getanagrafica")]
+        [Route("getanagrafiche")]
         public List<Anagrafica> GetAnagrafica()
         {
             var a = _context.Anagrafica.ToList();
             return a;
+        }
+        #endregion
+
+        #region Utilizzo veicoli
+
+        [Route("getutilizzi")]
+        public List<UtilizzoVeicoli> GetUtilizzoveicoli()
+        {
+            var u = _context.UtilizzoVeicoli.ToList();
+            return u;
         }
 
         [HttpPost]
@@ -146,6 +148,34 @@ namespace AutoAziendali.Controllers
             await _context.SaveChangesAsync();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        [HttpPost]
+        [Route("editUtilizzo")]
+        public async Task<HttpResponseMessage> EditUtilizzo([FromBody]UtilizzoVeicoli utilizzo)
+        {
+            var currentUtilizzo = await _context.UtilizzoVeicoli.FirstOrDefaultAsync(v => v.IdUtilizzoVeicoli == utilizzo.IdUtilizzoVeicoli);
+            if (currentUtilizzo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+
+            else
+            {
+                _context.Entry(currentUtilizzo).CurrentValues.SetValues(utilizzo);
+                //currentAuto.Targa = auto.Targa;
+                //currentAuto.Marca = auto.Marca;
+                //currentAuto.Modello = auto.Modello;
+                //currentAuto.Anno = auto.Anno;
+                //currentAuto.Cilindrata = auto.Cilindrata;
+                //currentAuto.Kw = auto.Kw;
+                //currentAuto.Colore = auto.Colore;
+
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+
 
         #endregion
 
@@ -297,6 +327,17 @@ namespace AutoAziendali.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
         }
+        #endregion
+
+        #region Commesse
+
+        [HttpGet]
+        [Route("getCommesse")]
+        public async Task<List<CommesseVecchia>> GetCommessa()
+        {
+            return await _context.CommesseVecchia.ToListAsync();
+        }
+
         #endregion
 
         //#region email

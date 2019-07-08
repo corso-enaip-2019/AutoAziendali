@@ -6,7 +6,7 @@
         <th> Targa </th>
         <th> Marca </th>
         <th> Modello </th>
-        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicolo">
+        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicoli">
             <td>{{veicolo.Targa}}</td>
             <td>{{veicolo.Marca}}</td>
             <td>{{veicolo.Modello}}</td>
@@ -70,10 +70,7 @@
             <mat-divider></mat-divider>
             <mat-list-item>Telaio: {{veicoloDetail.Telaio}}</mat-list-item>
             <mat-divider></mat-divider>
-            <!-- <mat-list-item>Immatricolazione: {{veicoloDetail.Immatricolazione}} </mat-list-item> -->
-            <!-- Test data -->
             <mat-list-item>Immatricolazione: {{ veicoloDetail.Immatricolazione | date: 'dd/MM/yyyy' }}</mat-list-item>
-            <!-- Test data -->
             <mat-divider></mat-divider>
             <mat-list-item>Cilindrata: {{veicoloDetail.Cilindrata}}</mat-list-item>
             <mat-divider></mat-divider>
@@ -262,35 +259,3 @@
     <button class="bigbtn" mat-flat-button (click)="addVeicolo(newVeicolo)">Salva</button>
     <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
 </div>
-
-<!-- <br>
-    Targa: <input [(ngModel)]="newVeicolo.Targa">
-    <br>
-    Marca: <input [(ngModel)]="newVeicolo.Marca">
-    <br>
-    Modello:<input [(ngModel)]="newVeicolo.Modello">
-    <br>
-    Versione:<input [(ngModel)]="newVeicolo.Versione">
-    <br>
-    Telaio:<input [(ngModel)]="newVeicolo.Telaio">
-    <br>
-    Immatricolazione:<input [(ngModel)]="newVeicolo.Immatricolazione">
-    <br>
-    Cilindrata:<input [(ngModel)]="newVeicolo.Cilindrata">
-    <br>
-    CvVapore:<input [(ngModel)]="newVeicolo.CvVapore">
-    <br>
-    Kw:<input [(ngModel)]="newVeicolo.Kw">
-    <br>
-    CvFiscali:<input [(ngModel)]="newVeicolo.CvFiscali">
-    <br>
-    Colore:<input [(ngModel)]="newVeicolo.Colore">
-    <br>
-    Formato:<input [(ngModel)]="newVeicolo.Formato">
-    <br>
-    Alimentazione:<input [(ngModel)]="newVeicolo.Alimentazione">
-    <br>
-    NormativaEuro:<input [(ngModel)]="newVeicolo.NormativaEuro">
-    <br>
-    Provincia:<input [(ngModel)]="newVeicolo.Provincia">
-    <br> -->
