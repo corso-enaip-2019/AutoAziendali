@@ -107,7 +107,7 @@ export class DataService {
     /* • Scadenza (tipi di scadenza) */
 
     public getListTipiScadenza(callback: (items: Array<Scadenza>) => void): void {
-        var item = this.http.get<Array<Scadenza>>(`${PERCORSO_BASE}${PORTA}/api/getscadenza`)
+        var item = this.http.get<Array<Scadenza>>(`${PERCORSO_BASE}${PORTA}/api/getscadenze`)
             .subscribe(
                 data => {
                     // Ho i dati
@@ -118,35 +118,41 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                    console.log(`Errore in getscadenza.`);
+                    console.log(`Errore in getscadenze.`);
                     // Gestire eventuali errori della chiamata
                 }
             );
     }
+
     // const DEL_SCAD: string = 'deletescadenza';
     // const EDIT_SCAD: string = 'editscadenza';
     // const ADD_SCAD: string = 'addscadenza';
 
     /* • ScadenzaVeicolo (singole scadenze per singolo veicolo) */
 
-    public getListScadenzaVeicolo(callback: (items: Array<ScadenzaVeicolo>) => void): void {
-        var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getscadenzaveicolo`)
+    public getListScadenzeVeicoli(callback: (items: Array<ScadenzaVeicolo>) => void): void {
+        var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getscadenzeveicoli`)
             .subscribe(
                 data => {
                     // Ho i dati
 
+<<<<<<<<< Temporary merge branch 1
                     console.log('Dati (scadVei) in data-service:');
+=========
+                    console.log('dati (scadVei) in data-service');
+>>>>>>>>> Temporary merge branch 2
                     console.log(data);
 
                     callback(data);
                 },
                 error => {
-                    console.log(`Errore in «getscadenzaveicolo».`);
+                    console.log(`Errore in «getscadenzeveicoli».`);
                     // Gestire eventuali errori della chiamata
                 }
             );
     }
 
+<<<<<<<<< Temporary merge branch 1
     // const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
     // const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
     // const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';

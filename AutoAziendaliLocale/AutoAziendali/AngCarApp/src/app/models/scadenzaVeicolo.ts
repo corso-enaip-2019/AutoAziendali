@@ -16,16 +16,27 @@ CREATE TABLE [dbo].[ScadenzeVeicoli](
 
 import { DatePipe } from '@angular/common';
 
+//const confermaStr:string="Vuoi procedere con l'operazione?";
+
 export class ScadenzaVeicolo {
-    //confermaStr:string="Vuoi procedere con l'operazione?";
+	/* "Nullabilità" dei vari campi, presa manualmente dallo script di creazione. */
+	IdScadenzeVeicoliIsNullableInDB: boolean = false;
+	IdVeicoloIsNullableInDB: boolean = false;
+	DataIsNullableInDB: boolean = false;
+	IdScadenzaIsNullableInDB: boolean = false;
+	CostoIsNullableInDB: boolean = true;
+	IdDocumentoIsNullableInDB: boolean = true;
+	NoteIsNullableInDB: boolean = true;
+	AvvisoIsNullableInDB: boolean = true;
+	AvvisoInviatoIsNullableInDB: boolean = true;
 
-    constructor(public IdScadenzeVeicoli: number, public IdVeicolo: number, public Data: Date, public IdScadenza: number, public Costo: number, public IdDocumento: number, public Note: string, public Avviso: boolean,public  AvvisoInviato: boolean) { }
+	constructor(public IdScadenzeVeicoli: number, public IdVeicolo: number, public Data: Date, public IdScadenza: number, public Costo: number, public IdDocumento: number, public Note: string, public Avviso: boolean, public AvvisoInviato: boolean) { }
 
-    public isCostoMaggiore0() { return (this.Costo > 0); }
-    public isCosto0() { return (this.Costo==0); }
-    public isCostoUnNaN() { return isNaN(this.Costo); }
+	public isCostoMaggiore0() { return (this.Costo > 0); }
+	public isCosto0() { return (this.Costo == 0); }
+	public isCostoUnNaN() { return isNaN(this.Costo); }
 
-    public static operationConfirm(): boolean {
-        return window.confirm("Vuoi procedere con l'operazione?");
-    }
+	public static operationConfirm(): boolean {
+		return window.confirm("Vuoi procedere con l'operazione?");
+	}
 }

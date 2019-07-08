@@ -1,6 +1,15 @@
 <h1 class="title">{{titolo}}</h1>
 
-<div *ngIf="page == 'listaVeicoli'">
+BGNtmp
+<button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi listScadenzeTuttiVeicoli</button><br />
+<button mat-flat-button (click)="listVeicoliView()">Vedi listVeicoli</button><br />
+<button mat-flat-button (click)="listScadenzePerVeicoloView(veicolo)">XVedi listScadenzePerVeicolo</button><br />
+<button mat-flat-button (click)="dettaglioSingolaScadenzaPerVeicoloView(scadenza)">XVedi dettaglioSingolaScadenzaPerVeicolo</button><br />
+<button mat-flat-button (click)="aggiuntaScadenzaAVeicoloView(veicolo)">XVedi aggiuntaScadenzaAVeicoloView</button><br />
+<button mat-flat-button (click)="aggiuntaTipoScadenzaView()">Vedi aggiuntaTipoScadenzaView</button><br />
+ENDtmp
+
+<div *ngIf="page == 'listVeicoli'">
     <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
@@ -9,15 +18,15 @@
             <td>{{veicolo.Targa}}</td>
             <td>{{veicolo.Marca}}</td>
             <td>{{veicolo.Modello}}</td>
-            <td><button mat-flat-button (click)="detailScadenzeView(veicolo)">Vedi Scadenze</button></td>
+            <td><button mat-flat-button (click)="dettaglioSingolaScadenzaPerVeicolo(veicolo)">Vedi Scadenze</button></td>
             <!-- <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td> -->
         </tr>
     </table>
     <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
 </div>
 
-<div *ngIf="page == 'listaScadenzePerVeicolo'">
-    listaScadenzePerVeicolo
+<div *ngIf="page == 'listScadenzePerVeicolo'">
+    listScadenzePerVeicolo
     <!-- <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
@@ -33,7 +42,7 @@
     <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
 </div>
 
-<div *ngIf="page == 'listaScadenzeTuttiVeicoli'">
+<div *ngIf="page == 'listScadenzeTuttiVeicoli'">
     <table mat-tableid>
         <thead>
             <th>Data scadenza</th>
@@ -47,15 +56,19 @@
             <th><em>&nbsp;</em></th>
             <!-- <th><em>Modifica</em></th> -->
         </thead>
+        <!--<tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
+        *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">-->
         <tbody>
             <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
-                *ngFor="let scadVeic of listaScadenzePerVeicolo">
-                <td>{{ scadVeic.Data | date:'gg/MM/aaaa' }}</td>
-                <td>{{scadVeic.Data}}-oggi</td>
-                <td>{{scadVeic.IdScadenza}}</td>
-                <td>{{scadVeic.IdVeicolo}}targa</td>
-                <td>{{scadVeic.IdVeicolo}}marca</td>
-                <td>{{scadVeic.IdVeicolo}}modello</td>
+                *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">
+                <td>{{ scadenzaVeicolo.Data | date:'gg/MM/aaaa' }}</td>
+                <td>{{scadenzaVeicolo.Data}}-oggi</td>
+                <td>{{scadenzaVeicolo.IdScadenza}}tiposcadenza</td>
+                <td>{{scadenzaVeicolo.IdVeicolo}}targa</td>
+                <td>{{scadenzaVeicolo.IdVeicolo}}marca</td>
+                <td>{{scadenzaVeicolo.IdVeicolo}}modello</td>
+                <td><button mat-flat-button (click)="detailScadenzaVeicoloView(scadenzaVeicolo)">Vedi dettaglio scadenza</button></td>
+                <td><button mat-flat-button (click)="deleteScadenzaVeicolo(scadenzaVeicolo.IdScadenzeVeicoli)">Elimina scadenza</button></td>
 
                 <!-- <td>{{veicolo.Targa}}</td>
                 <td>{{veicolo.Marca}}</td>
