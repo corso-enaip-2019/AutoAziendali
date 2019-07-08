@@ -94,6 +94,23 @@ export class UtilizationComponent {
     }
   }
 
+  editUtilizzo(utilizzo: Utilizzo): void {
+    this.data.editUtilizzo(utilizzo)
+      .subscribe(
+        data => {
+          this.isEditing = false;
+          this.utilizzoDetail = utilizzo;
+        },
+        error => {
+
+        }
+      );
+  }
+
+  addVeicoloView() {
+    this.page = 'aggiungi';
+    this.newUtilizzo = new Utilizzo(1,1,new Date(),new Date(),0,0,"",0,0,"","");
+  };
 
   detailItemView(utilizzo: Utilizzo): void {
     this.page = "dettaglio";

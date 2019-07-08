@@ -75,12 +75,6 @@ export class CarsComponent {
   }
 
   editVeicolo(veicolo: Veicolo): void {
-
-    // if (!veicolo.isCilindrataValid || !veicolo.isKwValid) {
-    //   window.alert(`Dato inserito non corretto:`);
-    //   return;
-    // }
-    // else {
     this.data.editVeicolo(veicolo)
       .subscribe(
         data => {
@@ -99,11 +93,6 @@ export class CarsComponent {
   }
 
   addVeicolo(veicolo: Veicolo): void {
-    // if (!veicolo.isCilindrataValid || !veicolo.isKwValid) {
-    //   window.alert("Dato inserito non corretto");
-    //   return;
-    // }
-
     this.data.addVeicolo(veicolo)
       .subscribe(
         data => {

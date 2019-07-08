@@ -23,7 +23,7 @@ export class DataService {
     }
 
     public getListVeicoli(callback: (items: Array<Veicolo>) => void): void {
-        var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}${PORTA}/api/getveicolo`)
+        var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}${PORTA}/api/getveicoli`)
             .subscribe(
                 data => {
                     // Ho i dati
@@ -63,31 +63,31 @@ export class DataService {
     }
 
     /* • Utilizzo */
-
-    public getListUtilizzo(callback: (items: Array<Utilizzo>) => void): void {
-        var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}${PORTA}/api/getUtilizzo`)
+    
+    public getListUtilizzi(callback: (items: Array<Utilizzo>) => void): void {
+        var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}${PORTA}/api/getutilizzi`)
             .subscribe(
                 data => {
                     callback(data);
                 },
                 error => {
-                    console.log("Errore in «getUtilizzo».");
+                    console.log("Errore in «getutilizzi».");
                 }
             );
     }
-
     deleteUtilizzo(id: number): Observable<number> {
-        return this.http.post<number>('http://localhost:50680/api/deleteUtilizzo/', id);
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteUtilizzo/`, id);
     }
+   
 
     editUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo> {
-        return this.http.post<Utilizzo>('http://localhost:50680/api/editutilizzo', utilizzo);
+        return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/editutilizzo`, utilizzo);
     }
 
     /* • Commessa */
 
     public getListCommesse(callback: (items: Array<Commessa>) => void): void {
-        var items = this.http.get<Array<Commessa>>("http://localhost:50680/api/getCommesse")
+        var items = this.http.get<Array<Commessa>>(`${PERCORSO_BASE}${PORTA}/api/getCommesse`)
             .subscribe(
                 data => {
                     callback(data)
@@ -149,21 +149,18 @@ export class DataService {
 
     /* • Anagrafica */
 
-    public getListAnagrafica(callback: (items: Array<Anagrafica>) => void): void {
-        var item = this.http.get<Array<Anagrafica>>(`${PERCORSO_BASE}${PORTA}/api/getanagrafica`)
+    public getListAnagrafiche(callback: (items: Array<Anagrafica>) => void): void {
+        var item = this.http.get<Array<Anagrafica>>(`${PERCORSO_BASE}${PORTA}/api/getanagrafiche`)
             .subscribe(
                 data => {
                     callback(data);
                 },
                 error => {
-                    console.log("Errore in «getanagrafica».");
+                    console.log("Errore in «getanagrafiche».");
                 }
             );
     }
 
-    /* • Utilizzo */
 
-    deleteUtilizzo(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteUtilizzo/`, id);
-    }
+  
 }
