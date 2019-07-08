@@ -136,11 +136,7 @@ export class DataService {
                 data => {
                     // Ho i dati
 
-<<<<<<<<< Temporary merge branch 1
                     console.log('Dati (scadVei) in data-service:');
-=========
-                    console.log('dati (scadVei) in data-service');
->>>>>>>>> Temporary merge branch 2
                     console.log(data);
 
                     callback(data);
@@ -152,7 +148,6 @@ export class DataService {
             );
     }
 
-<<<<<<<<< Temporary merge branch 1
     // const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
     // const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
     // const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';
