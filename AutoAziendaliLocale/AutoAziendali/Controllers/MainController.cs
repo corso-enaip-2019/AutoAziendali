@@ -182,8 +182,8 @@ namespace AutoAziendali.Controllers
         #region TipiScadenze
 
         [HttpGet]
-        [Route("getscadenza")]
-        public List<Scadenze> GetScadenza()
+        [Route("getscadenze")]
+        public List<Scadenze> GetScadenze()
         {
             return _context.Scadenze.ToList();
         }
@@ -255,8 +255,8 @@ namespace AutoAziendali.Controllers
         /* Singole scadenze per singolo veicolo. */
 
         [HttpGet]
-        [Route("getscadenzaveicolo")]
-        public List<ScadenzeVeicoli> GetScadenzaVeicolo()
+        [Route("getscadenzeveicoli")]
+        public List<ScadenzeVeicoli> GetScadenzeVeicoli()
         {
             return _context.ScadenzeVeicoli.ToList();
         }
@@ -312,7 +312,7 @@ namespace AutoAziendali.Controllers
             var currentScadenzaVeicolo = new ScadenzeVeicoli();
             if (currentScadenzaVeicolo == null)
             {
-                /* Scadenza arrivata dal browser è null. */
+                /* La scadenza arrivata dal browser è null. */
                 return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
             else

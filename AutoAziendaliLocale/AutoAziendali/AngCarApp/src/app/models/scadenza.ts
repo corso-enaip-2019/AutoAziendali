@@ -13,6 +13,4 @@ export class Scadenza {
     public static operationConfirm(): boolean {
         return window.confirm("Vuoi procedere con l'operazione?");
     }
-
-
 }
