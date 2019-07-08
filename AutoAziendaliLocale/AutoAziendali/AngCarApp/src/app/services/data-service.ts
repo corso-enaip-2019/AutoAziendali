@@ -84,10 +84,14 @@ export class DataService {
         return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/editutilizzo`, utilizzo);
     }
 
+    addUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo>{
+        return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/addutilizzo`, utilizzo)
+    }
+
     /* • Commessa */
 
     public getListCommesse(callback: (items: Array<Commessa>) => void): void {
-        var items = this.http.get<Array<Commessa>>(`${PERCORSO_BASE}${PORTA}/api/getCommesse`)
+        var items = this.http.get<Array<Commessa>>(`${PERCORSO_BASE}${PORTA}/api/getcommesse`)
             .subscribe(
                 data => {
                     callback(data)

@@ -93,6 +93,7 @@ export class CarsComponent {
   }
 
   addVeicolo(veicolo: Veicolo): void {
+
     this.data.addVeicolo(veicolo)
       .subscribe(
         data => {

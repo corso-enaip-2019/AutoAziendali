@@ -16,7 +16,7 @@
             <td><button mat-flat-button (click)="deleteUtilizzo(utilizzo.IdUtilizzoVeicoli)">Elimina</button></td>
         </tr>
     </table>
-    <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button>
+    <button mat-flat-button (click)="addUtilizzoView()">Aggiungi</button>
 </div>
 
 <div *ngIf="page == 'dettaglio'">
@@ -89,15 +89,15 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput [(ngModel)]="utilizzoDetail.DataInizio" [matDatepicker]="myDatepickerDataInizio">
-                <mat-datepicker-toggle matSuffix [for]="myDatepickerDataInizio"></mat-datepicker-toggle>
+                <input matInput [(ngModel)]="utilizzoDetail.DataInizio" [matDatepicker]="myDatepicker">
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
                 <mat-datepicker #myDatepicker></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput [(ngModel)]="utilizzoDetail.DataFine" [matDatepicker]="myDatepickerDataFine">
-                <mat-datepicker-toggle matSuffix [for]="myDatepickerDataFine"></mat-datepicker-toggle>
-                <mat-datepicker #myDatepicker></mat-datepicker>
+                <input matInput [(ngModel)]="utilizzoDetail.DataFine" [matDatepicker]="myDatepickerDue">
+                <mat-datepicker-toggle matSuffix [for]="myDatepickerDue"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepickerDue></mat-datepicker>
             </mat-form-field>
         </div>
 
@@ -122,6 +122,78 @@
         </div>
         <button mat-flat-button (click)="editUtilizzo(utilizzoDetail)">Salva</button>
         <button mat-flat-button (click)="beginEdit()">Annulla</button>
-        
+
     </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div *ngIf="page == 'aggiungi'">
+    <h1 class="title">Aggiungi Veicolo</h1>
+    <div>
+        <mat-form-field>
+            <mat-select placeholder="Cognome Nome" [(ngModel)]="newUtilizzo.IdAnagrafica" name="Dipendente">
+                <mat-option *ngFor="let anagrafica of listAnagrafiche" [value]="anagrafica.IdAnagrafica">
+                    {{anagrafica.Cognome + anagrafica.Nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Targa" [(ngModel)]="newUtilizzo.IdVeicolo" name="Targa">
+                <mat-option *ngFor="let veicolo of listVeicoli" [value]="veicolo.IdVeicolo">
+                    {{veicolo.Targa}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newUtilizzo.Destinazione" placeholder="Destinazione">
+        </mat-form-field>
+    </div>
+
+    <div>
+
+        <mat-form-field>
+            <mat-select placeholder="Commessa" [(ngModel)]="newUtilizzo.IdCommessa" name="Commessa">
+                <mat-option *ngFor="let commessa of listCommesse" [value]="commessa.commessa">
+                    {{commessa.commessa}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newUtilizzo.DataInizio" [matDatepicker]="myDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newUtilizzo.DataFine" [matDatepicker]="myDatepickerDue">
+            <mat-datepicker-toggle matSuffix [for]="myDatepickerDue"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepickerDue></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newUtilizzo.KmInizio" placeholder="Km Iniziali">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newUtilizzo.KmFine" placeholder="Km Finali">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newUtilizzo.CostoCarburante" placeholder="Kw">
+        </mat-form-field>
+    </div>
+    <button class="bigbtn" mat-flat-button (click)="addUtilizzo(newUtilizzo)">Salva</button>
+    <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
 </div>

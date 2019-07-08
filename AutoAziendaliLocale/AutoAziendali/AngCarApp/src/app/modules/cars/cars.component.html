@@ -120,10 +120,10 @@
                 <input matInput [(ngModel)]="veicoloDetail.Telaio" placeholder="Telaio">
             </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker">
-                    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #myDatepicker></mat-datepicker>
+            <mat-form-field>
+                <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker">
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
             </mat-form-field>
         </div>
 
@@ -207,54 +207,56 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput [(ngModel)]="newVeicolo.Immatricolazione" placeholder="Immatricolazione">
+            <input matInput [(ngModel)]="newVeicolo.Immatricolazione" [matDatepicker]="myDatepicker">
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.Cilindrata" placeholder="Cilindrata">
         </mat-form-field>
 
-        <div>
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.Cilindrata" placeholder="Cilindrata">
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.CvVapore" placeholder="CvVapore">
+        </mat-form-field>
 
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.CvVapore" placeholder="CvVapore">
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.Kw" placeholder="Kw">
+        </mat-form-field>
+    </div>
 
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.Kw" placeholder="Kw">
-            </mat-form-field>
-        </div>
+    <div>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.CvFiscali" placeholder="CvFiscali">
+        </mat-form-field>
 
-        <div>
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.CvFiscali" placeholder="CvFiscali">
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.Colore" placeholder="Colore">
+        </mat-form-field>
 
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.Colore" placeholder="Colore">
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.Formato" placeholder="Formato">
+        </mat-form-field>
+    </div>
 
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.Formato" placeholder="Formato">
-            </mat-form-field>
-        </div>
+    <div>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.Alimentazione" placeholder="Alimentazione">
+        </mat-form-field>
 
-        <div>
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.Alimentazione" placeholder="Alimentazione">
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="newVeicolo.NormativaEuro" placeholder="NormativaEuro">
+        </mat-form-field>
 
-            <mat-form-field>
-                <input matInput [(ngModel)]="newVeicolo.NormativaEuro" placeholder="NormativaEuro">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-select placeholder="Provincia" [(ngModel)]="newVeicolo.Provincia" name="provincia">
-                    <mat-option *ngFor="let provincia of listProvince" [value]="provincia.Sigla">
-                        {{provincia.Sigla}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+        <mat-form-field>
+            <mat-select placeholder="Provincia" [(ngModel)]="newVeicolo.Provincia" name="provincia">
+                <mat-option *ngFor="let provincia of listProvince" [value]="provincia.Sigla">
+                    {{provincia.Sigla}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <button class="bigbtn" mat-flat-button (click)="addVeicolo(newVeicolo)">Salva</button>
     <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
