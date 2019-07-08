@@ -1,24 +1,84 @@
-<div *ngIf="page == 'listaScadenzePerVeicoloo'">
-    <h1 class="title">{{Titolo}}</h1>
-    prv001
+<h1 class="title">{{titolo}}</h1>
+
+<div *ngIf="page == 'listaVeicoli'">
+    <table mat-tableid>
+        <th> Targa </th>
+        <th> Marca </th>
+        <th> Modello </th>
+        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicoli">
+            <td>{{veicolo.Targa}}</td>
+            <td>{{veicolo.Marca}}</td>
+            <td>{{veicolo.Modello}}</td>
+            <td><button mat-flat-button (click)="detailScadenzeView(veicolo)">Vedi Scadenze</button></td>
+            <!-- <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td> -->
+        </tr>
+    </table>
+    <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
+</div>
+
+<div *ngIf="page == 'listaScadenzePerVeicolo'">
+    listaScadenzePerVeicolo
+    <!-- <table mat-tableid>
+        <th> Targa </th>
+        <th> Marca </th>
+        <th> Modello </th>
+        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicoli">
+            <td>{{veicolo.Targa}}</td>
+            <td>{{veicolo.Marca}}</td>
+            <td>{{veicolo.Modello}}</td>
+            <td><button mat-flat-button (click)="detailScadenzeView(veicolo)">Vedi Scadenze</button></td>
+            <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td>
+        </tr>
+    </table> -->
+    <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
 </div>
 
 <div *ngIf="page == 'listaScadenzeTuttiVeicoli'">
-    <h1 class="title">{{Titolo}}</h1>
-    prv002
+    <table mat-tableid>
+        <thead>
+            <th>Data scadenza</th>
+            <th>gg. alla scadenza</th>
+            <th>Scadenza</th>
+            <th>Targa</th>
+            <th>Marca</th>
+            <th>Modello</th>
+            <th><em>&nbsp;</em></th>
+            <!-- <th><em>Dettaglio</em></th> -->
+            <th><em>&nbsp;</em></th>
+            <!-- <th><em>Modifica</em></th> -->
+        </thead>
+        <tbody>
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
+                *ngFor="let scadVeic of listaScadenzePerVeicolo">
+                <td>Data scadenza</td>
+                <td>gg. alla scadenza</td>
+                <td>Scadenza</td>
+                <td>Targa</td>
+                <td>Marca</td>
+                <td>Modello</td>
+
+
+                <!-- <td>{{veicolo.Targa}}</td>
+                <td>{{veicolo.Marca}}</td>
+                <td>{{veicolo.Modello}}</td>
+                <td><button mat-flat-button (click)="detailScadenzeView(veicolo)">Vedi Scadenze</button></td>
+                <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td> -->
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <div *ngIf="page == 'dettaglioSingolaScadenzaPerVeicolo'">
-    <h1 class="title">{{Titolo}}</h1>
     prv003
+    dettaglioSingolaScadenzaPerVeicolo
 </div>
 
 <div *ngIf="page == 'aggiuntaScadenzaAVeicolo'">
-    <h1 class="title">{{Titolo}}</h1>
+    aggiuntaScadenzaAVeicolo
     prv004
 </div>
 
 <div *ngIf="page == 'aggiuntaTipoScadenza'">
-    <h1 class="title">{{Titolo}}</h1>
     prv005
+    aggiuntaTipoScadenza
 </div>
