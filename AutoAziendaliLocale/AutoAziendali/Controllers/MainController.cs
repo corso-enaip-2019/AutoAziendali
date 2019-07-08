@@ -16,8 +16,8 @@ namespace AutoAziendali.Controllers
         #region Veicoli
 
         [HttpGet]
-        [Route("getveicolo")]
-        public List<Veicoli> GetVeicolo()
+        [Route("getveicoli")]
+        public List<Veicoli> GetVeicoli()
         {
             var l = _context
                 .Veicoli
@@ -119,7 +119,7 @@ namespace AutoAziendali.Controllers
         #region Anagrafiche
         [HttpGet]
         [Route("getanagrafiche")]
-        public List<Anagrafica> GetAnagrafica()
+        public List<Anagrafica> GetAnagrafiche()
         {
             var a = _context.Anagrafica.ToList();
             return a;
@@ -129,7 +129,7 @@ namespace AutoAziendali.Controllers
         #region Utilizzo veicoli
 
         [Route("getutilizzi")]
-        public List<UtilizzoVeicoli> GetUtilizzoveicoli()
+        public List<UtilizzoVeicoli> GetUtilizziVeicoli()
         {
             var u = _context.UtilizzoVeicoli.ToList();
             return u;
@@ -332,8 +332,8 @@ namespace AutoAziendali.Controllers
         #region Commesse
 
         [HttpGet]
-        [Route("getCommesse")]
-        public async Task<List<CommesseVecchia>> GetCommessa()
+        [Route("getcommesse")]
+        public async Task<List<CommesseVecchia>> GetCommesse()
         {
             return await _context.CommesseVecchia.ToListAsync();
         }

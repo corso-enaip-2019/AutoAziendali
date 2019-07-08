@@ -16,7 +16,7 @@
             <td><button mat-flat-button (click)="deleteUtilizzo(utilizzo.IdUtilizzoVeicoli)">Elimina</button></td>
         </tr>
     </table>
-    <!-- <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
+    <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button>
 </div>
 
 <div *ngIf="page == 'dettaglio'">
@@ -120,7 +120,7 @@
                 <input matInput [(ngModel)]="utilizzoDetail.CostoPedaggio" placeholder="CvFiscali">
             </mat-form-field>
         </div>
-        <button mat-flat-button (click)="editVeicolo(utilizzoDetail)">Salva</button>
+        <button mat-flat-button (click)="editUtilizzo(utilizzoDetail)">Salva</button>
         <button mat-flat-button (click)="beginEdit()">Annulla</button>
         
     </div>
