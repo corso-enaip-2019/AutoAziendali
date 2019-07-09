@@ -339,6 +339,17 @@ namespace AutoAziendali.Controllers
         }
 
         #endregion
+        
+        #region Documenti
+
+        [HttpGet]
+        [Route("getdocumenti")]
+        public async Task<List<Documenti>> GetDocumenti()
+        {
+            return await _context.Documenti.ToListAsync();
+        }
+        
+        #endregion
 
         //#region email
         //
