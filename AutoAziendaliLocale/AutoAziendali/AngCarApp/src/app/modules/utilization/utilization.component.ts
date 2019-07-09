@@ -4,6 +4,7 @@ import { DataService } from 'src/app/services/data-service';
 import { Veicolo } from 'src/app/models/Veicolo';
 import { Anagrafica } from 'src/app/models/anagrafica';
 import { Commessa } from 'src/app/models/commessa';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -22,7 +23,6 @@ export class UtilizationComponent {
   public listUtilizzi: Array<Utilizzo>;
   public listVeicoli: Array<Veicolo>;
   public listCommesse: Array<Commessa>;
-  public commessaById: Commessa;
 
   constructor(private data: DataService) {
     var self = this;
@@ -45,8 +45,10 @@ export class UtilizationComponent {
     this.listVeicoli = null;
     this.listAnagrafiche = null;
     this.listCommesse = null;
-    this.commessaById = null;
   }
+
+  displayedColumns: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione','Dettaglio', 'Elimina'];
+  dataSource = new MatTableDataSource(this.listUtilizzi);
 
   getTargaById(id: number): string {
     if (this.listVeicoli != null && this.listVeicoli != null) {

@@ -1,8 +1,48 @@
 <div *ngIf="page == 'listaUtilizzo'">
     <h1 class="title">Lista Utilizzo</h1>
 
+    <!-- <table mat-table [dataSource]="listUtilizzi" class="mat-elevation-z8">
 
-    <table mat-tableid>
+            <ng-container matColumnDef="Targa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Targa </th>
+                <td mat-cell *matCellDef="let utilizzo">{{getTargaById(utilizzo.IdVeicolo)}} </td>
+            </ng-container>
+    
+    
+            <ng-container matColumnDef="Dipendente">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Dipendente </th>
+                <td mat-cell *matCellDef="let utilizzo"> {{getNameById(utilizzo.IdAnagrafica)}}</td>
+            </ng-container>
+    
+            <ng-container matColumnDef="DatoInizio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Data Inizio </th>
+                <td mat-cell *matCellDef="let utilizzo"> {{utilizzo.DataInizio | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DatoInizio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Data Inizio </th>
+                    <td mat-cell *matCellDef="let utilizzo"> {{utilizzo.DataInizio | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+    
+            <ng-container matColumnDef="Dettaglio">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let utilizzo"> <button (click)="detailItemView(utilizzo)"
+                        mat-flat-button>Dettaglio</button> </td>
+            </ng-container>
+    
+    
+            <ng-container matColumnDef="Elimina">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let veicolo"> <button (click)="deleteUtilizzo(utilizzo.IdUtilizzoVeicoli)"
+                        mat-flat-button>Elimina</button></td>
+            </ng-container>
+    
+    
+            <tr mat-header-row *matHeaderRowDef=" displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div> -->
+  <table mat-table>
         <th> Targa </th>
         <th> Dipendente </th>
         <th> Data Inizio</th>
@@ -82,8 +122,8 @@
 
             <mat-form-field>
                 <mat-select placeholder="Commessa" [(ngModel)]="utilizzoDetail.IdCommessa" name="Commessa">
-                    <mat-option *ngFor="let commessa of listCommesse" [value]="commessa.commessa">
-                        {{commessa.commessa}}
+                    <mat-option *ngFor="let commessa of listCommesse" [value]="commessa.IdCommessa">
+                        {{commessa.Commessa}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -126,14 +166,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
 <div *ngIf="page == 'aggiungi'">
     <h1 class="title">Aggiungi Veicolo</h1>
     <div>
@@ -159,11 +191,10 @@
     </div>
 
     <div>
-
         <mat-form-field>
             <mat-select placeholder="Commessa" [(ngModel)]="newUtilizzo.IdCommessa" name="Commessa">
-                <mat-option *ngFor="let commessa of listCommesse" [value]="commessa.commessa">
-                    {{commessa.commessa}}
+                <mat-option *ngFor="let commessa of listCommesse" [value]="commessa.IdCommessa">
+                    {{commessa.Commessa}}
                 </mat-option>
             </mat-select>
         </mat-form-field>

@@ -25,20 +25,22 @@ namespace AutoAziendali.Controllers
                 .ToList();
             return l;
         }
-
         [HttpPost]
-        [Route("deleteVeicolo")]
-        public async Task<HttpResponseMessage> DeleteAuto([FromBody]int id)
+        [Route("deleteveicolo")]
+        public async Task<HttpResponseMessage> DeleteVeicolo([FromBody]int id)
         {
-            var currentVeicolo = await _context.Veicoli.FirstOrDefaultAsync(v => v.IdVeicolo == id);
-            if (currentVeicolo == null)
+            var currentUtilizzo = await _context.Veicoli.FirstOrDefaultAsync(a => a.IdVeicolo == id);
+            if (currentUtilizzo == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-            _context.Veicoli.Remove(currentVeicolo);
+            _context.Veicoli.Remove(currentUtilizzo);
             await _context.SaveChangesAsync();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+
+
 
 
         [HttpPost]

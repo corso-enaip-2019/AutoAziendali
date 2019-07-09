@@ -35,9 +35,8 @@ export class DataService {
                 }
             );
     }
-
     deleteVeicolo(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteVeicolo/`, id);
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteveicolo/`, id);
     }
 
     editVeicolo(veicolo: Veicolo): Observable<Veicolo> {

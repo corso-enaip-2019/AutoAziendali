@@ -71,19 +71,6 @@
           <Property Name="IdFornitore" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fornitore" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errori trovati durante la generazione:
-avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata definita alcuna chiave primaria e non è possibile dedurre una chiave primaria valida. La tabella/visualizzazione è stata esclusa. Per utilizzare l'entità, è necessario esaminare lo schema, aggiungere le chiavi corrette e rimuovere i commenti.
-        <EntityType Name="Jofri">
-          <Property Name="Nominativo" Type="nchar" MaxLength="50" />
-          <Property Name="Nome" Type="nchar" MaxLength="25" />
-          <Property Name="Cognome" Type="nchar" MaxLength="25" />
-          <Property Name="Societa" Type="nchar" MaxLength="20" />
-          <Property Name="CodiceDirezioneServizio" Type="nchar" MaxLength="10" />
-          <Property Name="DirezioneServizio" Type="nchar" MaxLength="50" />
-          <Property Name="MeseValidita" Type="smalldatetime" />
-          <Property Name="DataCessazione" Type="smalldatetime" />
-          <Property Name="ID" Type="uniqueidentifier" />
-        </EntityType>-->
         <EntityType Name="ManutenzioniVeicoli">
           <Key>
             <PropertyRef Name="IdManutenzioneVeicoli" />
@@ -794,7 +781,7 @@ avviso 6013: Per la tabella/visualizzazione 'CarDb.dbo.Jofri' non è stata defin
           <Property Name="CostoCarburante" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="CostoPedaggio" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="IdAnagrafica" Type="Guid" Nullable="false" />
-          <Property Name="IdCommessa" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IdCommessa" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
           <NavigationProperty Name="Veicoli" Relationship="Self.FK_UtilizzoVeicoli_Veicoli" FromRole="UtilizzoVeicoli" ToRole="Veicoli" />
         </EntityType>
         <EntityType Name="Veicoli">

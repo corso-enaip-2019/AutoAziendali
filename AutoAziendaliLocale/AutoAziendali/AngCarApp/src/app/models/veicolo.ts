@@ -13,16 +13,16 @@ export class Veicolo {
 
     public isCilindrataValid(): boolean {
         return (
-            this.Cilindrata != null &&
-            !isNaN(this.Cilindrata) &&
+            this.Cilindrata != null ||
+            !isNaN(this.Cilindrata) ||
             this.Cilindrata != undefined
         );
     }
 
     public isKwValid(): boolean {
         return (
-            this.Kw != null &&
-            !isNaN(this.Kw) &&
+            this.Kw != null ||
+            !isNaN(this.Kw) ||
             this.Kw != undefined
         );
     }
