@@ -11,6 +11,7 @@ import { Anagrafica } from '../models/anagrafica';
 import { Commessa } from '../models/commessa';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 import { Portal } from '@angular/cdk/portal';
+import { Documento } from '../models/documento';
 
 /* const string per i percorsi*/
 const PERCORSO_BASE: string = "http://localhost";
@@ -35,6 +36,7 @@ export class DataService {
                 }
             );
     }
+
     deleteVeicolo(id: number): Observable<number> {
         return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteveicolo/`, id);
     }
@@ -123,9 +125,18 @@ export class DataService {
             );
     }
 
-    // const DEL_SCAD: string = 'deletescadenza';
-    // const EDIT_SCAD: string = 'editscadenza';
-    // const ADD_SCAD: string = 'addscadenza';
+    deleteScadenza(id: number): Observable<number> {
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deletescadenza/`, id);
+    }
+
+    editScadenza(scadenza: Scadenza): Observable<Scadenza> {
+        return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/editscadenza`, scadenza);
+    }
+
+    addScadenza(scadenza: Scadenza): Observable<Scadenza> {
+        return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/addcadenza`, scadenza);
+    }
+
 
     /* • ScadenzaVeicolo (singole scadenze per singolo veicolo) */
 
@@ -147,9 +158,17 @@ export class DataService {
             );
     }
 
-    // const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
-    // const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
-    // const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';
+    deleteScadenzaVeicolo(id: number): Observable<number> {
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deletescadenza/`, id);
+    }
+
+    editScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<ScadenzaVeicolo> {
+        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/editscadenza`, scadenzaVeicolo);
+    }
+
+    addScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<ScadenzaVeicolo> {
+        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addcadenza`, scadenzaVeicolo);
+    }
 
     /* • Anagrafica */
 
@@ -165,6 +184,17 @@ export class DataService {
             );
     }
 
+    /* • Documenti */
 
-  
+    public getListDocumenti(callback: (items: Array<Documento>) => void): void {
+        var item = this.http.get<Array<Documento>>(`${PERCORSO_BASE}${PORTA}/api/getdocumenti`)
+            .subscribe(
+                data => {
+                    callback(data);
+                },
+                error => {
+                    console.log("Errore in «getdocumenti».");
+                }
+            );
+    }
 }

@@ -393,7 +393,14 @@
                 </tr>
                 <tr *ngIf="scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined">
                     <td>× Documento NON aggiunto.</td>
-                    <td>[checkbox aggiunta documento? + button]</td>
+                    <td>
+                        <mat-select placeholder="IdDocumento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
+                            name="docRiga">
+                            <mat-option *ngFor="let idDocRiga of listDocumenti" [value]="docRiga.IdDocumento">
+                                {{scadenzaRiga.Scadenza}}
+                            </mat-option>
+                        </mat-select>
+                    </td>
                     <!-- <td><input type="checkbox">&nbsp;button (click)=selectDocumentoView(newScadenzaVeicoloDetail.IdScadenzeVeicoli)">Scegli documento</button></td> -->
                 </tr>
 
@@ -417,7 +424,7 @@
                     <td *ngIf="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
                         × Documento NON aggiunto.</td>
                     <td>[checkbox aggiunta documento? + droplist]
-                            Documento presente:&nbsp;
+                        Documento presente:&nbsp;
                         <!-- <section class="documenti-section">
                             <label class="documenti-section"></label>
                             <mat-checkbox class="documenti-section"
