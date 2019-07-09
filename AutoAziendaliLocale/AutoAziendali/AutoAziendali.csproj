@@ -168,6 +168,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AutoAziendali.edmx</DependentUpon>
     </Compile>
+    <Compile Include="AutoAziendali1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AutoAziendali.tt</DependentUpon>
+    </Compile>
     <Compile Include="BusinessUnit.cs">
       <DependentUpon>AutoAziendali.tt</DependentUpon>
     </Compile>
@@ -242,7 +247,7 @@
     <Content Include="AutoAziendali.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AutoAziendali.edmx</DependentUpon>
-      <LastGenOutput>AutoAziendali.cs</LastGenOutput>
+      <LastGenOutput>AutoAziendali1.cs</LastGenOutput>
     </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

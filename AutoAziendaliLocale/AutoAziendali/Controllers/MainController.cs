@@ -25,20 +25,22 @@ namespace AutoAziendali.Controllers
                 .ToList();
             return l;
         }
-
         [HttpPost]
-        [Route("deleteVeicolo")]
-        public async Task<HttpResponseMessage> DeleteAuto([FromBody]int id)
+        [Route("deleteveicolo")]
+        public async Task<HttpResponseMessage> DeleteVeicolo([FromBody]int id)
         {
-            var currentVeicolo = await _context.Veicoli.FirstOrDefaultAsync(v => v.IdVeicolo == id);
-            if (currentVeicolo == null)
+            var currentUtilizzo = await _context.Veicoli.FirstOrDefaultAsync(a => a.IdVeicolo == id);
+            if (currentUtilizzo == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-            _context.Veicoli.Remove(currentVeicolo);
+            _context.Veicoli.Remove(currentUtilizzo);
             await _context.SaveChangesAsync();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+
+
 
 
         [HttpPost]
@@ -170,6 +172,35 @@ namespace AutoAziendali.Controllers
                 //currentAuto.Kw = auto.Kw;
                 //currentAuto.Colore = auto.Colore;
 
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+
+        [HttpPost]
+        [Route("addUtilizzo")]
+        public async Task<HttpResponseMessage> AddUtilizzo([FromBody]UtilizzoVeicoli utilizzo)
+        {
+            var currentUtilizzo = new UtilizzoVeicoli();
+            if (utilizzo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            else
+            {
+                currentUtilizzo.IdVeicolo = utilizzo.IdVeicolo;
+                currentUtilizzo.DataInizio = utilizzo.DataInizio;
+                currentUtilizzo.DataFine = utilizzo.DataFine;
+                currentUtilizzo.KmInizio = utilizzo.KmInizio;
+                currentUtilizzo.KmFine = utilizzo.KmFine;
+                currentUtilizzo.Destinazione = utilizzo.Destinazione;
+                currentUtilizzo.CostoCarburante = utilizzo.CostoCarburante;
+                currentUtilizzo.CostoPedaggio = utilizzo.CostoPedaggio;
+                currentUtilizzo.IdAnagrafica = utilizzo.IdAnagrafica;
+                currentUtilizzo.IdCommessa = utilizzo.IdCommessa;
+
+                _context.UtilizzoVeicoli.Add(currentUtilizzo);
                 await _context.SaveChangesAsync();
 
                 return Request.CreateResponse(HttpStatusCode.OK);

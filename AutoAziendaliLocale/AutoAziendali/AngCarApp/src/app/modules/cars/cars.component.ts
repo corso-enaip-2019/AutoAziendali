@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { from } from 'rxjs';
 import { Provider } from '@angular/compiler/src/core';
 import { Province } from 'src/app/models/province';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-cars',
@@ -34,6 +35,14 @@ export class CarsComponent {
     this.page = 'listaVeicolo';
     this.veicoloDetail = null;
 
+
+  }
+  displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'Dettaglio', 'Elimina'];
+  dataSource = new MatTableDataSource(this.listVeicoli);
+  
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getListProvince(data: DataService) {
@@ -43,8 +52,6 @@ export class CarsComponent {
 
     })
   }
-  // displayedColums: string[] = ['Targa', 'Marca', 'Modello','Dettaglio', 'Elimina'];
-  // dataSource = new MatTableDataSource(this.list);
 
   deleteVeicolo(id: number) {
     if (Veicolo.operationConfirm()) {
@@ -53,7 +60,6 @@ export class CarsComponent {
           data => {
             let index = this.listVeicoli.findIndex(a => a.IdVeicolo == id);
             this.listVeicoli.splice(index, 1);
-
           },
           error => {
 
@@ -93,6 +99,7 @@ export class CarsComponent {
   }
 
   addVeicolo(veicolo: Veicolo): void {
+
     this.data.addVeicolo(veicolo)
       .subscribe(
         data => {

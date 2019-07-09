@@ -4,6 +4,7 @@ import { DataService } from 'src/app/services/data-service';
 import { Veicolo } from 'src/app/models/Veicolo';
 import { Anagrafica } from 'src/app/models/anagrafica';
 import { Commessa } from 'src/app/models/commessa';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -22,7 +23,6 @@ export class UtilizationComponent {
   public listUtilizzi: Array<Utilizzo>;
   public listVeicoli: Array<Veicolo>;
   public listCommesse: Array<Commessa>;
-  public commessaById: Commessa;
 
   constructor(private data: DataService) {
     var self = this;
@@ -45,8 +45,10 @@ export class UtilizationComponent {
     this.listVeicoli = null;
     this.listAnagrafiche = null;
     this.listCommesse = null;
-    this.commessaById = null;
   }
+
+  displayedColumns: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione','Dettaglio', 'Elimina'];
+  dataSource = new MatTableDataSource(this.listUtilizzi);
 
   getTargaById(id: number): string {
     if (this.listVeicoli != null && this.listVeicoli != null) {
@@ -71,8 +73,8 @@ export class UtilizationComponent {
 
   getCommessaById(id: number): string {
     if (this.listCommesse != null && this.listCommesse != undefined) {
-      this.commessaById = this.listCommesse.find(c => c.IdCommessa == id);
-      return this.commessaById.Commessa
+      var commessaById = this.listCommesse.find(c => c.IdCommessa == id);
+      return commessaById.Commessa
     }
     else {
       return ""
@@ -106,10 +108,21 @@ export class UtilizationComponent {
         }
       );
   }
+  addUtilizzo(utilizzo: Utilizzo): void {
+    this.data.addUtilizzo(utilizzo)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listaUtilizzo';
+        },
+        error => {
+        }
+      );
+  };
 
-  addVeicoloView() {
+  addUtilizzoView() {
     this.page = 'aggiungi';
-    this.newUtilizzo = new Utilizzo(1,1,new Date(),new Date(),0,0,"",0,0,"","");
+    this.newUtilizzo = new Utilizzo(1,1,new Date(),new Date(),null,null,"",null,null,"","");
   };
 
   detailItemView(utilizzo: Utilizzo): void {

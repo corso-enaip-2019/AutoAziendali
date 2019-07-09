@@ -1,7 +1,6 @@
 .container{
     width: 100%;
     height: 100vh;
-    
     background-color: white
   }
 
@@ -14,7 +13,6 @@
 .mat-toolbar{
     background: #003d7e;
     color: white;
-    
 
 }
 
@@ -25,3 +23,11 @@ img{
     height: auto;
     width: auto
 }
+
+.tasto{
+    color: white
+} 
+
+a:hover{
+    color: gainsboro
+} 

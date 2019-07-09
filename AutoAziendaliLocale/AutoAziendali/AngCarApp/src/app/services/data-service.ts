@@ -11,7 +11,6 @@ import { Anagrafica } from '../models/anagrafica';
 import { Commessa } from '../models/commessa';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 import { Portal } from '@angular/cdk/portal';
-import { Documento } from '../models/documento';
 
 /* const string per i percorsi*/
 const PERCORSO_BASE: string = "http://localhost";
@@ -36,9 +35,8 @@ export class DataService {
                 }
             );
     }
-
     deleteVeicolo(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteVeicolo/`, id);
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteveicolo/`, id);
     }
 
     editVeicolo(veicolo: Veicolo): Observable<Veicolo> {
@@ -64,7 +62,7 @@ export class DataService {
     }
 
     /* • Utilizzo */
-
+    
     public getListUtilizzi(callback: (items: Array<Utilizzo>) => void): void {
         var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}${PORTA}/api/getutilizzi`)
             .subscribe(
@@ -79,16 +77,20 @@ export class DataService {
     deleteUtilizzo(id: number): Observable<number> {
         return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteUtilizzo/`, id);
     }
-
+   
 
     editUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo> {
         return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/editutilizzo`, utilizzo);
     }
 
+    addUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo>{
+        return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/addutilizzo`, utilizzo)
+    }
+
     /* • Commessa */
 
     public getListCommesse(callback: (items: Array<Commessa>) => void): void {
-        var items = this.http.get<Array<Commessa>>(`${PERCORSO_BASE}${PORTA}/api/getCommesse`)
+        var items = this.http.get<Array<Commessa>>(`${PERCORSO_BASE}${PORTA}/api/getcommesse`)
             .subscribe(
                 data => {
                     callback(data)
@@ -121,17 +123,9 @@ export class DataService {
             );
     }
 
-    deleteScadenza(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deletescadenza/`, id);
-    }
-
-    editScadenza(scadenza: Scadenza): Observable<Scadenza> {
-        return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/editscadenza`, scadenza);
-    }
-
-    addScadenza(scadenza: Scadenza): Observable<Scadenza> {
-        return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/addscadenza`, scadenza);
-    }
+    // const DEL_SCAD: string = 'deletescadenza';
+    // const EDIT_SCAD: string = 'editscadenza';
+    // const ADD_SCAD: string = 'addscadenza';
 
     /* • ScadenzaVeicolo (singole scadenze per singolo veicolo) */
 
@@ -140,6 +134,7 @@ export class DataService {
             .subscribe(
                 data => {
                     // Ho i dati
+
                     console.log('Dati (scadVei) in data-service:');
                     console.log(data);
 
@@ -152,17 +147,9 @@ export class DataService {
             );
     }
 
-    deleteScadenzaVeicolo(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deletescadenzaveicolo/`, id);
-    }
-
-    editScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<Veicolo> {
-        return this.http.post<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/editscadenzaveicolo`, scadenzaVeicolo);
-    }
-
-    addScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<Veicolo> {
-        return this.http.post<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/addscadenzaveicolo`, scadenzaVeicolo);
-    }
+    // const DEL_SCAD_VEICOLO: string = 'deletescadenzaveicolo';
+    // const EDIT_SCAD_VEICOLO: string = 'editscadenzaveicolo';
+    // const ADD_SCAD_VEICOLO: string = 'addscadenzaveicolo';
 
     /* • Anagrafica */
 
@@ -178,17 +165,6 @@ export class DataService {
             );
     }
 
-    /* • Documenti */
 
-    public getListDocumenti(callback: (items: Array<Documento>) => void): void {
-        var item = this.http.get<Array<Documento>>(`${PERCORSO_BASE}${PORTA}/api/getdocumenti`)
-            .subscribe(
-                data => {
-                    callback(data);
-                },
-                error => {
-                    console.log("Errore in «getdocumenti».");
-                }
-            );
-    }
+  
 }
