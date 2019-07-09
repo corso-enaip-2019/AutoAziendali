@@ -16,7 +16,7 @@ import { DataService } from './services/data-service';
 
 import{FormsModule}from'@angular/forms';
 import { HomeModule } from './modules/home/home.module';
-import { MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatOptionModule, MatFormFieldModule, MatTableModule, MatListModule, MatButtonModule, MatSortModule } from '@angular/material';
+import { MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatOptionModule, MatFormFieldModule, MatTableModule, MatListModule, MatButtonModule, MatSortModule, MatCheckboxModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import { MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule
     MatDatepickerModule,
     MatNativeDateModule,
     MatSortModule,
+    MatCheckboxModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
