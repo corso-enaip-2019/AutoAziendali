@@ -314,12 +314,19 @@
                     <td>
                         <mat-form-field>
                             <input matInput [(ngModel)]="newScadenzaVeicoloDetail.Scadenza"
-                                [matDatepicker]="myDatepicker">
-                            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                            <mat-datepicker #myDatepicker></mat-datepicker>
+                                [matDatepicker]="pickedDate">
+                            <mat-datepicker-toggle matSuffix [for]="pickedDate"></mat-datepicker-toggle>
+                            <mat-datepicker #pickedDate></mat-datepicker>
                         </mat-form-field>
                     </td>
-                    <!-- <td><input type="datetime"></td> -->
+
+                    <!--  <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newScadenzaVeicoloDetail.IdScadenza"
+                            name="scadenzaRiga">
+                            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
+                                {{scadenzaRiga.Scadenza}}
+                            </mat-option>
+                        </mat-select>-->
+
                 </tr>
                 <tr>
                     <td>Oggi</td>
