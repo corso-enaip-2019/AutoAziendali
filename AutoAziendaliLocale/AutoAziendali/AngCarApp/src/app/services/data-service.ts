@@ -12,6 +12,12 @@ import { Commessa } from '../models/commessa';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 import { Portal } from '@angular/cdk/portal';
 import { Documento } from '../models/documento';
+import { StatoVeicolo } from '../models/StatoVeicolo';
+import { Stato } from '../models/stato';
+import { Societa } from '../models/societa';
+import { BusinessUnit } from '../models/businessUnit';
+import { TelepassViacard } from '../models/telepassViacard';
+import { Modalita } from '../models/modalita';
 
 /* const string per i percorsi*/
 const PERCORSO_BASE: string = "http://localhost";
@@ -203,4 +209,99 @@ export class DataService {
                 }
             );
     }
+
+    /*Stato Veicoli*/
+
+    public getListStatoVeicoli(callback: (items: Array<StatoVeicolo>) => void): void {
+        var item = this.http.get<Array<StatoVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getstatoveicoli`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+
+    /*Stato*/
+
+    public getListStati(callback: (items: Array<Stato>) => void): void {
+        var item = this.http.get<Array<Stato>>(`${PERCORSO_BASE}${PORTA}/api/getstati`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+
+    /*Societa*/
+
+    public getListSocieta(callback: (items: Array<Societa>) => void): void {
+        var item = this.http.get<Array<Societa>>(`${PERCORSO_BASE}${PORTA}/api/getsocieta`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+
+    /*BusinessUnit*/
+
+    public getListBusinessUnit(callback: (items: Array<BusinessUnit>) => void): void {
+        var item = this.http.get<Array<BusinessUnit>>(`${PERCORSO_BASE}${PORTA}/api/getbusinessunit`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+
+    /*TelepassViacard*/
+    public getListTelepassViacard(callback: (items: Array<TelepassViacard>) => void): void {
+        var item = this.http.get<Array<TelepassViacard>>(`${PERCORSO_BASE}${PORTA}/api/gettelepassviacard`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+    /*Modalita*/
+
+    public getListModalita(callback: (items: Array<Modalita>) => void): void {
+        var item = this.http.get<Array<Modalita>>(`${PERCORSO_BASE}${PORTA}/api/getmodalita`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+
 }

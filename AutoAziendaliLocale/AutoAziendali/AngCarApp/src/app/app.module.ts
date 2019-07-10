@@ -52,7 +52,7 @@ import { DocviewerComponent } from './components/docviewer/docviewer.component';
     MatNativeDateModule,
     MatSortModule,
     MatCheckboxModule,
-    //FilterPipeModule,
+    FilterPipeModule,
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

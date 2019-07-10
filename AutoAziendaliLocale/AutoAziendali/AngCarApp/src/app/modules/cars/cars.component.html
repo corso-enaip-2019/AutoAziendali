@@ -1,24 +1,25 @@
 <div *ngIf="page == 'listaVeicolo'">
-    <h1 class="title">Lista Auto</h1>
+    <h1 class="title">Lista Veicoli</h1>
 
 
-    <!-- <table mat-tableid>
+    <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
         <th> Modello </th>
-        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicoli">
+        <tr class="dettaglio" *ngFor="let veicolo of listVeicoli">
             <td>{{veicolo.Targa}}</td>
             <td>{{veicolo.Marca}}</td>
             <td>{{veicolo.Modello}}</td>
             <td><button mat-flat-button (click)="detailItemView(veicolo)">Dettaglio</button></td>
             <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td>
+            <hr>
         </tr>
     </table>
     <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button>
-</div> -->
-<div>
+</div>
+<!-- <div>
 
-    <table mat-table [dataSource]="dataSource" >
+    <table mat-table [dataSource]="listVeicoli" >
 
         <ng-container matColumnDef="Targa">
             <th mat-header-cell *matHeaderCellDef> Targa </th>
@@ -53,7 +54,7 @@
         <tr mat-header-row *matHeaderRowDef=" displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-</div>
+</div> -->
 
 
 <div *ngIf="page == 'dettaglio'">

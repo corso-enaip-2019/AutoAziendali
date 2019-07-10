@@ -1,1 +1,65 @@
-<p>state works!</p>
+<div *ngIf="page == 'listaVeicoli'">
+    <h1 class="title">Lista Veicoli Stato</h1>
+
+    <table mat-tableid>
+        <th> Targa </th>
+        <th> Marca </th>
+        <th> Modello </th>
+        <tr class="dettaglio" *ngFor="let veicolo of listVeicoli">
+            <td>{{veicolo.Targa}}</td>
+            <td>{{veicolo.Marca}}</td>
+            <td>{{veicolo.Modello}}</td>
+            <td><button class="bigbtn" mat-flat-button (click)="listStateView(veicolo)">Storico Stati</button></td>
+        </tr>
+    </table>
+    <button class="bigbtn" mat-flat-button (click)="addVeicoliView()">Aggiungi</button>
+</div>
+
+<div *ngIf="page == 'listaStati'">
+    <h1 class="title">Lista Stato Veicoli</h1>
+    <h2>Targa: {{targaDettaglio}}</h2>
+    <table mat-tableid>
+        <th>Data</th>
+        <th>Stato</th>
+        <th>Dipendente</th>
+        <tr class="dettaglio" *ngFor="let statoVeicolo of listStatoVeicoliById">
+            <td>{{statoVeicolo.Data | date: 'dd/MM/yyyy'}}</td>
+            <td>{{getStatoById(statoVeicolo.IdStato)}}</td>
+            <td>{{getNameById(statoVeicolo.IdAnagrafica)}}</td>
+            <td><button class="bigbtn" mat-flat-button (click)="detailItemView(statoVeicolo)">dettaglio</button></td>getNameById
+        </tr>
+    </table>
+    <td><button class="bigbtn" mat-flat-button (click)="returnListVeicoli()">Torna a Veicoli</button></td>
+    <td><button class="bigbtn" mat-flat-button (click)="detailView()">Modifica</button></td>
+</div>
+
+<div *ngIf="page == 'dettaglio'">
+
+    <div *ngIf="!isEditing">
+        <div>
+            <h1 class="title">Dettaglio Stato Veicolo</h1>
+        </div>
+
+        <mat-list>
+            <mat-list-item>Dipendente: {{getNameById(statoVeicoloDetail.IdAnagrafica)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Data: {{statoVeicoloDetail.Data | date: 'dd/MM/yyyy'}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Stato: {{getStatoById(statoVeicoloDetail.IdStato)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Targa: {{getTargaById(statoVeicoloDetail.IdVeicolo)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Km: {{statoVeicoloDetail.ChilometriRental}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Società: {{getSocietaById(statoVeicoloDetail.IdSocieta)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Business Unit: {{getBusinessUnitById(statoVeicoloDetail.IdBusinessUnit)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Modalità : {{getModalitaById(statoVeicoloDetail.IdModalita)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            
+
+        </mat-list>
+        <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
+        <button class="bigbtn" mat-flat-button (click)="beginEdit()">Modifica</button>
+    </div>

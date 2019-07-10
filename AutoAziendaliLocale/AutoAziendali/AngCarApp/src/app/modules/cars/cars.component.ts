@@ -36,8 +36,8 @@ export class CarsComponent {
     
 
   }
-  displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'Dettaglio', 'Elimina'];
-  dataSource = new MatTableDataSource(this.listVeicoli);
+  // displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'Dettaglio', 'Elimina'];
+  // dataSource = new MatTableDataSource(this.listVeicoli);
 
 
   getListProvince(data: DataService) {
@@ -47,8 +47,6 @@ export class CarsComponent {
 
     })
   }
-  // displayedColums: string[] = ['Targa', 'Marca', 'Modello','Dettaglio', 'Elimina'];
-  // dataSource = new MatTableDataSource(this.list);
 
   deleteVeicolo(id: number) {
     if (Veicolo.operationConfirm()) {
