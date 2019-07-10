@@ -190,10 +190,17 @@
                 </tr>
                 <tr *ngIf="!(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
                     <td>√ Documento aggiunto:</td>
-                    <td><button (click)="visualizzazioneDocumentoView(scadenzaVeicoloDetail.IdDocumento)">Vedi
-                            documento</button></td>
+                    <td><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
+                            documento #{{scadenzaVeicoloDetail.IdDocumento}}</button></td>
                 </tr>
-
+                <tr
+                    *ngIf="(!(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined))&&(showDocViewerDetail==true)">
+                    <td>&nbsp;</td>
+                    <td *ngIf="showDocViewerDetail==false">&nbsp;</td>
+                    <!--Mostra il vecchio documento id ...-->
+                    <td *ngIf="showDocViewerDetail==true">
+                        <docviewer></docviewer>
+                </tr>
                 <tr>
                     <td colspan="2">
                         <hr>
@@ -397,14 +404,14 @@
                 <tr *ngIf="scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined">
                     <td>× Documento NON aggiunto.</td>
                     <td>
-                        <mat-select placeholder="IdDocumento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
+                        <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
                             name="docRiga">
                             <mat-option *ngFor="let idDocRiga of listDocumenti" [value]="docRiga.IdDocumento">
-                                {{scadenzaRiga.Scadenza}}
+                                {{idDocRiga.IdDocumento}}
                             </mat-option>
-                        </mat-select>
+                        </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
+                            documento #{{scadenzaVeicoloDetail.IdDocumento}}</button>
                     </td>
-                    <!-- <td><input type="checkbox">&nbsp;button (click)=selectDocumentoView(newScadenzaVeicoloDetail.IdScadenzeVeicoli)">Scegli documento</button></td> -->
                 </tr>
 
                 <tr>
@@ -415,35 +422,57 @@
                         √ Documento aggiunto</td>
                     <td *ngIf="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
                         × Documento NON aggiunto</td>
-                    <td>[checkbox aggiunta documento? + droplist]
-                        Documento presente:&nbsp;
+                    <td>&nbsp;
                         <section class="documenti-section">
                             <label class="documenti-section">Aggiungere un documento?&nbsp;</label>
-                            <mat-checkbox class="documenti-section"
-                                [(ngModel)]="newScadenzaVeicoloDetail.isDocBntDisabled" [labelPosition]=before>
+                            <mat-checkbox class="documenti-section" [(ngModel)]="isDocBtnEnabled"
+                                [labelPosition]=before>
                             </mat-checkbox>
                         </section>&nbsp;
+                        <!-- Ramo pulsante usabile, da checkbox -->
+                        <button *ngIf="isDocBtnEnabled==true" (click)="showDocViewerNew=!showDocViewerNew">Vedi
+                            documento
+                            #{{newScadenzaVeicoloDetail.IdDocumento}}</button>
+                        <!-- Ramo pulsante NON usabile, da checkbox -->
+                        <button *ngIf="isDocBtnEnabled==false" (click)="showDocViewerNew=!showDocViewerNew"
+                            disabled>Nessun documento</button>
                     </td>
-                    <!-- <td><input type="checkbox">&nbsp;button (click)=selectDocumentoView(newScadenzaVeicoloDetail.IdScadenzeVeicoli)">Scegli documento</button></td> -->
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
+
+                    <!-- Vedi documento vecchio (sx) -->
                     <td
                         *ngIf="!(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
-                        <button (click)="visualizzazioneDocumentoView(scadenzaVeicoloDetail.IdDocumento)">Vedi
-                            documento</button></td>
+                        <button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
+                            documento #{{scadenzaVeicoloDetail.IdDocumento}}</button></td>
+                    <!-- Non è impostato un documento (sx) -->
                     <td *ngIf="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
                         <button disabled>Nessun documento</button></td>
 
-                    <td *ngIf="newScadenzaVeicoloDetail.isDocBntDisabled==true"><button disabled>Nessun
-                            documento</button></td>
-                    <td *ngIf="newScadenzaVeicoloDetail.isDocBntDisabled==false">
-                        <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newScadenzaVeicoloDetail.IdScadenza"
-                            name="scadenzaRiga">
-                            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
-                                {{scadenzaRiga.Scadenza}}
+                    <!-- Barra di scelta del documento (dx), ramo attvato con checkbox -->
+                    <td *ngIf="isDocBtnEnabled==true">
+                        <mat-select placeholder="# Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
+                            name="documentoRiga">
+                            <mat-option *ngFor="let documentoRiga of listDocumenti" [value]="documentoRiga.IdDocumento">
+                                {{documentoRiga.IdDocumento}}
                             </mat-option>
                         </mat-select>
+                    </td>
+                    <!-- Barra di scelta del documento (dx), ramo disattivato con checkbox -->
+                    <td *ngIf="isDocBtnEnabled==false"><button disabled>Nessun documento</button></td>
+                </tr>
+                <tr *ngIf="showDocViewerDetail==true||showDocViewerNew==true">
+                    <td>&nbsp;</td>
+                    <td *ngIf="showDocViewerDetail==false">&nbsp;</td>
+                    <!--Mostra il vecchio documento id (sx) ...-->
+                    <td *ngIf="showDocViewerDetail==true">
+                        <docviewer></docviewer>
+                    </td>
+                    <td *ngIf="showDocViewerNew==false">&nbsp;</td>
+                    <!--Mostra il nuovo documento con id (dx) ...-->
+                    <td *ngIf="showDocViewerNew==true&&isDocBtnEnabled==true">
+                        <docviewer></docviewer>
                     </td>
                 </tr>
 
@@ -485,8 +514,14 @@
                     <td>&nbsp;</td>
                     <td *ngIf="scadenzaVeicoloDetail.Avviso==true">√ Avviso attivato</td>
                     <td *ngIf="scadenzaVeicoloDetail.Avviso==false">× Avviso NON attivato</td>
-                    <td>[checkbox]</td>
-                    <!-- <td><input type="checkbox"></td> -->
+                    <td>
+                        <section class="avvisi-attivazione-section">
+                            <label class="avvisi-attivazione-section">Avviso attivo?&nbsp;</label>
+                            <mat-checkbox class="avvisi-attivazione-section"
+                                [(ngModel)]="newScadenzaVeicoloDetail.Avviso" [labelPosition]=before>
+                            </mat-checkbox>
+                        </section>
+                    </td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -494,18 +529,22 @@
                         inviato</td>
                     <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==false">× Avviso
                         NON inviato</td>
-                    <td>[checkbox]</td>
-                    <!-- <td><input type="checkbox"></td> -->
+                    <td *ngIf="scadenzaVeicoloDetail.Avviso==false">&nbsp;</td>
+
+                    <td *ngIf="newScadenzaVeicoloDetail.Avviso==true&&newScadenzaVeicoloDetail.AvvisoInviato==true&&scadenzaVeicoloDetail.Avviso==true"
+                        title="Verrà aggiornato dal server."><em>√ Avviso inviato</em></td>
+                    <td *ngIf="newScadenzaVeicoloDetail.Avviso==true&&newScadenzaVeicoloDetail.AvvisoInviato==false&&scadenzaVeicoloDetail.Avviso==true"
+                        title="Verrà aggiornato dal server."><em>× Avviso NON inviato</em></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <br />
     <div>
-        <button mat-flat-button (click)="editScadenzaVeicolo(newScadenzaVeicoloDetail)">Salva le modifiche alla
+        <button mat-flat-button (click)="editScadenzaVeicolo(newScadenzaVeicoloDetail)">Salvare le modifiche a questa
             scadenza</button>
         <!-- <br /> -->
-        <!-- <button mat-flat-button (click)="creaNuovaScadenzaAVeicoloId(scadenzaVeicoloDetail.IdVeicolo)">Crea una scadenza a questo veicolo {{getTargaById(scadenzaVeicoloDetail.IdVeicolo)}} {{getMarcaById(scadenzaVeicoloDetail.IdVeicolo)}}
+        <!-- <button mat-flat-button (click)="creaNuovaScadenzaAVeicoloId(scadenzaVeicoloDetail.IdVeicolo)">Crea da zero una nuova scadenza a questo veicolo {{getTargaById(scadenzaVeicoloDetail.IdVeicolo)}} {{getMarcaById(scadenzaVeicoloDetail.IdVeicolo)}}
                         {{getModelloById(scadenzaVeicoloDetail.IdVeicolo)}}</button> -->
     </div>
 </div>
@@ -520,9 +559,11 @@
     aggiuntaTipoScadenza
 </div>
 
-<div *ngIf="page == 'mostraDocumento'">
-    <div *ngIf="documentoDaMostrare.Documento!=0">Documento:<br />{{documentoDaMostrare.Documento}}</div>
+<!-- Sostituito dal component docviewer. -->
+<!-- <div *ngIf="page == 'mostraDocumento'">
+    <div *ngIf="documentoDaMostrare.Documento!=0">Documento:<br />Documento
+        #{{documentoDaMostrare.IdDocumento}}<br />{{documentoDaMostrare.Documento}}</div>
     <div
         *ngIf="documentoDaMostrare.Documento==0||documentoDaMostrare.Documento==null||documentoDaMostrare.Documento==undefuned">
         Ci sono problemi nel caricare il documento.</div>
-</div>
+</div> -->

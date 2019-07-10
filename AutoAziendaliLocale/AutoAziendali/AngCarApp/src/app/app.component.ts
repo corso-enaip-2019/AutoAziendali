@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+//import { DocviewerComponent } from 'src/components/docviewer';
 
 @Component({
   selector: 'app-root',

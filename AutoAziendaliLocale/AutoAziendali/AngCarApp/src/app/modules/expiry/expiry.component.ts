@@ -1,5 +1,3 @@
-//!\ C'è DA LAVORARE SULLE DATE PERCHé MI SA CHE LE PRENDE COL FORMATO SBAGLIATO, DA RI-CONTROLLARE GUARDANDO IL DB.
-
 import { Component } from '@angular/core';
 
 import { DataService } from 'src/app/services/data-service';
@@ -9,6 +7,8 @@ import { ScadenzaVeicolo } from 'src/app/models/scadenzaVeicolo';
 import { Province } from 'src/app/models/province';
 import { Veicolo } from 'src/app/models/Veicolo';
 import { Documento } from 'src/app/models/documento';
+
+//import { DocviewerComponent } from 'src/app/components/docviewer';
 
 @Component({
   selector: 'app-expiry',
@@ -38,18 +38,43 @@ export class ExpiryComponent {
   public scadenzaVeicoloDetail: ScadenzaVeicolo; // Per la visualizzazione/modifica delle scadenze impostate su d'un veicolo.
   public pickedDate: Date; // Data della scadenza, necessaria per la creazione/modifica della scadenza assegnata ad un veicolo.
 
-  public isDocBntDisabled: boolean; // boolean per l'attivazione / la disabilitazione del pulsante che fa mostrare l'immagine del documento.
+  public isDocBtnEnabled: boolean; // boolean per l'attivazione / la disabilitazione del pulsante che fa mostrare l'immagine del documento.
+  public showDocViewerDetail: boolean; // boolean per mostra/nascondi il docViewer (dei dettagli).
+  public showDocViewerNew: boolean; // boolean per mostra/nascondi il docViewer (per la colonna di modifica/nuovo).
+
   public documentoDaMostrare: Documento;
   public oggi: Date;
 
+
+
   constructor(private dataSrvc: DataService) {
-    // "Inizializzazione" necessaria.
+    // "Inizializzazioni" necessarie.
     this.listVeicoli = null;
     this.listTipiScadenza = null;
     this.listScadenzeTuttiVeicoli = null;
     this.listScadenzeDelSingoloVeicolo = null;
     this.listProvince = null;
     this.listDocumenti = null;
+
+    this.scadenzaVeicoloDetail = null;
+    //this.scadenzaVeicoloDetail=new ScadenzaVeicolo(1,1,new Date('19991224'),1,1,1,'no',false,false);
+    this.newScadenzaVeicoloDetail = null;
+    //this.newScadenzaVeicoloDetail=new ScadenzaVeicolo(1,1,new Date('19991224'),1,1,1,'no',false,false);
+    
+    this.newTempVeicolo = null;
+    this.newTipoScadenza = null;
+    this.newScadenzaPerSingoloVeicolo = null;
+    this.newScadenzaVeicoloDetail = null;
+    this.newTempVeicolo = null;
+    this.newTempTipoScadenza = null;
+    this.scadenzaDetail = null;
+    this.scadenzaVeicoloDetail = null;
+    this.pickedDate = null;
+    this.isDocBtnEnabled = null;
+    this.showDocViewerDetail = null;
+    this.showDocViewerNew = null;
+    this.documentoDaMostrare = null;
+    this.oggi = null;
 
     var self = this;
     dataSrvc.getListDocumenti(function (items: Array<Documento>): void { self.listDocumenti = items; });
@@ -61,10 +86,12 @@ export class ExpiryComponent {
     this.page = 'listScadenzeTuttiVeicoli';
     this.titolo = 'Scadenze';
 
-    this.isEditing = false;
-    this.isDocBntDisabled = true;
+    this.oggi = new Date(); // « new Date() » senza parametri restituisce la data di oggi.
 
-    this.oggi = new Date();
+    this.isEditing = false;
+    this.isDocBtnEnabled = false;
+    this.showDocViewerDetail = false;
+    this.showDocViewerNew = false;
 
     //Schermata da mostrare all'arrivo alla/della pagina.
     this.listScadenzeTuttiVeicoliView();
@@ -75,26 +102,18 @@ export class ExpiryComponent {
   listScadenzeTuttiVeicoliView(): void {
     this.page = 'listScadenzeTuttiVeicoli';
 
-    //tmp
-    console.log('contenuto delle liste, sono dentro listScadenzeTuttiVeicoliView')
-    console.log(this.listScadenzeTuttiVeicoli);
-    console.log(this.listVeicoli);
-    // console.log(self.listScad);
-    // console.log(self.listScadPerVeicolo);
-    // console.log(self.listVeicoli);
-    //tmp
-
     this.titolo = 'Scadenze - Scadenze di tutti i veicoli';
     this.isEditing = false;
-    this.isDocBntDisabled = true;
+    this.isDocBtnEnabled = false;
   }
 
+  /*incompleto*/
   listVeicoliView(): void {
     this.page = 'listVeicoli';
 
     this.titolo = 'Scadenze - Selezionare veicolo per vederne le scadenze';
     this.isEditing = false;
-    this.isDocBntDisabled = true;
+    this.isDocBtnEnabled = false;
   }
 
   listScadenzePerVeicoloView(veicolo: Veicolo): void {
@@ -102,7 +121,7 @@ export class ExpiryComponent {
 
     this.titolo = `Scadenze per veicolo ${veicolo.Marca} ${veicolo.Modello}`;
     this.isEditing = false;
-    this.isDocBntDisabled = true;
+    this.isDocBtnEnabled = false;
 
     //this.listScadenzePerVeicolo=[];
     //.forEach(element => {
@@ -117,39 +136,40 @@ export class ExpiryComponent {
     this.scadenzaVeicoloDetail = null;
     this.scadenzaVeicoloDetail = sV;
     console.log("veicolo per dettagli");
-    console.log(this.scadenzaDetail);
+    console.log(this.scadenzaVeicoloDetail);
     this.isEditing = false;
-    this.isDocBntDisabled = true;
+    this.isDocBtnEnabled = false;
+    this.showDocViewerDetail = false;
   }
 
   /* Da fare - in lavoro. */
   editScadenzaVeicoloView(scadenzaVeicoloDaModificare: ScadenzaVeicolo) {
-    this.page = 'editSingolaScadenzaPerVeicolo';
     this.titolo = `Scadenze - Modifica della scadenza`;
 
     this.scadenzaVeicoloDetail = null;
     this.newScadenzaVeicoloDetail = null;
     this.newTempVeicolo = null;
+
+    // this.scadenzaVeicoloDetail.Costo = null;
+    // this.scadenzaVeicoloDetail.IdDocumento = null;
+    // this.scadenzaVeicoloDetail.Note = null;
+    // this.scadenzaVeicoloDetail.Avviso = null;
+    // this.scadenzaVeicoloDetail.AvvisoInviato = null;
+
+    // this.newScadenzaVeicoloDetail.Costo = null;
+    // this.newScadenzaVeicoloDetail.IdDocumento = null;
+    // this.newScadenzaVeicoloDetail.Note = null;
+    // this.newScadenzaVeicoloDetail.Avviso = null;
+    // this.newScadenzaVeicoloDetail.AvvisoInviato = null;
+
     this.newTempVeicolo = this.getVeicoloById(scadenzaVeicoloDaModificare.IdVeicolo);
     // this.newTempTipoScadenza = null;
     // this.newTempTipoScadenza = this.getScadenzaById(scadenzaVeicoloDaModificare.IdScadenza);
-    this.scadenzaVeicoloDetail = scadenzaVeicoloDaModificare;
+    this.scadenzaVeicoloDetail = new ScadenzaVeicolo(scadenzaVeicoloDaModificare.IdScadenzeVeicoli, scadenzaVeicoloDaModificare.IdVeicolo, scadenzaVeicoloDaModificare.Data, scadenzaVeicoloDaModificare.IdScadenza, scadenzaVeicoloDaModificare.Costo, scadenzaVeicoloDaModificare.IdDocumento, scadenzaVeicoloDaModificare.Note, scadenzaVeicoloDaModificare.Avviso, scadenzaVeicoloDaModificare.AvvisoInviato);
+    console.log("!!!!!!");
+    console.log(scadenzaVeicoloDaModificare);
+    console.log(this.scadenzaVeicoloDetail);
     this.newScadenzaVeicoloDetail = new ScadenzaVeicolo(scadenzaVeicoloDaModificare.IdScadenzeVeicoli, scadenzaVeicoloDaModificare.IdVeicolo, scadenzaVeicoloDaModificare.Data, scadenzaVeicoloDaModificare.IdScadenza, scadenzaVeicoloDaModificare.Costo, scadenzaVeicoloDaModificare.IdDocumento, scadenzaVeicoloDaModificare.Note, scadenzaVeicoloDaModificare.Avviso, scadenzaVeicoloDaModificare.AvvisoInviato);
-    //this.newScadenzaVeicoloDetail = scadenzaVeicoloDaModificare; //Assegnamento con passaggio per riferimento.
-    // this.newScadenzaVeicoloDetail.Avviso=scadenzaVeicoloDaModificare.Avviso;
-    // this.newScadenzaVeicoloDetail.AvvisoInviato=scadenzaVeicoloDaModificare.AvvisoInviato;
-    // this.newScadenzaVeicoloDetail.Costo=scadenzaVeicoloDaModificare.Costo;
-    // this.newScadenzaVeicoloDetail.Data=scadenzaVeicoloDaModificare.Data;
-    // this.newScadenzaVeicoloDetail.IdDocumento=scadenzaVeicoloDaModificare.IdDocumento;
-    // this.newScadenzaVeicoloDetail.IdScadenza=scadenzaVeicoloDaModificare.IdScadenza;
-    // this.newScadenzaVeicoloDetail.IdScadenzeVeicoli=scadenzaVeicoloDaModificare.IdScadenzeVeicoli;
-    // this.newScadenzaVeicoloDetail.IdVeicolo=scadenzaVeicoloDaModificare.IdVeicolo;
-    // this.newScadenzaVeicoloDetail.Note=scadenzaVeicoloDaModificare.Note;
-
-    // /*damigliorare*/
-    // this.newTempVeicolo.Targa = this.getTargaById(scadenzaVeicoloDaModificare.IdVeicolo);
-    // this.newTempVeicolo.Marca = this.getMarcaById(scadenzaVeicoloDaModificare.IdVeicolo);
-    // this.newTempVeicolo.Modello = this.getModelloById(scadenzaVeicoloDaModificare.IdVeicolo);
 
     console.log("scad ricevuta:"); console.log(this.scadenzaVeicoloDetail);
     console.log("new scad:"); console.log(this.newScadenzaVeicoloDetail);
@@ -157,24 +177,35 @@ export class ExpiryComponent {
     this.titolo = `Scadenze - Modifica della scadenza`;
     this.isEditing = true;
 
-    this.isDocBntDisabled = (this.newScadenzaVeicoloDetail.IdDocumento == 0 || this.newScadenzaVeicoloDetail.IdDocumento == null || this.newScadenzaVeicoloDetail.IdDocumento == undefined);
+    this.isDocBtnEnabled = (!(this.newScadenzaVeicoloDetail.IdDocumento == 0 || this.newScadenzaVeicoloDetail.IdDocumento == null || this.newScadenzaVeicoloDetail.IdDocumento == undefined));
+    this.showDocViewerDetail = false;
+    this.showDocViewerNew = false;
+
+    this.page = 'editSingolaScadenzaPerVeicolo';
   }
 
-  /* Da fare. */
-  aggiuntaTipoScadenzaView(): void { console.log("Non ancora implementata.") }
+  // /* Da fare. */
+  // aggiuntaTipoScadenzaView(): void {
+  //   if (this.isEditing) {
+  //     /*alert per avvisare dell'uscita dalla pagina d'edit (se s'è in pagina d'edit)*/
+  //   }
+  //   console.log("Non ancora implementata.")
+  // }
 
-  /* Da fare, incompleto. */
-  visualizzazioneDocumentoView(idDoc: number): void {
-    this.page = 'mostraDocumento';
+  // /* Da fare, incompleto. */
+  // /* Mostra-nasconde il component "docview". */
+  // /* Non è più una nuova schermata. */
+  // visualizzazioneDocumento(idDoc: number): void {
+  //   //this.page = 'mostraDocumento';
 
-    this.titolo = `Scadenze - Mostra documento`;
-    //this.isEditing = true;
-    //this.isDocBntDisabled = true;
-    this.documentoDaMostrare = null;
-    this.documentoDaMostrare = this.getDocumentoImgByIdDocumento(idDoc);
-    // this.documentoDaMostrare.IdDocumento = idDoc;
-    // this.documentoDaMostrare.Documento = this.getDocumentoImgByIdDocumento(idDoc);
-  }
+  //   this.titolo = `Scadenze - Mostra documento`;
+  //   //this.isEditing = true;
+  //   //this.isDocBntEnabled = true;
+  //   this.documentoDaMostrare = null;
+  //   this.documentoDaMostrare = this.getDocumentoImgByIdDocumento(idDoc);
+  //   // this.documentoDaMostrare.IdDocumento = idDoc;
+  //   // this.documentoDaMostrare.Documento = this.getDocumentoImgByIdDocumento(idDoc);
+  // }
 
   /* Da fare. */
   listDocumentiView(): void { console.log("Non ancora implementata.") }
@@ -185,22 +216,35 @@ export class ExpiryComponent {
 
     this.titolo = 'Scadenze - Creazione di una nuova scadenza ed assegnamento ad un veicolo';
     this.isEditing = true;
-    this.isDocBntDisabled = true;
+    this.isDocBtnEnabled = false;
   }
 
   /* Metodi per le azioni eseguite sul DB (CRUD). */
 
   /* Da fare - in lavoro. */
+  /* funzionano: cambioVeicolo, note, cambio prezzo, documento */
+  /* non funzionano: cambio tipo scadenza (err406), data (non la salva), presenza/assenza doc (non mette null), avviso. */
   editScadenzaVeicolo(scadenzaVeicoloAggiornata: ScadenzaVeicolo): void {
+    /* Se la tick-box non è spuntata, l'IdDocumento sarà null. */
+    if (this.isDocBtnEnabled == false) {
+      scadenzaVeicoloAggiornata.IdDocumento = null;
+    }
+    scadenzaVeicoloAggiornata.Avviso = this.newScadenzaVeicoloDetail.Avviso;
+    //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato;
+    /* Conversione data. */
+    /*  */
+
     this.dataSrvc.editScadenzaVeicolo(scadenzaVeicoloAggiornata)
       .subscribe(
         data => {
           this.isEditing = false;
           this.scadenzaVeicoloDetail = scadenzaVeicoloAggiornata;
+          this.detailSingolaScadenzaPerVeicoloView(this.scadenzaVeicoloDetail);
         },
-        error => { }
+        error => { console.log("errore durante la fase d\'edit di scadenzaveicolo.") }
       );
   }
+
 
   /* Da fare. */
   deleteScadenzaVeicolo(scadenzaVeicoloDaEliminare: ScadenzaVeicolo): void { console.log("Non ancora implementata.") }
@@ -224,7 +268,8 @@ export class ExpiryComponent {
   }
 
   differenzaOggiData2MaggioreN(data2, n: number): boolean {
-    return (this.differenzaOggiData2(data2) > n);
+
+    return ((this.differenzaOggiData2(data2)) > n);
   }
 
   /* Acquisizione dati dalle altre liste/tabelle. */
@@ -317,6 +362,7 @@ export class ExpiryComponent {
     }
   }
 
+  //Vedi il component docviewer
   //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
   //incompleto
   getDocumentoImgByIdDocumento(idDocumento): any {

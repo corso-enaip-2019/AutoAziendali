@@ -160,15 +160,15 @@ export class DataService {
     }
 
     deleteScadenzaVeicolo(id: number): Observable<number> {
-        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deletescadenza/`, id);
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deletescadenzaveicolo/`, id);
     }
 
     editScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<ScadenzaVeicolo> {
-        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/editscadenza`, scadenzaVeicolo);
+        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/editscadenzaveicolo`, scadenzaVeicolo);
     }
 
     addScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<ScadenzaVeicolo> {
-        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addcadenza`, scadenzaVeicolo);
+        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addcadenzaveicolo`, scadenzaVeicolo);
     }
 
     /* • Anagrafica */
@@ -186,6 +186,11 @@ export class DataService {
     }
 
     /* • Documenti */
+
+    /* La tabella Documenti contiene (mischiati) i documenti d'identità di persone e documenti riguardanti i veicoli. */
+    /* La tabella Documenti è composta dalle colonne IdDocumento (tipo T-SQL "int") e Documento (tipo T-SQL "image", deprecato). */
+    /* Tipo T-SQL "image" -> Tipo C# (Entity FW) byte[]. */
+    /* Probabilmente bisogna fare in Angulare byte[]->base64, buttarlo in un nuovo oggetto, dar nell'html come src: « src="unsafe:data:image/png;base64,[object Object]" ». */
 
     public getListDocumenti(callback: (items: Array<Documento>) => void): void {
         var item = this.http.get<Array<Documento>>(`${PERCORSO_BASE}${PORTA}/api/getdocumenti`)
