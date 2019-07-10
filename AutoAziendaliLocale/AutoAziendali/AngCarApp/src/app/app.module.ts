@@ -46,7 +46,7 @@ import { MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule
     MatDatepickerModule,
     MatNativeDateModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
     FilterPipeModule,
   ],
   providers: [DataService],
