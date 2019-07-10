@@ -20,15 +20,15 @@ import { DatePipe } from '@angular/common';
 
 export class ScadenzaVeicolo {
 	/* "Nullabilità" dei vari campi, presa manualmente dallo script di creazione. */
-	IdScadenzeVeicoliIsNullableInDB: boolean = false;
-	IdVeicoloIsNullableInDB: boolean = false;
-	DataIsNullableInDB: boolean = false;
-	IdScadenzaIsNullableInDB: boolean = false;
-	CostoIsNullableInDB: boolean = true;
-	IdDocumentoIsNullableInDB: boolean = true;
-	NoteIsNullableInDB: boolean = true;
-	AvvisoIsNullableInDB: boolean = true;
-	AvvisoInviatoIsNullableInDB: boolean = true;
+	// IdScadenzeVeicoliIsNullableInDB: boolean = false;
+	// IdVeicoloIsNullableInDB: boolean = false;
+	// DataIsNullableInDB: boolean = false;
+	// IdScadenzaIsNullableInDB: boolean = false;
+	// CostoIsNullableInDB: boolean = true;
+	// IdDocumentoIsNullableInDB: boolean = true;
+	// NoteIsNullableInDB: boolean = true;
+	// AvvisoIsNullableInDB: boolean = true;
+	// AvvisoInviatoIsNullableInDB: boolean = true;
 
 	constructor(public IdScadenzeVeicoli: number, public IdVeicolo: number, public Data: Date, public IdScadenza: number, public Costo: number, public IdDocumento: number, public Note: string, public Avviso: boolean, public AvvisoInviato: boolean) { }
 
