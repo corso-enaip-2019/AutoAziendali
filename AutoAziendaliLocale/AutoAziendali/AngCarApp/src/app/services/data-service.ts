@@ -12,6 +12,8 @@ import { Commessa } from '../models/commessa';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
 import { Portal } from '@angular/cdk/portal';
 import { Documento } from '../models/documento';
+import { StatoVeicolo } from '../models/StatoVeicolo';
+import { Stato } from '../models/stato';
 
 /* const string per i percorsi*/
 const PERCORSO_BASE: string = "http://localhost";
@@ -195,6 +197,38 @@ export class DataService {
                 },
                 error => {
                     console.log("Errore in «getdocumenti».");
+                }
+            );
+    }
+
+    /*Stato Veicoli*/
+
+    public getListStatoVeicoli(callback: (items: Array<StatoVeicolo>) => void): void {
+        var item = this.http.get<Array<StatoVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getstatoveicoli`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
+                }
+            );
+    }
+
+    /*Stato*/
+
+    public getListStati(callback: (items: Array<Stato>) => void): void {
+        var item = this.http.get<Array<Stato>>(`${PERCORSO_BASE}${PORTA}/api/getstati`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                   
                 }
             );
     }

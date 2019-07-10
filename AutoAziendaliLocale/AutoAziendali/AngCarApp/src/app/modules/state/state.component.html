@@ -1,1 +1,32 @@
-<p>state works!</p>
+<div *ngIf="page == 'listaVeicoli'">
+    <h1 class="title">Lista Veicoli</h1>
+
+    <table mat-tableid>
+        <th> Targa </th>
+        <th> Marca </th>
+        <th> Modello </th>
+        <tr class="dettaglio" *ngFor="let veicolo of listVeicoli">
+            <td>{{veicolo.Targa}}</td>
+            <td>{{veicolo.Marca}}</td>
+            <td>{{veicolo.Modello}}</td>
+            <td><button mat-flat-button (click)="listStateView(veicolo)">Stato</button></td>
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="page == 'listaStati'">
+    <h1 class="title">Lista Stato Veicoli</h1>
+    <h2>Targa: {{targaDettaglio}}</h2>
+    <table mat-tableid>
+        <th>Data</th>
+        <th>Stato</th>
+        <th>Dipendente</th>
+        <tr class="dettaglio" *ngFor="let stato of listStatoVeicoliById">
+            <td>{{stato.Data | date: 'dd/MM/yyyy'}}</td>
+            <td>{{getStatoById(stato.IdStato)}}</td>
+            <td>{{getNameById(stato.IdAnagrafica)}}</td>
+            <td><button class="bigbtn" mat-flat-button (click)="detailView(veicolo)">dettaglio</button></td>
+        </tr>
+    </table>
+    <td><button class="bigbtn" mat-flat-button (click)="returnListVeicoli()">Torna a Veicoli</button></td>
+</div>

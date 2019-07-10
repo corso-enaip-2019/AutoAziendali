@@ -379,7 +379,31 @@ namespace AutoAziendali.Controllers
         {
             return await _context.Documenti.ToListAsync();
         }
-        
+
+        #endregion
+
+        #region StatoVeicoli
+
+        [HttpGet]
+        [Route("getstatoveicoli")]
+        public List<StatoVeicoli> GetStatoVeicoli()
+        {
+            var s = _context.StatoVeicoli.ToList();
+            return s;
+        }
+
+        #endregion
+
+        #region Stato
+
+        [HttpGet]
+        [Route("getstati")]
+        public List<Stati> GetStati()
+        {
+            var s = _context.Stati.ToList();
+            return s;
+        }
+
         #endregion
 
         //#region email

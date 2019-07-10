@@ -47,8 +47,6 @@ export class CarsComponent {
 
     })
   }
-  // displayedColums: string[] = ['Targa', 'Marca', 'Modello','Dettaglio', 'Elimina'];
-  // dataSource = new MatTableDataSource(this.list);
 
   deleteVeicolo(id: number) {
     if (Veicolo.operationConfirm()) {
