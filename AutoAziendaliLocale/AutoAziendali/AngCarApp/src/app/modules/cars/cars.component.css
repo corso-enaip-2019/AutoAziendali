@@ -32,14 +32,8 @@
 mat-form-field{
     padding-right: 200px;
     margin-left: 20px;
+    width: 200px
   }
 
-table {
-    width: 100%;
-  }
-  
-.mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
+
   

@@ -16,12 +16,12 @@
     </table>
     <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button>
 </div> -->
+<div>
 
-
-    <table mat-table [dataSource]="listVeicoli" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" >
 
         <ng-container matColumnDef="Targa">
-            <th mat-header-cell *matHeaderCellDef > Targa </th>
+            <th mat-header-cell *matHeaderCellDef> Targa </th>
             <td mat-cell *matCellDef="let veicolo"> {{veicolo.Targa}} </td>
         </ng-container>
 
@@ -32,7 +32,7 @@
         </ng-container>
 
         <ng-container matColumnDef="Modello">
-            <th mat-header-cell *matHeaderCellDef >Modello </th>
+            <th mat-header-cell *matHeaderCellDef>Modello </th>
             <td mat-cell *matCellDef="let veicolo"> {{veicolo.Modello}} </td>
         </ng-container>
 
@@ -63,7 +63,50 @@
             <h1 class="title">Dettaglio Veicolo</h1>
         </div>
 
-        <mat-list>
+        <div id="sx">
+                <mat-list>
+                    <mat-list-item><h4>Targa:</h4> {{veicoloDetail.Targa}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Versione:</h4> {{veicoloDetail.Versione}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Cilindrata:</h4> {{veicoloDetail.Cilindrata}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Cv Fiscali:</h4> {{veicoloDetail.CvFiscali}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Alimentazione:</h4> {{veicoloDetail.Alimentazione}}</mat-list-item>
+                </mat-list>
+            </div>
+     
+            <div id="centro">
+                <mat-list>
+                    <mat-list-item><h4>Marca:</h4> {{veicoloDetail.Marca}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Telaio:</h4> {{veicoloDetail.Telaio}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Cv Vapore:</h4> {{veicoloDetail.CvVapore}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Colore:</h4> {{veicoloDetail.Colore}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><h4>Normativa Euro:</h4> {{veicoloDetail.NormativaEuro}}</mat-list-item>
+                </mat-list>
+            </div>
+     
+            <div id="dx">
+              <mat-list>
+                <mat-list-item><h4>Modello:</h4> {{veicoloDetail.Modello}}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><h4>Immatricolazione:</h4> {{ veicoloDetail.Immatricolazione | date: 'dd/MM/yyyy' }}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><h4>Kw:</h4> {{veicoloDetail.Kw}}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><h4>Formato:</h4> {{veicoloDetail.Formato}}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><h4>Provincia:</h4> {{veicoloDetail.Provincia}}</mat-list-item>
+              </mat-list>
+            </div>
+     
+
+        <!-- <mat-list>
             <mat-list-item>Targa:{{veicoloDetail.Targa}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Marca:{{veicoloDetail.Marca}}</mat-list-item>
@@ -93,7 +136,7 @@
             <mat-list-item>Normativa Euro: {{veicoloDetail.NormativaEuro}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Provincia: {{veicoloDetail.Provincia}}</mat-list-item>
-        </mat-list>
+        </mat-list> -->
         <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
         <button class="bigbtn" mat-flat-button (click)="beginEdit()">Modifica</button>
     </div>
@@ -125,7 +168,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker">
+                <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker" placeholder="Immatricolazione">
                 <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
                 <mat-datepicker #myDatepicker></mat-datepicker>
             </mat-form-field>
@@ -211,7 +254,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput [(ngModel)]="newVeicolo.Immatricolazione" [matDatepicker]="myDatepicker">
+            <input matInput [(ngModel)]="newVeicolo.Immatricolazione" [matDatepicker]="myDatepicker" placeholder="Immatricolazione">
             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker></mat-datepicker>
         </mat-form-field>

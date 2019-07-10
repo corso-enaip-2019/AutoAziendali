@@ -13,6 +13,7 @@ import { ExpiryComponent } from './modules/expiry/expiry.component';
 import { HomeComponent } from './modules/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './services/data-service';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 import{FormsModule}from'@angular/forms';
 import { HomeModule } from './modules/home/home.module';
@@ -46,6 +47,7 @@ import { MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule
     MatNativeDateModule,
     MatSortModule,
     MatCheckboxModule
+    FilterPipeModule,
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
