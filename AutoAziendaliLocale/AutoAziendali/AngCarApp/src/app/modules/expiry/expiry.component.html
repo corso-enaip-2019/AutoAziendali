@@ -67,12 +67,12 @@
                 *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">
                 <td>{{ scadenzaVeicolo.Data | date:'dd/MM/yyyy' }}</td>
                 <td
-                    *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false">
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==true">
                     <!-- Per ora aggiunge solo il bold ed un "⚠" &#9888; -->
                     <strong>{{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg da oggi &#9888;</strong>
                 </td>
                 <td
-                    *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==true">
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false">
                     {{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg ad oggi
                 </td>
                 <td>{{getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza)}}</td>
@@ -83,7 +83,7 @@
                 <td><button mat-flat-button (click)="detailSingolaScadenzaPerVeicoloView(scadenzaVeicolo)">Vedi
                         dettagli</button></td>
                 <td><button mat-flat-button (click)="editScadenzaVeicoloView(scadenzaVeicolo)">Modifica</button></td>
-                <td><button mat-flat-button (click)="deleteScadenzaVeicolo(scadenzaVeicolo)">Elimina</button></td>
+                <td><button mat-flat-button (click)="deleteScadenzaVeicolo(scadenzaVeicolo.IdScadenzeVeicoli)">Elimina</button></td>
 
                 <!-- <td>{{veicolo.Targa}}</td>
                 <td>{{veicolo.Marca}}</td>
@@ -145,11 +145,11 @@
                 <tr>
                     <td>Giorni alla scadenza</td>
                     <td
-                        *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==false">
+                        *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==true">
                         <strong>{{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }} &#9888;</strong>
                     </td>
                     <td
-                        *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==true">
+                        *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==false">
                         {{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }}</td>
                 </tr>
                 <tr>
@@ -329,18 +329,18 @@
                 <tr>
                     <td>Giorni alla scadenza</td>
                     <td
-                        *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==false">
+                        *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==true">
                         <strong>{{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }} &#9888;</strong>
                     </td>
                     <td
-                        *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==true">
+                        *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==false">
                         {{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }}</td>
                     <td
-                        *ngIf="differenzaOggiData2MaggioreN(newScadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaVeicoloDetail.IdScadenza))==false">
+                        *ngIf="rimastiTroppoPochiGiorni(newScadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaVeicoloDetail.IdScadenza))==true">
                         <strong>{{ differenzaOggiData2(newScadenzaVeicoloDetail.Data) | number:'1.0-0' }}&#9888;</strong>
                     </td>
                     <td
-                        *ngIf="differenzaOggiData2MaggioreN(newScadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaVeicoloDetail.IdScadenza))==true">
+                        *ngIf="rimastiTroppoPochiGiorni(newScadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaVeicoloDetail.IdScadenza))==false">
                         {{ differenzaOggiData2(newScadenzaVeicoloDetail.Data) | number:'1.0-0' }}</td>
                 </tr>
                 <tr>
