@@ -28,6 +28,7 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
+
                 },
                 error => {
                     console.log("Errore in «getveicolo».");
@@ -35,6 +36,10 @@ export class DataService {
                 }
             );
     }
+    // getListVeicoli(): Observable<Veicolo>{
+    //     return this.http.get<Veicolo>(`${PERCORSO_BASE}${PORTA}/api/getveicoli`)
+    // }
+
     deleteVeicolo(id: number): Observable<number> {
         return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteveicolo/`, id);
     }
@@ -62,7 +67,7 @@ export class DataService {
     }
 
     /* • Utilizzo */
-    
+
     public getListUtilizzi(callback: (items: Array<Utilizzo>) => void): void {
         var item = this.http.get<Array<Utilizzo>>(`${PERCORSO_BASE}${PORTA}/api/getutilizzi`)
             .subscribe(
@@ -77,13 +82,13 @@ export class DataService {
     deleteUtilizzo(id: number): Observable<number> {
         return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteUtilizzo/`, id);
     }
-   
+
 
     editUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo> {
         return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/editutilizzo`, utilizzo);
     }
 
-    addUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo>{
+    addUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo> {
         return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/addutilizzo`, utilizzo)
     }
 
@@ -166,5 +171,5 @@ export class DataService {
     }
 
 
-  
+
 }
