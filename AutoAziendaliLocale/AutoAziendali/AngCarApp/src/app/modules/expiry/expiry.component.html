@@ -1,10 +1,13 @@
 <h1 class="title">{{titolo}}</h1>
-<br /><br />
+
+<br />
+
 <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i
     veicoli)</button><br />
 <button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button><br />
 <button mat-flat-button (click)="aggiuntaTipoScadenzaView()">Crea nuovo tipo di scadenza</button><br />
-<br /><br />
+
+<br />
 
 <div *ngIf="page == 'listVeicoli'">
     <table mat-tableid>
@@ -66,7 +69,7 @@
                 <td
                     *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false">
                     <!-- Per ora aggiunge solo il bold ed un "⚠" &#9888; -->
-                    <strong>{{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg ad oggi &#9888;</strong>
+                    <strong>{{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg da oggi &#9888;</strong>
                 </td>
                 <td
                     *ngIf="differenzaOggiData2MaggioreN(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==true">
@@ -204,7 +207,7 @@
                     <td>&nbsp;</td>
                     <td
                         *ngIf="scadenzaVeicoloDetail.Note==null||scadenzaVeicoloDetail.Note==undefined||scadenzaVeicoloDetail.Note==''">
-                        Ø</td>
+                        [Nota non inserita.]</td>
                     <td
                         *ngIf="!(scadenzaVeicoloDetail.Note==null||scadenzaVeicoloDetail.Note==undefined||scadenzaVeicoloDetail.Note=='')">
                         «<em>{{scadenzaVeicoloDetail.Note}}</em>»</td>
@@ -457,7 +460,7 @@
                     <td>&nbsp;</td>
                     <td
                         *ngIf="scadenzaVeicoloDetail.Note==null||scadenzaVeicoloDetail.Note==undefined||scadenzaVeicoloDetail.Note==''">
-                        Ø</td>
+                        [Nota non inserita.]</td>
                     <td
                         *ngIf="!(scadenzaVeicoloDetail.Note==null||scadenzaVeicoloDetail.Note==undefined||scadenzaVeicoloDetail.Note=='')">
                         «<em>{{scadenzaVeicoloDetail.Note}}</em>»</td>
