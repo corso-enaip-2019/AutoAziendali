@@ -58,7 +58,6 @@ export class UtilizationComponent {
     else {
       return ""
     }
-    
   }
 
   getNameById(id: number): string {

@@ -409,6 +409,54 @@ namespace AutoAziendali.Controllers
 
         #endregion
 
+        #region Societa
+
+        [HttpGet]
+        [Route("getsocieta")]
+        public List<Societa> GetSocieta()
+        {
+            var s = _context.Societa.ToList();
+            return s;
+        }
+
+        #endregion
+
+        #region BusinessUnit
+
+        [HttpGet]
+        [Route("getbusinessunit")]
+        public List<BusinessUnit> GetBusinessUnit()
+        {
+            var b = _context.BusinessUnit.ToList();
+            return b;
+        }
+
+        #endregion
+
+        #region Viacard
+
+        [HttpGet]
+        [Route("gettelepassviacard")]
+        public List<TelepassViacard> GetTelepassViacard()
+        {
+            var t = _context.TelepassViacard.ToList();
+            return t;
+        }
+
+        #endregion
+
+        #region Modalita
+
+        [HttpGet]
+        [Route("getmodalita")]
+        public List<Modalita> GetModalita()
+        {
+            var m = _context.Modalita.ToList();
+            return m;
+        }
+
+        #endregion
+
         //#region email
         //
         //}
