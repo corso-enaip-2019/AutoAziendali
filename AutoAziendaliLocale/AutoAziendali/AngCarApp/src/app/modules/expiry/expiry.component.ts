@@ -84,7 +84,7 @@ export class ExpiryComponent {
     // console.log(self.listVeicoli);
     //tmp
 
-    this.titolo = 'Scadenze - Scadenze per tutti i veicoli.';
+    this.titolo = 'Scadenze - Scadenze di tutti i veicoli';
     this.isEditing = false;
     this.isDocBntDisabled = true;
   }
@@ -112,12 +112,12 @@ export class ExpiryComponent {
 
   detailSingolaScadenzaPerVeicoloView(sV: ScadenzaVeicolo): void {
     this.page = 'dettaglioSingolaScadenzaPerVeicolo';
+    this.titolo = `Scadenze - Dettaglio della scadenza`;
 
     this.scadenzaVeicoloDetail = null;
     this.scadenzaVeicoloDetail = sV;
     console.log("veicolo per dettagli");
     console.log(this.scadenzaDetail);
-    this.titolo = `Scadenze - Dettaglio della scadenza`;
     this.isEditing = false;
     this.isDocBntDisabled = true;
   }
@@ -125,6 +125,7 @@ export class ExpiryComponent {
   /* Da fare - in lavoro. */
   editScadenzaVeicoloView(scadenzaVeicoloDaModificare: ScadenzaVeicolo) {
     this.page = 'editSingolaScadenzaPerVeicolo';
+    this.titolo = `Scadenze - Modifica della scadenza`;
 
     this.scadenzaVeicoloDetail = null;
     this.newScadenzaVeicoloDetail = null;

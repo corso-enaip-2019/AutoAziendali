@@ -370,9 +370,12 @@ namespace AutoAziendali.Controllers
         }
 
         #endregion
-        
+
         #region Documenti
 
+        /* La tabella Documenti contiene (mischiati) i documenti d'identità di persone e documenti riguardanti i veicoli. */
+        /* La tabella Documenti è composta dalle colonne IdDocumento (tipo T-SQL "int") e Documento (tipo T-SQL "image", deprecato). */
+        /* Tipo T-SQL "image" -> Tipo C# (Entity FW) byte[]. */
         [HttpGet]
         [Route("getdocumenti")]
         public async Task<List<Documenti>> GetDocumenti()
