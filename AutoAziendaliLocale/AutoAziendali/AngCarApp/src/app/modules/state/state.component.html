@@ -12,7 +12,6 @@
             <td><button class="bigbtn" mat-flat-button (click)="listStateView(veicolo)">Storico Stati</button></td>
         </tr>
     </table>
-    <button class="bigbtn" mat-flat-button (click)="addVeicoliView()">Aggiungi</button>
 </div>
 
 <div *ngIf="page == 'listaStati'">
@@ -26,11 +25,13 @@
             <td>{{statoVeicolo.Data | date: 'dd/MM/yyyy'}}</td>
             <td>{{getStatoById(statoVeicolo.IdStato)}}</td>
             <td>{{getNameById(statoVeicolo.IdAnagrafica)}}</td>
-            <td><button class="bigbtn" mat-flat-button (click)="detailItemView(statoVeicolo)">dettaglio</button></td>getNameById
+            <td><button class="bigbtn" mat-flat-button (click)="detailItemView(statoVeicolo)">dettaglio</button></td>
         </tr>
     </table>
-    <td><button class="bigbtn" mat-flat-button (click)="returnListVeicoli()">Torna a Veicoli</button></td>
-    <td><button class="bigbtn" mat-flat-button (click)="detailView()">Modifica</button></td>
+    <td><button class="bigbtn" mat-flat-button (click)="returnListVeicoli()">Torna a Veicoli</button>
+    <button class="bigbtn" mat-flat-button (click)="addStatoVeicoloView()">Aggiungi</button>
+</td>
+
 </div>
 
 <div *ngIf="page == 'dettaglio'">
@@ -49,17 +50,201 @@
             <mat-divider></mat-divider>
             <mat-list-item>Targa: {{getTargaById(statoVeicoloDetail.IdVeicolo)}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>Km: {{statoVeicoloDetail.ChilometriRental}}</mat-list-item>
-            <mat-divider></mat-divider>
             <mat-list-item>Società: {{getSocietaById(statoVeicoloDetail.IdSocieta)}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Business Unit: {{getBusinessUnitById(statoVeicoloDetail.IdBusinessUnit)}}</mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>Modalità : {{getModalitaById(statoVeicoloDetail.IdModalita)}}</mat-list-item>
             <mat-divider></mat-divider>
-            
+            <mat-list-item>Km: {{statoVeicoloDetail.ChilometriRental}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngIf= "statoVeicoloDetail.IdViacard == null || statoVeicoloDetail.IdViacard ==undefined">Viacard : nessuna Viacard</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngIf= "!(statoVeicoloDetail.IdViacard == null || statoVeicoloDetail.IdViacard ==undefined)">Viacard : {{getTelepassViacardById(statoVeicoloDetail.IdViacard)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngIf= "statoVeicoloDetail.IdTelepass == null || statoVeicoloDetail.IdTelepass ==undefined">Telepass : nessun Telepass</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngIf= "!(statoVeicoloDetail.IdTelepass == null || statoVeicoloDetail.IdTelepass ==undefined)">Telepass : {{getTelepassViacardById(statoVeicoloDetail.IdTelepass)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Note : {{statoVeicoloDetail.Note}}</mat-list-item>
+            <mat-divider></mat-divider>
+
 
         </mat-list>
         <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
         <button class="bigbtn" mat-flat-button (click)="beginEdit()">Modifica</button>
     </div>
+
+    <div *ngIf="isEditing">
+
+        <h1 class="title">Modifica Stato Veicolo</h1>
+        <div>
+            <mat-form-field>
+                <mat-select placeholder="Cognome Nome" [(ngModel)]="statoVeicoloDetail.IdAnagrafica" name="Dipendente">
+                    <mat-option *ngFor="let anagrafica of listAnagrafiche" [value]="anagrafica.IdAnagrafica">
+                        {{anagrafica.Cognome + anagrafica.Nome}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="statoVeicoloDetail.Data" [matDatepicker]="myDatepicker" placeholder="Data">
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Stato" [(ngModel)]="statoVeicoloDetail.IdStato" name="Stato">
+                    <mat-option *ngFor="let stato of listStati" [value]="stato.IdStato">
+                        {{stato.Stato}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div>
+
+            <mat-form-field>
+                <mat-select placeholder="Targa" [(ngModel)]="statoVeicoloDetail.IdVeicolo" name="Targa">
+                    <mat-option *ngFor="let veicolo of listVeicoli" [value]="veicolo.IdVeicolo">
+                        {{veicolo.Targa}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Societa" [(ngModel)]="statoVeicoloDetail.IdSocieta" name="Societa">
+                    <mat-option *ngFor="let societa of listSocieta" [value]="societa.IdSocieta">
+                        {{societa.Societa1}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Business" [(ngModel)]="statoVeicoloDetail.IdBusinessUnit" name="Business">
+                    <mat-option *ngFor="let businessUnit of listBusinessUnit" [value]="businessUnit.IdBusinessUnit">
+                        {{businessUnit.BusinessUnit1}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div>
+
+            <mat-form-field>
+                <mat-select placeholder="Modalita" [(ngModel)]="statoVeicoloDetail.IdModalita" name="Modalita">
+                    <mat-option *ngFor="let modalita of listModalita" [value]="modalita.IdModalita">
+                        {{modalita.Modalita1}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="statoVeicoloDetail.ChilometriRental" placeholder="ChilometriRental">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="statoVeicoloDetail.IdTelepass" placeholder="Telepass">
+            </mat-form-field>
+        </div>
+
+        <div>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="statoVeicoloDetail.IdViacard" placeholder="Viacard">
+            </mat-form-field>
+
+        </div>
+
+        <button mat-flat-button (click)="editStatoVeicolo(statoVeicoloDetail)">Salva</button>
+        <button mat-flat-button (click)="beginEdit()">Annulla</button>
+
+    </div>
+</div>
+
+<div *ngIf="page == 'aggiungi'">
+    <h1 class="title">Aggiungi Stato Veicolo</h1>
+    <div>
+        <mat-form-field>
+            <mat-select placeholder="Cognome Nome" [(ngModel)]="newStatoVeicolo.IdAnagrafica" name="Dipendente">
+                <mat-option *ngFor="let anagrafica of listAnagrafiche" [value]="anagrafica.IdAnagrafica">
+                    {{anagrafica.Cognome + anagrafica.Nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newStatoVeicolo.Data" [matDatepicker]="myDatepicker" placeholder="Data">
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Stato" [(ngModel)]="newStatoVeicolo.IdStato" name="Stato">
+                <mat-option *ngFor="let stato of listStati" [value]="stato.IdStato">
+                    {{stato.Stato}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+
+    <div>
+
+        <mat-form-field>
+            <mat-select placeholder="Targa" [(ngModel)]="newStatoVeicolo.IdVeicolo" name="Targa">
+                <mat-option *ngFor="let veicolo of listVeicoli" [value]="veicolo.IdVeicolo">
+                    {{veicolo.Targa}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Societa" [(ngModel)]="newStatoVeicolo.IdSocieta" name="Societa">
+                <mat-option *ngFor="let societa of listSocieta" [value]="societa.IdSocieta">
+                    {{societa.Societa1}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Business" [(ngModel)]="newStatoVeicolo.IdBusinessUnit" name="Business">
+                <mat-option *ngFor="let businessUnit of listBusinessUnit" [value]="businessUnit.IdBusinessUnit">
+                    {{businessUnit.BusinessUnit1}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+
+    <div>
+
+        <mat-form-field>
+            <mat-select placeholder="Modalita" [(ngModel)]="newStatoVeicolo.IdModalita" name="Modalita">
+                <mat-option *ngFor="let modalita of listModalita" [value]="modalita.IdModalita">
+                    {{modalita.Modalita1}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newStatoVeicolo.ChilometriRental" placeholder="ChilometriRental">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newStatoVeicolo.IdTelepass" placeholder="Telepass">
+        </mat-form-field>
+    </div>
+
+    <div>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newStatoVeicolo.IdViacard" placeholder="Viacard">
+        </mat-form-field>
+
+    </div>
+    <button class="bigbtn" mat-flat-button (click)="addStatoVeicolo(newStatoVeicolo)">Salva</button>
+    <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
+</div>
