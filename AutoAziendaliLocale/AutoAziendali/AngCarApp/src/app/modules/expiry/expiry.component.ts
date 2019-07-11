@@ -32,7 +32,6 @@ export class ExpiryComponent {
   public newScadenzaPerSingoloVeicolo: ScadenzaVeicolo; // Per l'aggiunta (ad un veicolo) d'una nuova scadenza.
   public newScadenzaVeicoloDetail: ScadenzaVeicolo; // Per la aggiunta(creazione) d'una nuova scadenza ad un veicolo.
   public newTempVeicolo: Veicolo; // Per la aggiunta(creazione) d'una nuova scadenza ad un veicolo.
-  public newTempTipoScadenza: Scadenza; // Per la creazione d'una nuova scadenza ad un veicolo.
 
   public scadenzaDetail: Scadenza; // Per mostrare oltre al nome anche i gg di preavviso
   public scadenzaVeicoloDetail: ScadenzaVeicolo; // Per la visualizzazione/modifica delle scadenze impostate su d'un veicolo.
@@ -66,7 +65,6 @@ export class ExpiryComponent {
     this.newScadenzaPerSingoloVeicolo = null;
     this.newScadenzaVeicoloDetail = null;
     this.newTempVeicolo = null;
-    this.newTempTipoScadenza = null;
     this.scadenzaDetail = null;
     this.scadenzaVeicoloDetail = null;
     this.pickedDate = null;
@@ -222,13 +220,20 @@ export class ExpiryComponent {
     this.page = 'editSingolaScadenzaPerVeicolo';
   }
 
-  // /* Da fare. */
-  // aggiuntaTipoScadenzaView(): void {
-  //   if (this.isEditing) {
-  //     /*alert per avvisare dell'uscita dalla pagina d'edit (se s'è in pagina d'edit)*/
-  //   }
-  //   console.log("Non ancora implementata.")
-  // }
+  /* Da fare. */
+  newTipoScadenzaView(): void {
+    if (this.isEditing) {
+      /*alert per avvisare dell'uscita dalla pagina d'edit (se s'è in pagina d'edit)*/
+    }
+    this.page = 'creazioneTipoScadenza';
+    this.titolo = `Scadenze - Creazione di un nuovo tipo di scadenza`;
+
+    this.newTipoScadenza = null;
+    this.newTipoScadenza = new Scadenza(1, "NOME TIPO SCADENZA - ND", 1);
+
+    this.isDocBtnEnabled = false;
+    this.showDocViewerDetail = false;
+  }
 
   // /* Da fare, incompleto. */
   // /* Mostra-nasconde il component "docview". */
@@ -311,7 +316,7 @@ export class ExpiryComponent {
             let index = this.listScadenzeTuttiVeicoli.findIndex(sV => sV.IdScadenzeVeicoli == id);
             this.listScadenzeTuttiVeicoli.splice(index, 1);
             location.reload();
-          this.page = 'listScadenzeTuttiVeicoli';
+            this.page = 'listScadenzeTuttiVeicoli';
           },
           error => {
             console.log("3rr in delete scad veicolo");
@@ -326,10 +331,26 @@ export class ExpiryComponent {
         data => {
           location.reload();
           this.page = 'listScadenzeTuttiVeicoli';
+          this.isEditing = false;
         },
         error => {
           console.log("Errore durante l'aggiunta d'una nuova scadenzaVeicolo ad un veicolo.")
           console.log(scadenzaVeicoloDAggiungere);
+        }
+      );
+  }
+
+  addTipoScadenza(tipoScadenzaDaAggiungere:Scadenza): void { 
+    this.dataSrvc.addScadenza(tipoScadenzaDaAggiungere)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listScadenzeTuttiVeicoli';
+          this.isEditing=false;
+        },
+        error => {
+          console.log("Errore durante l'aggiunta d'un nuovo tipo di scadenza.")
+          console.log(tipoScadenzaDaAggiungere);
         }
       );
   }
@@ -356,12 +377,16 @@ export class ExpiryComponent {
 
   /* Acquisizione dati dalle altre liste/tabelle. */
 
+  // Tabella Province
+
   getlistProvince(dtSrvc: DataService): void {
     var self = this;
     dtSrvc.getListProvince(function (items: Array<Province>): void {
       self.listProvince = items;
     });
   }
+
+  // Tabella Veicoli
 
   getVeicoloByTarga(targa: string): Veicolo {
     if (this.listVeicoli != null && this.listVeicoli != null) {
@@ -382,7 +407,6 @@ export class ExpiryComponent {
       return null;
     }
   }
-
 
   getTargaById(id: number): string {
     if (this.listVeicoli != null && this.listVeicoli != null) {
@@ -414,6 +438,8 @@ export class ExpiryComponent {
     }
   }
 
+  // Tabella Scadenze (contiene tipi di scadenza)
+
   getNomeTipoScadenzaByIdTipoScadenza(id: number): string {
     if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
       var tipoScadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
@@ -443,6 +469,8 @@ export class ExpiryComponent {
       return null;
     }
   }
+
+  // Tabella Documenti
 
   //Vedi il component docviewer
   //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".

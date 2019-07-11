@@ -312,6 +312,7 @@ namespace AutoAziendali.Controllers
             }
             _context.ScadenzeVeicoli.Remove(currentScadenzaVeicolo);
             await _context.SaveChangesAsync();
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
