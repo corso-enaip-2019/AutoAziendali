@@ -221,11 +221,11 @@ export class DataService {
 
                 },
                 error => {
-                   
+
                 }
             );
     }
-    
+
     editStatoVeicolo(statoVeicolo: StatoVeicolo): Observable<StatoVeicolo> {
         return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/editstatoveicolo`, statoVeicolo);
     }
@@ -233,7 +233,7 @@ export class DataService {
     addStatoVeicolo(statoVeicolo: StatoVeicolo): Observable<StatoVeicolo> {
         return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addstatoveicolo`, statoVeicolo)
     }
-    
+
     /*Stato*/
 
     public getListStati(callback: (items: Array<Stato>) => void): void {
@@ -245,7 +245,7 @@ export class DataService {
 
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -261,7 +261,7 @@ export class DataService {
 
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -277,7 +277,7 @@ export class DataService {
 
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -292,7 +292,7 @@ export class DataService {
 
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -307,7 +307,7 @@ export class DataService {
 
                 },
                 error => {
-                   
+
                 }
             );
     }

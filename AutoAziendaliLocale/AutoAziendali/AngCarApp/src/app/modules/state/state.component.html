@@ -29,8 +29,8 @@
         </tr>
     </table>
     <td><button class="bigbtn" mat-flat-button (click)="returnListVeicoli()">Torna a Veicoli</button>
-    <button class="bigbtn" mat-flat-button (click)="addStatoVeicoloView()">Aggiungi</button>
-</td>
+        <button class="bigbtn" mat-flat-button (click)="addStatoVeicoloView()">Aggiungi</button>
+    </td>
 
 </div>
 
@@ -58,15 +58,11 @@
             <mat-divider></mat-divider>
             <mat-list-item>Km: {{statoVeicoloDetail.ChilometriRental}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item *ngIf= "statoVeicoloDetail.IdViacard == null || statoVeicoloDetail.IdViacard ==undefined">Viacard : nessuna Viacard</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item *ngIf= "!(statoVeicoloDetail.IdViacard == null || statoVeicoloDetail.IdViacard ==undefined)">Viacard : {{getTelepassViacardById(statoVeicoloDetail.IdViacard)}}</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item *ngIf= "statoVeicoloDetail.IdTelepass == null || statoVeicoloDetail.IdTelepass ==undefined">Telepass : nessun Telepass</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item *ngIf= "!(statoVeicoloDetail.IdTelepass == null || statoVeicoloDetail.IdTelepass ==undefined)">Telepass : {{getTelepassViacardById(statoVeicoloDetail.IdTelepass)}}</mat-list-item>
-            <mat-divider></mat-divider>
             <mat-list-item>Note : {{statoVeicoloDetail.Note}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Viacard : {{getTelepassViacardById(statoVeicoloDetail.IdViacard)}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Telepass : {{getTelepassViacardById(statoVeicoloDetail.IdTelepass)}}</mat-list-item>
             <mat-divider></mat-divider>
 
 
@@ -156,6 +152,10 @@
                 <input matInput [(ngModel)]="statoVeicoloDetail.IdViacard" placeholder="Viacard">
             </mat-form-field>
 
+            <mat-form-field>
+                <input matInput [(ngModel)]="statoVeicoloDetail.Note" placeholder="Note">
+            </mat-form-field>
+
         </div>
 
         <button mat-flat-button (click)="editStatoVeicolo(statoVeicoloDetail)">Salva</button>
@@ -242,6 +242,10 @@
 
         <mat-form-field>
             <input matInput [(ngModel)]="newStatoVeicolo.IdViacard" placeholder="Viacard">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [(ngModel)]="newStatoVeicolo.Note" placeholder="Note">
         </mat-form-field>
 
     </div>

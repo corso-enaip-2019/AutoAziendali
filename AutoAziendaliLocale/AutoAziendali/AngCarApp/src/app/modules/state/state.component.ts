@@ -32,7 +32,6 @@ export class StateComponent {
   public statoVeicoloDetail: StatoVeicolo;
   public targaDettaglio: string;
   public newStatoVeicolo: StatoVeicolo;
-  public telepassViacardById: TelepassViacard;
 
   constructor(private data: DataService) {
     var self = this;
@@ -53,18 +52,15 @@ export class StateComponent {
     this.targaDettaglio = "";
     this.listTelepassViacard = null;
     this.listModalita = null;
-    this.telepassViacardById = null;
   }
 
-  createListStatoVeicoliById(id: number): void {
+  createListStatoVeicoliById(id: number): Array<StatoVeicolo> {
     for (let statoVeicoli of this.listStatoVeicoli) {
       if (statoVeicoli.IdVeicolo == id) {
         this.listStatoVeicoliById.push(statoVeicoli);
       }
-      else {
-        continue;
-      }
     }
+    return this.listStatoVeicoliById;
   }
 
   getStatoById(id: number): string {
@@ -88,7 +84,7 @@ export class StateComponent {
   }
 
   getTargaById(id: number): string {
-    if (this.listVeicoli != null && this.listVeicoli != null) {
+    if (this.listVeicoli != null && this.listVeicoli != undefined) {
       var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
       return veicoloById.Targa;
     }
@@ -98,7 +94,7 @@ export class StateComponent {
   }
 
   getSocietaById(id: number): string {
-    if (this.listSocieta != null && this.listSocieta != null) {
+    if (this.listSocieta != null && this.listSocieta != undefined) {
       var societaById = this.listSocieta.find(s => s.IdSocieta == id);
       return societaById.Societa1;
     }
@@ -108,7 +104,7 @@ export class StateComponent {
   }
 
   getBusinessUnitById(id: number): string {
-    if (this.listBusinessUnit != null && this.listBusinessUnit != null) {
+    if (this.listBusinessUnit != null && this.listBusinessUnit != undefined) {
       var businessUnitById = this.listBusinessUnit.find(b => b.IdBusinessUnit == id);
       return businessUnitById.BusinessUnit1;
     }
@@ -117,7 +113,7 @@ export class StateComponent {
     }
   }
 
-  getModalitaById(id: number){
+  getModalitaById(id: number) {
     if (this.listModalita != null && this.listModalita != null) {
       var modalitaById = this.listModalita.find(b => b.IdModalita == id);
       return modalitaById.Modalita1;
@@ -127,31 +123,33 @@ export class StateComponent {
     }
   }
 
-  getTelepassViacardById(id: number) : string{
-    if (this.listTelepassViacard != null && this.listTelepassViacard != null) {
-      this.telepassViacardById = this.listTelepassViacard.find(v => v.IdTelepassViacard == id);
-      return this.telepassViacardById.TelepassViacard;
+  getTelepassViacardById(id: number): string {
+    if (id == null) {
+      return "";
     }
     else {
-      return ""
+      var telepassViacardById = this.listTelepassViacard.find(v => v.IdTelepassViacard == id);
+      return telepassViacardById.TelepassViacard;
     }
   }
 
-  
+
+
+
   getListAnagrafica(data: DataService) {
     var self = this;
     data.getListAnagrafiche(function (items: Array<Anagrafica>): void {
       self.listAnagrafiche = items;
     });
   }
-  
+
   getListStati(data: DataService) {
     var self = this;
     data.getListStati(function (items: Array<Stato>): void {
       self.listStati = items;
     });
   }
-  
+
   getListBusinessUnit(data: DataService) {
     var self = this;
     data.getListBusinessUnit(function (items: Array<BusinessUnit>): void {
@@ -166,21 +164,21 @@ export class StateComponent {
     });
   }
 
-  getListSocieta(data: DataService){
+  getListSocieta(data: DataService) {
     var self = this;
     data.getListSocieta(function (items: Array<Societa>): void {
       self.listSocieta = items;
     });
   }
 
-getListModalita(data: DataService){
-  var self = this;
-  data.getListModalita(function(items: Array<Modalita>): void{
-self.listModalita = items;
-  });
-}
+  getListModalita(data: DataService) {
+    var self = this;
+    data.getListModalita(function (items: Array<Modalita>): void {
+      self.listModalita = items;
+    });
+  }
 
-  detailItemView(statoVeicolo: StatoVeicolo, data: DataService): void {
+  detailItemView(statoVeicolo: StatoVeicolo): void {
     this.getListBusinessUnit(this.data);
     this.getListTelepassViacard(this.data);
     this.getListSocieta(this.data);
@@ -188,13 +186,14 @@ self.listModalita = items;
     this.page = "dettaglio";
     this.statoVeicoloDetail = statoVeicolo;
   }
-  
+
   listStateView(veicolo: Veicolo): void {
+    this.listStatoVeicoliById = [];
     this.page = "listaStati";
     this.targaDettaglio = veicolo.Targa;
     this.getListAnagrafica(this.data);
     this.getListStati(this.data);
-    this.createListStatoVeicoliById(veicolo.IdVeicolo);
+    this.listStatoVeicoliById = this.createListStatoVeicoliById(veicolo.IdVeicolo);
   }
 
   editStatoVeicolo(statoVeicolo: StatoVeicolo): void {
@@ -225,7 +224,7 @@ self.listModalita = items;
 
   addStatoVeicoloView() {
     this.page = 'aggiungi';
-    this.newStatoVeicolo = new StatoVeicolo(1,null,null,null,null,null, new Date(),null,0,null,null,null,"","");
+    this.newStatoVeicolo = new StatoVeicolo(1, null, null, null, null, null, new Date(), null, 0, null, null, null, "", "");
   };
 
   beginEdit() {
@@ -237,7 +236,7 @@ self.listModalita = items;
       this.isEditing = false;
     }
   };
-  
+
   returnListVeicoli() {
     this.page = "listaVeicoli";
   };
