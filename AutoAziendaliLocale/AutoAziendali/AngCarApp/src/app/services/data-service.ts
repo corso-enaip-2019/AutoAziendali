@@ -141,7 +141,7 @@ export class DataService {
     }
 
     addScadenza(scadenza: Scadenza): Observable<Scadenza> {
-        return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/addcadenza`, scadenza);
+        return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/addscadenza`, scadenza);
     }
 
 
@@ -174,7 +174,7 @@ export class DataService {
     }
 
     addScadenzaVeicolo(scadenzaVeicolo: ScadenzaVeicolo): Observable<ScadenzaVeicolo> {
-        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addcadenzaveicolo`, scadenzaVeicolo);
+        return this.http.post<ScadenzaVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addscadenzaveicolo`, scadenzaVeicolo);
     }
 
     /* • Anagrafica */

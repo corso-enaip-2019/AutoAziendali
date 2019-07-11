@@ -5,7 +5,9 @@
 <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i
     veicoli)</button><br />
 <button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button><br />
-<button mat-flat-button (click)="aggiuntaTipoScadenzaView()">Crea nuovo tipo di scadenza</button><br />
+<button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button><br />
+<button mat-flat-button (click)="newScadenzaVeicoloView()">Crea ed assegna nuova scadenza ad un veicolo</button><br />
+
 
 <br />
 
@@ -92,7 +94,7 @@
                 <td><button mat-flat-button (click)="detailScadenzeView(veicolo)">Vedi Scadenze</button></td> -->
             </tr>
             <tr>
-                <td><button mat-flat-button (click)="aggiuntaScadenzaAVeicoloView()">Crea una nuova scandenza riferita
+                <td><button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita
                         ad un veicolo</button></td>
             </tr>
         </tbody>
@@ -266,7 +268,7 @@
     </div>
 </div>
 
-<div *ngIf="page == 'editSingolaScadenzaPerVeicolo' && isEditing==true">
+<div *ngIf="page=='editSingolaScadenzaPerVeicolo' && isEditing==true">
     <div>
         Modifica della scadenza {{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza)}} del
         {{ scadenzaVeicoloDetail.Data | date:'dd/MM/yyyy' }}, per
@@ -439,12 +441,12 @@
                                 {{idDocRiga.IdDocumento}}
                             </mat-option>
                         </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
-                            documento #{{scadenzaVeicoloDetail.IdDocumento}}</button>
+                            documento #{{newSscadenzaVeicoloDetail.IdDocumento}}</button>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>Presenza doumento:</td>
+                    <td>Presenza doumento</td>
 
                     <td
                         *ngIf="!(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
@@ -482,8 +484,6 @@
                             *ngIf="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)"
                             disabled>Nessun documento</button>
                     </td>
-
-                    <!-- Ramo pulsante usabile, da checkbox -->
                     <td>
                         <!-- Pulsante Vedi documento nuovo (dx) -->
                         <button *ngIf="(isDocBtnEnabled==true)&&(showDocViewerNew==false)"
@@ -604,9 +604,251 @@
     </div>
 </div>
 
-<div *ngIf="page == 'creazioneScadenzaVeicolo'">
-    creazioneScadenza
-    prv004
+<div *ngIf="page=='creazioneScadenzaVeicolo' && isEditing==true">
+        <div>
+                Creazione di una scadenza scadenza {{getNomeTipoScadenzaByIdTipoScadenza(newScadenzaPerSingoloVeicolo.IdScadenza)}} del
+                {{ newScadenzaPerSingoloVeicolo.Data | date:'dd/MM/yyyy' }}, per
+                {{getTargaById(newScadenzaPerSingoloVeicolo.IdVeicolo)}} {{getMarcaById(newScadenzaPerSingoloVeicolo.IdVeicolo)}}
+                {{getModelloById(newScadenzaPerSingoloVeicolo.IdVeicolo)}}
+            </div>
+            <br /><br />
+            <div>
+                <table mat-tableid>
+                    <tbody>
+                        <tr>
+                            <td>Veicolo:</td>
+                            <td>
+                                <mat-select placeholder="Veicolo" [(ngModel)]="newScadenzaPerSingoloVeicolo.IdVeicolo"
+                                    name="veicoloRiga">
+                                    <mat-option *ngFor="let veicoloRiga of listVeicoli" [value]="veicoloRiga.IdVeicolo">
+                                        {{veicoloRiga.Targa}} {{veicoloRiga.Marca}} {{veicoloRiga.Modello}}
+                                    </mat-option>
+                                </mat-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Targa</td>
+                            <td>{{getTargaById(newScadenzaPerSingoloVeicolo.IdVeicolo)}}</td>
+                        </tr>
+                        <tr>
+                            <td>Marca</td>
+                            <td>{{getMarcaById(newScadenzaPerSingoloVeicolo.IdVeicolo)}}</td>
+                        </tr>
+                        <tr>
+                            <td>Modello</td>
+                            <td>{{getModelloById(newScadenzaPerSingoloVeicolo.IdVeicolo)}}</td>
+                        </tr>
+        
+                        <tr>
+                            <td colspan="2">
+                                <hr>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>Date:</td>
+                        </tr>
+                        <tr>
+                            <td>Data della scadenza</td>
+                            <td>
+                                <!-- <mat-form-field>
+                                    <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker"
+                                        placeholder="Immatricolazione">
+                                    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #myDatepicker></mat-datepicker>
+                                </mat-form-field> -->
+        
+                                <mat-form-field>
+                                    <input matInput [(ngModel)]="newScadenzaPerSingoloVeicolo.Scadenza" [matDatepicker]="pickedDate"
+                                        placeholder="Scadenza">
+                                    <mat-datepicker-toggle matSuffix [for]="pickedDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickedDate></mat-datepicker>
+                                </mat-form-field>
+                            </td>
+        
+                            <!--  <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newScadenzaPerSingoloVeicolo.IdScadenza"
+                                    name="scadenzaRiga">
+                                    <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
+                                        {{scadenzaRiga.Scadenza}}
+                                    </mat-option>
+                                </mat-select>-->
+        
+                        </tr>
+                        <tr>
+                            <td>Oggi</td>
+                            <td>{{ oggi | date:'dd/MM/yyyy' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Giorni alla scadenza</td>
+                            <td
+                                *ngIf="rimastiTroppoPochiGiorni(newScadenzaPerSingoloVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaPerSingoloVeicolo.IdScadenza))==true">
+                                <strong>{{ differenzaOggiData2(newScadenzaPerSingoloVeicolo.Data) | number:'1.0-0' }}&#9888;</strong>
+                            </td>
+                            <td
+                                *ngIf="rimastiTroppoPochiGiorni(newScadenzaPerSingoloVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaPerSingoloVeicolo.IdScadenza))==false">
+                                {{ differenzaOggiData2(newScadenzaPerSingoloVeicolo.Data) | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Giorni di preavviso necessarî</td>
+                            <td>{{getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaPerSingoloVeicolo.IdScadenza)}}</td>
+                        </tr>
+        
+                        <tr>
+                            <td colspan="2">
+                                <hr>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>Tipo scadenza:</td>
+                            <td><button mat-flat-button (click)="addNuovoTipoScadenza()">Aggiungi un nuovo tipo di
+                                    scadenza</button></td>
+                        </tr>
+                        <tr>
+                            <td>Tipo di scadenza</td>
+                            <td>
+                                <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newScadenzaPerSingoloVeicolo.IdScadenza"
+                                    name="scadenzaRiga">
+                                    <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
+                                        {{scadenzaRiga.Scadenza}}
+                                    </mat-option>
+                                </mat-select>
+                            </td>
+                            <!-- <td>
+                                <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newTempTipoScadenza"
+                                    name="scadenzaRiga">
+                                    <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga">
+                                        {{scadenzaRiga.Scadenza}}
+                                    </mat-option>
+                                </mat-select>
+                            </td> -->
+                        </tr>
+        
+                        <tr>
+                            <td>Costo scadenza</td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput [(ngModel)]="newScadenzaPerSingoloVeicolo.Costo" placeholder="Costo (€)">
+                                </mat-form-field>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td colspan="2">
+                                <hr>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>Documenti:</td>
+                        </tr>
+                        <!-- <tr *ngIf="scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined">
+                            <td>× Documento NON aggiunto.</td>
+                            <td>
+                                <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
+                                    name="docRiga">
+                                    <mat-option *ngFor="let idDocRiga of listDocumenti" [value]="docRiga.IdDocumento">
+                                        {{idDocRiga.IdDocumento}}
+                                    </mat-option>
+                                </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
+                                    documento #{{scadenzaVeicoloDetail.IdDocumento}}</button>
+                            </td>
+                        </tr> -->
+        
+                        <tr>
+                            <td>Presenza doumento</td>
+                            <td>
+                                <section class="documenti-section">
+                                    <label class="documenti-section">Aggiungere un documento?&nbsp;</label>
+                                    <mat-checkbox class="documenti-section" [(ngModel)]="isDocBtnEnabled"
+                                        [labelPosition]=before>
+                                    </mat-checkbox>
+                                </section>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <!-- Pulsante Vedi documento nuovo (dx) -->
+                                <button *ngIf="(isDocBtnEnabled==true)&&(showDocViewerNew==false)"
+                                    (click)="showDocViewerNew=!showDocViewerNew">Vedi
+                                    documento
+                                    #{{newScadenzaPerSingoloVeicolo.IdDocumento}}</button>
+        
+                                <!-- Pulsante Nascondi documento nuovo (dx) -->
+                                <button *ngIf="(isDocBtnEnabled==true)&&(showDocViewerNew==true)"
+                                    (click)="showDocViewerNew=!showDocViewerNew">Nascondi
+                                    documento
+                                    #{{newScadenzaPerSingoloVeicolo.IdDocumento}}</button>
+        
+                                <!-- Pulsante disabilitato se NON è impostato un documento (dx) -->
+                                <button *ngIf="isDocBtnEnabled==false" (click)="showDocViewerNew=!showDocViewerNew"
+                                    disabled>Nessun documento</button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="isDocBtnEnabled==true">
+                            <td>&nbsp;</td>
+                            <td>
+                                <!-- Barra di scelta del documento (dx), ramo/riga attvato con checkbox -->
+                                <mat-select placeholder="# Documento" [(ngModel)]="newScadenzaPerSingoloVeicolo.IdDocumento"
+                                    name="documentoRiga">
+                                    <mat-option *ngFor="let documentoRiga of listDocumenti" [value]="documentoRiga.IdDocumento">
+                                        {{documentoRiga.IdDocumento}}
+                                    </mat-option>
+                                </mat-select>
+                            </td>
+                        </tr>
+                        <tr *ngIf="showDocViewerDetail==true||showDocViewerNew==true">
+                            <td>&nbsp;</td>
+                            <td *ngIf="showDocViewerNew==false">&nbsp;</td>
+                            <!--Mostra il nuovo documento con id (dx) ...-->
+                            <td *ngIf="showDocViewerNew==true&&isDocBtnEnabled==true">
+                                <docviewer></docviewer>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td colspan="2">
+                                <hr>
+                            </td>
+                        </tr>
+        
+                        <tr>
+                            <td>Note:</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <mat-form-field>
+                                    <input matInput [(ngModel)]="newScadenzaPerSingoloVeicolo.Note" placeholder="Note">
+                                </mat-form-field>
+                            </td>
+                        </tr>
+        
+                        <tr><td colspan="2"><hr></td></tr>
+        
+                        <tr>
+                            <td>Avvisi:</td>
+                        </tr>
+        
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <section class="avvisi-attivazione-section">
+                                    <label class="avvisi-attivazione-section">Avviso attivo?&nbsp;</label>
+                                    <mat-checkbox class="avvisi-attivazione-section"
+                                        [(ngModel)]="newScadenzaPerSingoloVeicolo.Avviso" [labelPosition]=before>
+                                    </mat-checkbox>
+                                </section>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div>
+                <button mat-flat-button (click)="addScadenzaVeicolo(newScadenzaPerSingoloVeicolo)">Salvare questa nuova scadenza</button>
+            </div>
 </div>
 
 <div *ngIf="page == 'aggiuntaTipoScadenza'">

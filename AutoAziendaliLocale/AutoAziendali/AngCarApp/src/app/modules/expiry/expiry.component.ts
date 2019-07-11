@@ -246,15 +246,31 @@ export class ExpiryComponent {
   // }
 
   /* Da fare. */
-  listDocumentiView(): void { console.log("Non ancora implementata.") }
+  listDocumentiView(): void { console.log("Non ancora implementata."); }
 
   /* Da fare. */
-  aggiuntaScadenzaAVeicoloView(v: Veicolo): void {
-    this.page = 'aggiuntaScadenzaAVeicolo';
+  // aggiuntaScadenzaAVeicoloView(v: Veicolo): void {
+  //   this.page = 'aggiuntaScadenzaAVeicolo';
 
-    this.titolo = 'Scadenze - Creazione di una nuova scadenza ed assegnamento ad un veicolo';
+  //   this.titolo = 'Scadenze - Creazione di una nuova scadenza ed assegnamento ad un veicolo';
+  //   this.isEditing = true;
+  //   this.isDocBtnEnabled = false;
+  // }
+
+  newScadenzaVeicoloView(): void {
+    this.page = 'creazioneScadenzaVeicolo';
+    this.titolo = `Scadenze - Creazione ed assegnamento di una nuova scadenza ad un veicolo`;
+
+    this.newScadenzaPerSingoloVeicolo = null;
+    /* La #10 è la prima auto. */
+    this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, 10, new Date('1999-12-31'), 1, 8888, 1, 'Note - ND', false, false);
+    //Commentato via finchè non riesco a risolvere la sstoria del doc=null.
+    //this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, 1, new Date('19991231'), 1, 8888, null, 'Note - ND', false, false);
+    console.log("Nuova scadenzaVeicolo appena creata, per creazione nuova scadenza:");
+    console.log(this.newScadenzaPerSingoloVeicolo);
     this.isEditing = true;
-    this.isDocBtnEnabled = false;
+    this.isDocBtnEnabled = true;
+    this.showDocViewerDetail = false;
   }
 
   /* Metodi per le azioni eseguite sul DB (CRUD). */
@@ -271,7 +287,7 @@ export class ExpiryComponent {
     //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato; // Per adesso mantengo quella "vecchia" già presente nel DB.
     /* Conversione data. */
     // scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
-scadenzaVeicoloAggiornata.Data = new Date('20190724');
+    scadenzaVeicoloAggiornata.Data = new Date('20190724');
     /*  */
 
     this.dataSrvc.editScadenzaVeicolo(scadenzaVeicoloAggiornata)
@@ -280,13 +296,13 @@ scadenzaVeicoloAggiornata.Data = new Date('20190724');
           this.isEditing = false;
           this.scadenzaVeicoloDetail = scadenzaVeicoloAggiornata;
           this.detailSingolaScadenzaPerVeicoloView(this.scadenzaVeicoloDetail);
+          location.reload();
+          this.page = 'dettaglioSingolaScadenzaPerVeicolo';
         },
         error => { console.log("errore durante la fase d\'edit di scadenzaveicolo.") }
       );
   }
 
-
-  /* Da fare. */
   deleteScadenzaVeicolo(id: number): void {
     if (ScadenzaVeicolo.operationConfirm()) {
       this.dataSrvc.deleteScadenzaVeicolo(id)
@@ -294,6 +310,8 @@ scadenzaVeicoloAggiornata.Data = new Date('20190724');
           data => {
             let index = this.listScadenzeTuttiVeicoli.findIndex(sV => sV.IdScadenzeVeicoli == id);
             this.listScadenzeTuttiVeicoli.splice(index, 1);
+            location.reload();
+          this.page = 'listScadenzeTuttiVeicoli';
           },
           error => {
             console.log("3rr in delete scad veicolo");
@@ -302,8 +320,19 @@ scadenzaVeicoloAggiornata.Data = new Date('20190724');
     }
   }
 
-  /* Da fare. */
-  addScadenzaVeicolo(scadenzaVeicoloDAggiiungere: ScadenzaVeicolo): void { console.log("Non ancora implementata.") }
+  addScadenzaVeicolo(scadenzaVeicoloDAggiungere: ScadenzaVeicolo): void {
+    this.dataSrvc.addScadenzaVeicolo(scadenzaVeicoloDAggiungere)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listScadenzeTuttiVeicoli';
+        },
+        error => {
+          console.log("Errore durante l'aggiunta d'una nuova scadenzaVeicolo ad un veicolo.")
+          console.log(scadenzaVeicoloDAggiungere);
+        }
+      );
+  }
 
   /* Metodi per il confronto di date. */
 
