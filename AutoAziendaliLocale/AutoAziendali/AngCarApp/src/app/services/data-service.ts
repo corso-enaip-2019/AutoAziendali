@@ -225,7 +225,15 @@ export class DataService {
                 }
             );
     }
+    
+    editStatoVeicolo(statoVeicolo: StatoVeicolo): Observable<StatoVeicolo> {
+        return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/editstatoveicolo`, statoVeicolo);
+    }
 
+    addStatoVeicolo(statoVeicolo: StatoVeicolo): Observable<StatoVeicolo> {
+        return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addstatoveicolo`, statoVeicolo)
+    }
+    
     /*Stato*/
 
     public getListStati(callback: (items: Array<Stato>) => void): void {

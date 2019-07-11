@@ -31,6 +31,8 @@ export class StateComponent {
   public listModalita: Array<Modalita>;
   public statoVeicoloDetail: StatoVeicolo;
   public targaDettaglio: string;
+  public newStatoVeicolo: StatoVeicolo;
+  public telepassViacardById: TelepassViacard;
 
   constructor(private data: DataService) {
     var self = this;
@@ -51,7 +53,7 @@ export class StateComponent {
     this.targaDettaglio = "";
     this.listTelepassViacard = null;
     this.listModalita = null;
-    this.statoVeicoloDetail = null;
+    this.telepassViacardById = null;
   }
 
   createListStatoVeicoliById(id: number): void {
@@ -125,6 +127,16 @@ export class StateComponent {
     }
   }
 
+  getTelepassViacardById(id: number) : string{
+    if (this.listTelepassViacard != null && this.listTelepassViacard != null) {
+      this.telepassViacardById = this.listTelepassViacard.find(v => v.IdTelepassViacard == id);
+      return this.telepassViacardById.TelepassViacard;
+    }
+    else {
+      return ""
+    }
+  }
+
   
   getListAnagrafica(data: DataService) {
     var self = this;
@@ -184,12 +196,53 @@ self.listModalita = items;
     this.getListStati(this.data);
     this.createListStatoVeicoliById(veicolo.IdVeicolo);
   }
+
+  editStatoVeicolo(statoVeicolo: StatoVeicolo): void {
+    this.data.editStatoVeicolo(statoVeicolo)
+      .subscribe(
+        data => {
+          this.isEditing = false;
+          this.statoVeicoloDetail = statoVeicolo;
+        },
+        error => {
+
+        }
+      );
+  }
+
+  addStatoVeicolo(statoVeicolo: StatoVeicolo): void {
+    this.data.addStatoVeicolo(statoVeicolo)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listaStati';
+        },
+        error => {
+        }
+      );
+  };
+
+
+  addStatoVeicoloView() {
+    this.page = 'aggiungi';
+    this.newStatoVeicolo = new StatoVeicolo(1,null,null,null,null,null, new Date(),null,0,null,null,null,"","");
+  };
+
+  beginEdit() {
+    if (this.isEditing == false) {
+      this.isEditing = true;
+    }
+
+    else {
+      this.isEditing = false;
+    }
+  };
   
   returnListVeicoli() {
     this.page = "listaVeicoli";
-  }
+  };
 
   returnList() {
     this.page = "listaStati";
-  }
+  };
 }

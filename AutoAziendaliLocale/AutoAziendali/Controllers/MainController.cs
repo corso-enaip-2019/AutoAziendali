@@ -417,6 +417,60 @@ namespace AutoAziendali.Controllers
             return s;
         }
 
+        [HttpPost]
+        [Route("editstatoveicolo")]
+        public async Task<HttpResponseMessage> EditStatoVeicolo([FromBody]StatoVeicoli statoVeicolo)
+        {
+            var currentStatoVeicolo = await _context.StatoVeicoli.FirstOrDefaultAsync(s => s.IdStatoVeicolo == statoVeicolo.IdStatoVeicolo);
+            if (currentStatoVeicolo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+
+            else
+            {
+                _context.Entry(currentStatoVeicolo).CurrentValues.SetValues(currentStatoVeicolo);
+
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+
+        [HttpPost]
+        [Route("addstatoveicolo")]
+        public async Task<HttpResponseMessage> AddStatoVeicolo([FromBody]StatoVeicoli statoVeicolo)
+        {
+            var currentStatoVeicolo = new StatoVeicoli();
+            if (statoVeicolo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+            else
+            {
+                currentStatoVeicolo.IdVeicolo = statoVeicolo.IdVeicolo;
+                currentStatoVeicolo.IdProprieta = statoVeicolo.IdProprieta;
+                currentStatoVeicolo.IdLibretto = statoVeicolo.IdLibretto;
+                currentStatoVeicolo.IdTelepass = statoVeicolo.IdTelepass;
+                currentStatoVeicolo.IdViacard = statoVeicolo.IdViacard;
+                currentStatoVeicolo.Data = statoVeicolo.Data;
+                currentStatoVeicolo.IdStato = statoVeicolo.IdStato;
+                currentStatoVeicolo.ChilometriRental = statoVeicolo.ChilometriRental;
+                currentStatoVeicolo.IdAnagrafica = statoVeicolo.IdAnagrafica;
+                currentStatoVeicolo.IdSocieta = statoVeicolo.IdSocieta;
+                currentStatoVeicolo.IdBusinessUnit = statoVeicolo.IdBusinessUnit;
+                currentStatoVeicolo.IdModalita = statoVeicolo.IdModalita;
+                currentStatoVeicolo.Note = statoVeicolo.Note;
+
+
+                _context.StatoVeicoli.Add(currentStatoVeicolo);
+                await _context.SaveChangesAsync();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
+        
+
         #endregion
 
         #region Stato
@@ -455,7 +509,7 @@ namespace AutoAziendali.Controllers
 
         #endregion
 
-        #region Viacard
+        #region TelepassViacard
 
         [HttpGet]
         [Route("gettelepassviacard")]
