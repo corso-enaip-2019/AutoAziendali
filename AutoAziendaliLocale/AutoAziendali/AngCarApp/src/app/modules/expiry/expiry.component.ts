@@ -270,7 +270,8 @@ export class ExpiryComponent {
     scadenzaVeicoloAggiornata.Avviso = this.newScadenzaVeicoloDetail.Avviso;
     //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato; // Per adesso mantengo quella "vecchia" già presente nel DB.
     /* Conversione data. */
-    scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
+    // scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
+scadenzaVeicoloAggiornata.Data = new Date('20190724');
     /*  */
 
     this.dataSrvc.editScadenzaVeicolo(scadenzaVeicoloAggiornata)
