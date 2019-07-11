@@ -5,8 +5,9 @@
 <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i
     veicoli)</button><br />
 <button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button><br />
-<button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button><br />
+<button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di scadenzaveicoli</button><br />
 <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea ed assegna nuova scadenza ad un veicolo</button><br />
+<button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button><br />
 
 <br />
 
@@ -431,18 +432,29 @@
                 <tr>
                     <td>Documenti:</td>
                 </tr>
-                <tr *ngIf="scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined">
+                <!-- <tr *ngIf="isItsIdDocPropUndefined(scadenzaVeicoloDetail)==true"></tr> -->
+                <!-- <tr *ngIf="isItsIdDocPropUndefined(scadenzaVeicoloDetail)==false&&(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)"></tr> -->
+                <!-- <tr>
                     <td>× Documento NON aggiunto.</td>
-                    <td>
-                        <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
+                    <td><mat-form-field>
+                            <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento" name="docRiga">
+                                <mat-option *ngFor="let docRiga of listDocumenti" [value]="docRiga.IdDocumento">
+                                        {{docRiga.IdDocumento}}
+                                </mat-option>
+                            </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
+                                    documento #{{newSscadenzaVeicoloDetail.IdDocumento}}</button> 
+                        </mat-form-field></td> -->
+
+
+                        <!-- <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
                             name="docRiga">
                             <mat-option *ngFor="let idDocRiga of listDocumenti" [value]="docRiga.IdDocumento">
                                 {{idDocRiga.IdDocumento}}
                             </mat-option>
                         </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
                             documento #{{newSscadenzaVeicoloDetail.IdDocumento}}</button>
-                    </td>
-                </tr>
+                    </td> -->
+                <!-- </tr> -->
 
                 <tr>
                     <td>Presenza doumento</td>
@@ -500,8 +512,6 @@
                         <button *ngIf="isDocBtnEnabled==false" (click)="showDocViewerNew=!showDocViewerNew"
                             disabled>Nessun documento</button>
                     </td>
-                    <!-- Barra di scelta del documento (dx), ramo disattivato con checkbox -->
-                    <!-- <td *ngIf="isDocBtnEnabled==false"><button disabled>Nessun documento</button></td> -->
                 </tr>
                 <tr *ngIf="isDocBtnEnabled==true">
                     <td>&nbsp;</td>
@@ -704,7 +714,7 @@
 
                 <tr>
                     <td>Tipo scadenza:</td>
-                    <td><button mat-flat-button (click)="addNuovoTipoScadenza()">Aggiungi un nuovo tipo di
+                    <td><button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di
                             scadenza</button></td>
                 </tr>
                 <tr>
@@ -886,9 +896,70 @@
     </div>
     <br />
     <div>
-        <button mat-flat-button (click)="addTipoScadenza(newTipoScadenza)">Salvare questo nuovo tipo di scadenza</button>
+        <button mat-flat-button (click)="addTipoScadenza(newTipoScadenza)">Salvare questo nuovo tipo di
+            scadenza</button>
     </div>
 </div>
+
+<div *ngIf="page == 'listTipiScadenza'">
+    <table mat-tableid>
+        <thead>
+            <th>Nome scadenza</th>
+            <th>gg. di preavviso</th>
+            <th><em>&nbsp;</em></th>
+            <!-- <th><em>Modifica</em></th> -->
+            <th><em>&nbsp;</em></th>
+            <!-- <th><em>Elimina</em></th> -->
+        </thead>
+        <!--<tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
+                        *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">-->
+        <tbody>
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': tipoScadenza.IdScadenza%2==0}"
+                *ngFor="let tipoScadenza of listTipiScadenza">
+                <td>{{tipoScadenza.Scadenza}}</td>
+                <td>{{tipoScadenza.GiorniPreavviso}}</td>
+                <td><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
+                <td><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
+</div>
+
+<div *ngIf="page == 'editTipoScadenza'">
+    <table mat-tableid>
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Scadenza attuale</th>
+                <th>Scadenza aggiornata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Nome del tipo di scadenza</td>
+                <td>{{scadenzaDetail.Scadenza}}</td>
+                <td>
+                        <mat-form-field>
+                                <input matInput [(ngModel)]="newTipoScadenza.Scadenza" placeholder="Nome scadenza">
+                            </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>Giorni di preavviso necessarî</td>
+                <td>{{scadenzaDetail.GiorniPreavviso}}</td>
+                <td>
+                        <mat-form-field>
+                                <input matInput [(ngModel)]="newTipoScadenza.GiorniPreavviso" placeholder="Giorni di preavviso">
+                            </mat-form-field>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button mat-flat-button (click)="editTipoScadenza(newTipoScadenza)">Aggiorna tipo scadenza</button>
+    <button mat-flat-button (click)="listTipiScadenzaView()">Annulla</button>
+</div>
+
 
 <!-- Sostituito dal component docviewer. -->
 <!-- <div *ngIf="page == 'mostraDocumento'">

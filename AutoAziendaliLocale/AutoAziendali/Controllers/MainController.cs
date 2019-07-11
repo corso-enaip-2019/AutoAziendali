@@ -277,9 +277,9 @@ namespace AutoAziendali.Controllers
             }
             else
             {
-                _context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
-                //currentScadenza.Scadenza = scadenza.Scadenza;
-                //currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
+                //_context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
+                currentScadenza.Scadenza = scadenza.Scadenza;
+                currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
 
                 _context.Scadenze.Add(currentScadenza);
                 await _context.SaveChangesAsync();

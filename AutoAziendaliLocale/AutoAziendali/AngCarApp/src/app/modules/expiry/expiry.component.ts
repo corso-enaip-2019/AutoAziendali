@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DataService } from 'src/app/services/data-service';
 
@@ -15,7 +15,7 @@ import { Documento } from 'src/app/models/documento';
   templateUrl: './expiry.component.html',
   styleUrls: ['./expiry.component.css']
 })
-export class ExpiryComponent {
+export class ExpiryComponent implements OnInit{
   public page: string; // Per gl'ngIf di "selezione" della schermata.
   public titolo: string; // Titolo da visualizzare sopra la tabella / il resto della schermata.
 
@@ -43,8 +43,7 @@ export class ExpiryComponent {
 
   public documentoDaMostrare: Documento;
   public oggi: Date;
-
-
+  public dateStr:string;
 
   constructor(private dataSrvc: DataService) {
     // "Inizializzazioni" necessarie.
@@ -91,9 +90,14 @@ export class ExpiryComponent {
     this.isDocBtnEnabled = false;
     this.showDocViewerDetail = false;
     this.showDocViewerNew = false;
+this.dateStr="1999-12-31";
 
     //Schermata da mostrare all'arrivo alla/della pagina.
     this.listScadenzeTuttiVeicoliView();
+  }
+
+  ngOnInit(){
+   // this.rimpolpamentoDeiNull();
   }
 
   /* Metodi per il "cambio di schermata". */
@@ -131,7 +135,7 @@ export class ExpiryComponent {
   detailSingolaScadenzaPerVeicoloView(sV: ScadenzaVeicolo): void {
     this.page = 'dettaglioSingolaScadenzaPerVeicolo';
     this.titolo = `Scadenze - Dettaglio della scadenza`;
-
+    
     this.scadenzaVeicoloDetail = null;
     this.scadenzaVeicoloDetail = sV;
     console.log("veicolo per dettagli");
@@ -140,16 +144,30 @@ export class ExpiryComponent {
     this.isDocBtnEnabled = false;
     this.showDocViewerDetail = false;
   }
+  
+/*editTipoScadenzaView*/
+editTipoScadenzaView(scadenzaOriginale: Scadenza): void {
+  this.page = 'editTipoScadenza';
+  this.titolo = `Scadenze - Dettaglio della scadenzaModifica del tipo di scadenza`;
+
+  this.scadenzaDetail = null;
+  this.newTipoScadenza = null;
+    this.scadenzaDetail = new Scadenza(scadenzaOriginale.IdScadenza, scadenzaOriginale.Scadenza, scadenzaOriginale.GiorniPreavviso);
+    this.newTipoScadenza = new Scadenza(scadenzaOriginale.IdScadenza, scadenzaOriginale.Scadenza, scadenzaOriginale.GiorniPreavviso);
+}
 
   /* Da fare - in lavoro. */
   /* Se c'è un null in IdDocumento -> «Cannot read property 'IdDocumento' of undefined» e non riesce a caricare il resto. */
   editScadenzaVeicoloView(scadenzaVeicoloDaModificare: ScadenzaVeicolo) {
     this.titolo = `Scadenze - Modifica della scadenza`;
-
+    
     //provato ad aggiungere questo per il "cannot read property ..." non ha funzionato.
     // if (scadenzaVeicoloDaModificare.IdDocumento==undefined) { 
-    //   scadenzaVeicoloDaModificare.IdDocumento=null;
-    // }
+      //   scadenzaVeicoloDaModificare.IdDocumento=null;
+      // }
+      //!!!!!!!!!
+      //if (typeof(scadenzaVeicoloDaModificare.IdDocumento==undefined)) {scadenzaVeicoloDaModificare.IdDocumento=null;}
+      //!!!!!!!!!
 
     this.scadenzaVeicoloDetail = null;
     this.newScadenzaVeicoloDetail = null;
@@ -278,12 +296,43 @@ export class ExpiryComponent {
     this.showDocViewerDetail = false;
   }
 
+  listTipoScadenzaView():void{
+    this.page = 'listTipiScadenza';
+    this.titolo = `Scadenze - Lista di tipi di scadenze`;
+
+    this.isEditing = false;
+    this.isDocBtnEnabled = false;
+    this.showDocViewerDetail = false;
+  }
+
   /* Metodi per le azioni eseguite sul DB (CRUD). */
 
   /* Da fare - in lavoro. */
   /* funzionano: cambioVeicolo, note, cambio prezzo, documento */
   /* non funzionano: cambio tipo scadenza (err406), data (da convertire in formato !=), presenza/assenza doc (non mette null), avviso. */
   editScadenzaVeicolo(scadenzaVeicoloAggiornata: ScadenzaVeicolo): void {
+    /* "Nullabilità" dei vari campi, presa manualmente dallo script di creazione. */
+    // NoteIsNullableInDB: boolean = true;
+    // AvvisoIsNullableInDB: boolean = true;
+    // AvvisoInviatoIsNullableInDB: boolean = true;
+
+    if (typeof (scadenzaVeicoloAggiornata.Costo) == 'undefined') {
+      scadenzaVeicoloAggiornata.Costo = null;
+    }
+    if (typeof (scadenzaVeicoloAggiornata.IdDocumento) == 'undefined') {
+      scadenzaVeicoloAggiornata.IdDocumento = null;
+    }
+    if (typeof (scadenzaVeicoloAggiornata.Note) == 'undefined') {
+      scadenzaVeicoloAggiornata.Note = null;
+    }
+    if (typeof (scadenzaVeicoloAggiornata.Avviso) == 'undefined') {
+      scadenzaVeicoloAggiornata.Avviso = null;
+      scadenzaVeicoloAggiornata.AvvisoInviato = null;
+    }
+    if (typeof (scadenzaVeicoloAggiornata.AvvisoInviato) == 'undefined') {
+      scadenzaVeicoloAggiornata.AvvisoInviato = null;
+    }
+
     /* Se la tick-box non è spuntata, l'IdDocumento sarà null. */
     if (this.isDocBtnEnabled == false) {
       scadenzaVeicoloAggiornata.IdDocumento = null;
@@ -292,17 +341,25 @@ export class ExpiryComponent {
     //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato; // Per adesso mantengo quella "vecchia" già presente nel DB.
     /* Conversione data. */
     // scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
-    scadenzaVeicoloAggiornata.Data = new Date('20190724');
+    
+    console.log("data ricevuta");
+    console.log(scadenzaVeicoloAggiornata.Data);
+
+    this.dateStr=`${this.newScadenzaPerSingoloVeicolo.Data.getFullYear().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getMonth().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getDate().toString()}`;
+    scadenzaVeicoloAggiornata.Data = new Date(this.dateStr);
+    console.log("data inviata");
+    console.log(scadenzaVeicoloAggiornata.Data);
+
     /*  */
 
     this.dataSrvc.editScadenzaVeicolo(scadenzaVeicoloAggiornata)
       .subscribe(
         data => {
-          this.isEditing = false;
+          //this.isEditing = false;
           this.scadenzaVeicoloDetail = scadenzaVeicoloAggiornata;
           this.detailSingolaScadenzaPerVeicoloView(this.scadenzaVeicoloDetail);
-          location.reload();
-          this.page = 'dettaglioSingolaScadenzaPerVeicolo';
+          //location.reload();
+          //this.page = 'dettaglioSingolaScadenzaPerVeicolo';
         },
         error => { console.log("errore durante la fase d\'edit di scadenzaveicolo.") }
       );
@@ -340,13 +397,13 @@ export class ExpiryComponent {
       );
   }
 
-  addTipoScadenza(tipoScadenzaDaAggiungere:Scadenza): void { 
+  addTipoScadenza(tipoScadenzaDaAggiungere: Scadenza): void {
     this.dataSrvc.addScadenza(tipoScadenzaDaAggiungere)
       .subscribe(
         data => {
           location.reload();
           this.page = 'listScadenzeTuttiVeicoli';
-          this.isEditing=false;
+          this.isEditing = false;
         },
         error => {
           console.log("Errore durante l'aggiunta d'un nuovo tipo di scadenza.")
@@ -354,6 +411,24 @@ export class ExpiryComponent {
         }
       );
   }
+
+  editTipoScadenza(scadenzaModificata: Scadenza): void {
+    console.log("scadenza in uscita per l\'edit:");
+    console.log(scadenzaModificata);
+    this.dataSrvc.editScadenza(scadenzaModificata)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listTipiScadenza';
+          this.isEditing = false;
+        },
+        error => {
+          console.log("Errore durante la modifica d'un tipo di scadenza.")
+          console.log(scadenzaModificata);
+        }
+      );
+  }
+
 
   /* Metodi per il confronto di date. */
 
@@ -483,5 +558,31 @@ export class ExpiryComponent {
     else {
       return 0;
     }
+  }
+
+isItsIdDocPropUndefined(sV:ScadenzaVeicolo):boolean{
+  return (typeof (sV.IdDocumento) == 'undefined');
+}
+
+  rimpolpamentoDeiNullDiScadenzaVeicolo(sV:ScadenzaVeicolo):ScadenzaVeicolo {
+    
+      if (typeof (sV.Costo) == 'undefined') {
+        sV.Costo = null;
+      }
+      if (typeof (sV.IdDocumento) == 'undefined') {
+        sV.IdDocumento = null;
+      }
+      if (typeof (sV.Note) == 'undefined') {
+        sV.Note = null;
+      }
+      if (typeof (sV.Avviso) == 'undefined') {
+        sV.Avviso = null;
+        sV.AvvisoInviato = null;
+      }
+      if (typeof (sV.AvvisoInviato) == 'undefined') {
+        sV.AvvisoInviato = null;
+      }
+    
+      return sV;
   }
 }

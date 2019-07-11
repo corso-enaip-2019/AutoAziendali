@@ -144,7 +144,6 @@ export class DataService {
         return this.http.post<Scadenza>(`${PERCORSO_BASE}${PORTA}/api/addscadenza`, scadenza);
     }
 
-
     /* • ScadenzaVeicolo (singole scadenze per singolo veicolo) */
 
     public getListScadenzeVeicoli(callback: (items: Array<ScadenzaVeicolo>) => void): void {
