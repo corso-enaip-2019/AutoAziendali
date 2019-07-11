@@ -87,6 +87,7 @@ export class ExpiryComponent {
     this.titolo = 'Scadenze';
 
     this.oggi = new Date(); // « new Date() » senza parametri restituisce la data di oggi.
+    this.pickedDate = new Date();
 
     this.isEditing = false;
     this.isDocBtnEnabled = false;
@@ -216,6 +217,8 @@ export class ExpiryComponent {
     this.showDocViewerDetail = false;
     this.showDocViewerNew = false;
 
+    this.pickedDate = this.newScadenzaVeicoloDetail.Data;
+
     this.page = 'editSingolaScadenzaPerVeicolo';
   }
 
@@ -243,30 +246,48 @@ export class ExpiryComponent {
   // }
 
   /* Da fare. */
-  listDocumentiView(): void { console.log("Non ancora implementata.") }
+  listDocumentiView(): void { console.log("Non ancora implementata."); }
 
   /* Da fare. */
-  aggiuntaScadenzaAVeicoloView(v: Veicolo): void {
-    this.page = 'aggiuntaScadenzaAVeicolo';
+  // aggiuntaScadenzaAVeicoloView(v: Veicolo): void {
+  //   this.page = 'aggiuntaScadenzaAVeicolo';
 
-    this.titolo = 'Scadenze - Creazione di una nuova scadenza ed assegnamento ad un veicolo';
+  //   this.titolo = 'Scadenze - Creazione di una nuova scadenza ed assegnamento ad un veicolo';
+  //   this.isEditing = true;
+  //   this.isDocBtnEnabled = false;
+  // }
+
+  newScadenzaVeicoloView(): void {
+    this.page = 'creazioneScadenzaVeicolo';
+    this.titolo = `Scadenze - Creazione ed assegnamento di una nuova scadenza ad un veicolo`;
+
+    this.newScadenzaPerSingoloVeicolo = null;
+    /* La #10 è la prima auto. */
+    this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, 10, new Date('1999-12-31'), 1, 8888, 1, 'Note - ND', false, false);
+    //Commentato via finchè non riesco a risolvere la sstoria del doc=null.
+    //this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, 1, new Date('19991231'), 1, 8888, null, 'Note - ND', false, false);
+    console.log("Nuova scadenzaVeicolo appena creata, per creazione nuova scadenza:");
+    console.log(this.newScadenzaPerSingoloVeicolo);
     this.isEditing = true;
-    this.isDocBtnEnabled = false;
+    this.isDocBtnEnabled = true;
+    this.showDocViewerDetail = false;
   }
 
   /* Metodi per le azioni eseguite sul DB (CRUD). */
 
   /* Da fare - in lavoro. */
   /* funzionano: cambioVeicolo, note, cambio prezzo, documento */
-  /* non funzionano: cambio tipo scadenza (err406), data (non la salva), presenza/assenza doc (non mette null), avviso. */
+  /* non funzionano: cambio tipo scadenza (err406), data (da convertire in formato !=), presenza/assenza doc (non mette null), avviso. */
   editScadenzaVeicolo(scadenzaVeicoloAggiornata: ScadenzaVeicolo): void {
     /* Se la tick-box non è spuntata, l'IdDocumento sarà null. */
     if (this.isDocBtnEnabled == false) {
       scadenzaVeicoloAggiornata.IdDocumento = null;
     }
     scadenzaVeicoloAggiornata.Avviso = this.newScadenzaVeicoloDetail.Avviso;
-    //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato;
+    //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato; // Per adesso mantengo quella "vecchia" già presente nel DB.
     /* Conversione data. */
+    // scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
+    scadenzaVeicoloAggiornata.Data = new Date('20190724');
     /*  */
 
     this.dataSrvc.editScadenzaVeicolo(scadenzaVeicoloAggiornata)
@@ -275,13 +296,13 @@ export class ExpiryComponent {
           this.isEditing = false;
           this.scadenzaVeicoloDetail = scadenzaVeicoloAggiornata;
           this.detailSingolaScadenzaPerVeicoloView(this.scadenzaVeicoloDetail);
+          location.reload();
+          this.page = 'dettaglioSingolaScadenzaPerVeicolo';
         },
         error => { console.log("errore durante la fase d\'edit di scadenzaveicolo.") }
       );
   }
 
-
-  /* Da fare. */
   deleteScadenzaVeicolo(id: number): void {
     if (ScadenzaVeicolo.operationConfirm()) {
       this.dataSrvc.deleteScadenzaVeicolo(id)
@@ -289,6 +310,8 @@ export class ExpiryComponent {
           data => {
             let index = this.listScadenzeTuttiVeicoli.findIndex(sV => sV.IdScadenzeVeicoli == id);
             this.listScadenzeTuttiVeicoli.splice(index, 1);
+            location.reload();
+          this.page = 'listScadenzeTuttiVeicoli';
           },
           error => {
             console.log("3rr in delete scad veicolo");
@@ -297,129 +320,140 @@ export class ExpiryComponent {
     }
   }
 
-/* Da fare. */
-addScadenzaVeicolo(scadenzaVeicoloDAggiiungere: ScadenzaVeicolo): void { console.log("Non ancora implementata.") }
+  addScadenzaVeicolo(scadenzaVeicoloDAggiungere: ScadenzaVeicolo): void {
+    this.dataSrvc.addScadenzaVeicolo(scadenzaVeicoloDAggiungere)
+      .subscribe(
+        data => {
+          location.reload();
+          this.page = 'listScadenzeTuttiVeicoli';
+        },
+        error => {
+          console.log("Errore durante l'aggiunta d'una nuova scadenzaVeicolo ad un veicolo.")
+          console.log(scadenzaVeicoloDAggiungere);
+        }
+      );
+  }
 
-/* Metodi per il confronto di date. */
+  /* Metodi per il confronto di date. */
 
-differenzaData1_Meno_Data2(data1, data2): number {
-  return (((new Date(data1).valueOf()) - (new Date(data2)).valueOf())) / 86_400_000; // 86'400'000 ms in un giorno
-}
+  differenzaData1_Meno_Data2(data1, data2): number {
+    return (((new Date(data1).getTime()) - (new Date(data2)).getTime())) / 86_400_000; // 86'400'000 ms in un giorno
+  }
 
-differenzaOggiData2(data2): number {
-  return ((this.oggi.valueOf() - (new Date(data2)).valueOf())) / 86_400_000; // 86'400'000 ms in un giorno
-  // return ( ((new Date()).valueOf() - (new Date(data2)).valueOf()) ) / 86_400_000; // 86'400'000 ms in un giorno
-}
+  differenzaOggiData2(data2): number {
+    return ((this.oggi.getTime() - (new Date(data2)).getTime())) / 86_400_000; // 86'400'000 ms in un giorno
+    // return ( ((new Date()).getTime() - (new Date(data2)).getTime()) ) / 86_400_000; // 86'400'000 ms in un giorno
+  }
 
-isData1MenoData2MaggioreN(data1, data2, n: number): boolean {
-  return (this.differenzaData1_Meno_Data2(data1, data2) > n);
-}
+  isData1MenoData2MaggioreN(data1, data2, n: number): boolean {
+    return (this.differenzaData1_Meno_Data2(data1, data2) > n);
+  }
 
-/* Usata per controllare se i giorni restanti sono troppo pochi. */
-rimastiTroppoPochiGiorni(data2, n: number): boolean {
-  return ((this.differenzaOggiData2(data2)) <= 1)&&((this.differenzaOggiData2(data2)) > (-1*n));
-}
+  /* Usata per controllare se i giorni restanti sono troppo pochi. */
+  rimastiTroppoPochiGiorni(data2, n: number): boolean {
+    return ((this.differenzaOggiData2(data2)) <= 1) && ((this.differenzaOggiData2(data2)) > (-1 * n));
+  }
 
-/* Acquisizione dati dalle altre liste/tabelle. */
+  /* Acquisizione dati dalle altre liste/tabelle. */
 
-getlistProvince(dtSrvc: DataService): void {
-  var self = this;
-  dtSrvc.getListProvince(function (items: Array<Province>): void {
-    self.listProvince = items;
-  });
-}
+  getlistProvince(dtSrvc: DataService): void {
+    var self = this;
+    dtSrvc.getListProvince(function (items: Array<Province>): void {
+      self.listProvince = items;
+    });
+  }
 
-getVeicoloByTarga(targa: string): Veicolo {
-  if (this.listVeicoli != null && this.listVeicoli != null) {
-    var veicoloByTarga = this.listVeicoli.find(v => v.Targa == targa);
-    return veicoloByTarga;
+  getVeicoloByTarga(targa: string): Veicolo {
+    if (this.listVeicoli != null && this.listVeicoli != null) {
+      var veicoloByTarga = this.listVeicoli.find(v => v.Targa == targa);
+      return veicoloByTarga;
+    }
+    else {
+      return null;
+    }
   }
-  else {
-    return null;
-  }
-}
 
-getVeicoloById(id: number): Veicolo {
-  if (this.listVeicoli != null && this.listVeicoli != null) {
-    var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
-    return veicoloById;
+  getVeicoloById(id: number): Veicolo {
+    if (this.listVeicoli != null && this.listVeicoli != null) {
+      var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
+      return veicoloById;
+    }
+    else {
+      return null;
+    }
   }
-  else {
-    return null;
-  }
-}
 
 
-getTargaById(id: number): string {
-  if (this.listVeicoli != null && this.listVeicoli != null) {
-    var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
-    return veicoloById.Targa;
+  getTargaById(id: number): string {
+    if (this.listVeicoli != null && this.listVeicoli != null) {
+      var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
+      return veicoloById.Targa;
+    }
+    else {
+      return "";
+    }
   }
-  else {
-    return "";
-  }
-}
 
-getModelloById(id: number): string {
-  if (this.listVeicoli != null && this.listVeicoli != null) {
-    var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
-    return veicoloById.Modello;
+  getModelloById(id: number): string {
+    if (this.listVeicoli != null && this.listVeicoli != null) {
+      var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
+      return veicoloById.Modello;
+    }
+    else {
+      return "";
+    }
   }
-  else {
-    return "";
-  }
-}
 
-getMarcaById(id: number): string {
-  if (this.listVeicoli != null && this.listVeicoli != null) {
-    var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
-    return veicoloById.Marca;
+  getMarcaById(id: number): string {
+    if (this.listVeicoli != null && this.listVeicoli != null) {
+      var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);
+      return veicoloById.Marca;
+    }
+    else {
+      return "";
+    }
   }
-  else {
-    return "";
-  }
-}
 
-getNomeTipoScadenzaByIdTipoScadenza(id: number): string {
-  if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
-    var tipoScadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
-    return tipoScadenzaById.Scadenza;
+  getNomeTipoScadenzaByIdTipoScadenza(id: number): string {
+    if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
+      var tipoScadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
+      return tipoScadenzaById.Scadenza;
+    }
+    else {
+      return "";
+    }
   }
-  else {
-    return "";
-  }
-}
 
-getGiorniDiPreavvisoByIdTipoScadenza(id: number): number {
-  if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
-    var tipoScadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
-    return tipoScadenzaById.GiorniPreavviso;
+  getGiorniDiPreavvisoByIdTipoScadenza(id: number): number {
+    if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
+      var tipoScadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
+      return tipoScadenzaById.GiorniPreavviso;
+    }
+    else {
+      return 0;
+    }
   }
-  else {
-    return 0;
-  }
-}
 
-getScadenzaById(id: number): Scadenza {
-  if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
-    var scadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
-    return scadenzaById;
+  getScadenzaById(id: number): Scadenza {
+    if (this.listTipiScadenza != null && this.listTipiScadenza != null) {
+      var scadenzaById = this.listTipiScadenza.find(s => s.IdScadenza == id);
+      return scadenzaById;
+    }
+    else {
+      return null;
+    }
   }
-  else {
-    return null;
-  }
-}
 
-//Vedi il component docviewer
-//"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
-//incompleto
-getDocumentoImgByIdDocumento(idDocumento): any {
-  if (this.listDocumenti != null && this.listDocumenti != null) {
-    var documentoById = this.listDocumenti.find(d => d.IdDocumento == idDocumento);
-    return documentoById.Documento;
+  //Vedi il component docviewer
+  //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
+  //incompleto
+  getDocumentoImgByIdDocumento(idDocumento): any {
+    if (this.listDocumenti != null && this.listDocumenti != null) {
+      var documentoById = this.listDocumenti.find(d => d.IdDocumento == idDocumento);
+      return documentoById.Documento;
+    }
+    else {
+      return 0;
+    }
   }
-  else {
-    return 0;
-  }
-}
 }

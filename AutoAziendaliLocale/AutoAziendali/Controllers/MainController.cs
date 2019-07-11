@@ -238,7 +238,14 @@ namespace AutoAziendali.Controllers
         [Route("editscadenza")]
         public async Task<HttpResponseMessage> EditScadenza([FromBody]Scadenze scadenza)
         {
+            if (scadenza == null)
+            {
+                /* Scadenza arrivata dal browser è null. */
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+
             var currentScadenza = await _context.Scadenze.FirstOrDefaultAsync(s => s.IdScadenza == scadenza.IdScadenza);
+
             if (currentScadenza == null)
             {
                 /* Non è stata trovata una scadenza con quell'id. */
@@ -262,6 +269,7 @@ namespace AutoAziendali.Controllers
         public async Task<HttpResponseMessage> AddScadenza([FromBody]Scadenze scadenza)
         {
             var currentScadenza = new Scadenze();
+
             if (scadenza == null)
             {
                 /* Scadenza arrivata dal browser è null. */
@@ -311,7 +319,14 @@ namespace AutoAziendali.Controllers
         [Route("editscadenzaveicolo")]
         public async Task<HttpResponseMessage> EditScadenzaVeicolo([FromBody]ScadenzeVeicoli scadVeicolo)
         {
+            if (scadVeicolo == null)
+            {
+                /* E' stato inviato un oggetto vuoto. */
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable);
+            }
+
             var currentScadenzaVeicolo = await _context.ScadenzeVeicoli.FirstOrDefaultAsync(sv => sv.IdScadenza == scadVeicolo.IdScadenza);
+
             if (currentScadenzaVeicolo == null)
             {
                 /* Non è stata trovata una scadenzaVeicolo con quell'id. */
@@ -319,7 +334,7 @@ namespace AutoAziendali.Controllers
             }
             else
             {
-                _context.Entry(currentScadenzaVeicolo).CurrentValues.SetValues(scadVeicolo);
+                //_context.Entry(currentScadenzaVeicolo).CurrentValues.SetValues(scadVeicolo);
                 currentScadenzaVeicolo.IdScadenzeVeicoli = scadVeicolo.IdScadenzeVeicoli;
                 currentScadenzaVeicolo.IdVeicolo = scadVeicolo.IdVeicolo;
                 currentScadenzaVeicolo.Data = scadVeicolo.Data;
@@ -338,19 +353,25 @@ namespace AutoAziendali.Controllers
 
         [HttpPost]
         [Route("addscadenzaveicolo")]
-        public async Task<HttpResponseMessage> AddScadenzaVeicolo([FromBody]Scadenze scadVeicolo)
+        public async Task<HttpResponseMessage> AddScadenzaVeicolo([FromBody]ScadenzeVeicoli scadVeicolo)
         {
             var currentScadenzaVeicolo = new ScadenzeVeicoli();
-            if (currentScadenzaVeicolo == null)
+            if (scadVeicolo == null)
             {
                 /* La scadenza arrivata dal browser è null. */
                 return Request.CreateResponse(HttpStatusCode.NotAcceptable);
             }
             else
             {
-                _context.Entry(currentScadenzaVeicolo).CurrentValues.SetValues(scadVeicolo);
-                //currentScadenzaVeicolo.Scadenza = scadVeicolo.Scadenza;
-                //currentScadenzaVeicolo.GiorniPreavviso = scadVeicolo.GiorniPreavviso;
+                currentScadenzaVeicolo.Avviso = scadVeicolo.Avviso;
+                currentScadenzaVeicolo.AvvisoInviato = false;
+                currentScadenzaVeicolo.Costo = scadVeicolo.Costo;
+                currentScadenzaVeicolo.Data = scadVeicolo.Data;
+                currentScadenzaVeicolo.IdDocumento = scadVeicolo.IdDocumento;
+                currentScadenzaVeicolo.IdScadenza = scadVeicolo.IdScadenza;
+                currentScadenzaVeicolo.IdVeicolo = scadVeicolo.IdVeicolo;
+                currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note)?"":scadVeicolo.Note;
+                //currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note)?null:scadVeicolo.Note;
 
                 _context.ScadenzeVeicoli.Add(currentScadenzaVeicolo);
                 await _context.SaveChangesAsync();
