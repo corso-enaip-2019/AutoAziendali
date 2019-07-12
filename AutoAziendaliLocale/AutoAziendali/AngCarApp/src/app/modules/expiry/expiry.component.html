@@ -2,12 +2,15 @@
 
 <br />
 <div class="seriePulsantiInAlto">
-    <div id="btnAlto"><button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i veicoli)</button></div>
-<div class="btnAlto"><button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button></div>
-<div class="btnAlto"><button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di scadenza</button></div>
-<div class="btnAlto"><button mat-flat-button (click)="listManutenzioniVeicoliView()">Vedi lista delle manutenzioni</button></div>
-
-<!-- <div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button></div> -->
+    <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti
+        i veicoli)</button>
+    <button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative
+        scadenze)</button>
+    <button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di
+        scadenza</button>
+    <button mat-flat-button (click)="listManutenzioniVeicoliView()">Vedi lista delle
+        manutenzioni</button>
+    <!-- <div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button> -->
 </div>
 <br />
 
@@ -25,8 +28,6 @@
             <!-- <th><em>&nbsp;Modifica</em></th> -->
             <!-- <th><em>&nbsp;Elimina</em></th> -->
         </thead>
-        <!--<tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
-        *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">-->
         <tbody>
             <tr class="dettaglio" [ngClass]="{'alternativeRow': scadenzaVeicolo.IdScadenzeVeicoli%2==0}"
                 *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">
@@ -54,11 +55,6 @@
                 <td><button mat-flat-button (click)="editScadenzaVeicoloView(scadenzaVeicolo)">Modifica</button></td>
                 <td><button mat-flat-button
                         (click)="deleteScadenzaVeicolo(scadenzaVeicolo.IdScadenzeVeicoli)">Elimina</button></td>
-
-                <!-- <td>{{veicolo.Targa}}</td>
-                <td>{{veicolo.Marca}}</td>
-                <td>{{veicolo.Modello}}</td>
-                <td><button mat-flat-button (click)="detailScadenzeView(veicolo)">Vedi Scadenze</button></td> -->
             </tr>
         </tbody>
     </table>
@@ -76,7 +72,6 @@
             <td>{{veicolo.Modello}}</td>
             <td><button mat-flat-button (click)="listScadenzeVeicoloView(veicolo)">Vedi Scadenze</button>
             </td>
-            <!-- <td><button mat-flat-button (click)="deleteVeicolo(veicolo.IdVeicolo)">Elimina</button></td> -->
         </tr>
     </table>
 </div>
@@ -89,8 +84,6 @@
             <!-- <th><em>>&nbsp;Modifica</em></th> -->
             <!-- <th><em>>&nbsp;Elimina</em></th> -->
         </thead>
-        <!--<tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
-                        *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">-->
         <tbody>
             <tr class="dettaglio" [ngClass]="{'alternativeRow': tipoScadenza.IdScadenza%2==0}"
                 *ngFor="let tipoScadenza of listTipiScadenza">
@@ -154,41 +147,47 @@
 <div *ngIf="page == 'listManutenzioniVeicoli'">
     <table mat-tableid>
         <thead>
-        <th>Data</th>
-        <th>Causale</th>
-        <th>Targa</th>
-        <th> Marca </th>
-        <th> Modello </th>
-        <th>Fornitore</th>
-        <th>Costo</th>
-        <th>Note</th>
-        <!-- <th>&nbsp;Converti</th> -->
-        <!-- <th>&nbsp;Elimina</th> -->
-
-
+            <th>Data</th>
+            <th>Causale</th>
+            <th>Targa</th>
+            <th> Marca </th>
+            <th> Modello </th>
+            <th>Fornitore</th>
+            <th>Costo</th>
+            <th>Note</th>
+            <!-- <th>&nbsp;Converti</th> -->
+            <!-- <th>&nbsp;Elimina</th> -->
         </thead>
         <tbody>
-        <tr class="dettaglio" [ngClass]="{'alternativeRow': manutenzioneVeicolo.id%2==0}" *ngFor="let manutenzioneVeicolo of listManutenzioniVeicoli">
-            <td>{{manutenzioneVeicolo.Data}}</td>
-            <td>{{getNomeCausaleManutenzioneById(manutenzioneVeicolo.IdCausaleManutenzione)}}</td>
-            <td>{{getTargaById(manutenzioneVeicolo.IdVeicolo)}} {{getMarcaById(manutenzioneVeicolo.IdVeicolo)}} {{getModelloById(manutenzioneVeicolo.IdVeicolo)}}</td>
-          <!-- !!!!!!!!!!!!!! -->
-            <td>{{getNomeFornitoreById(manutenzioneVeicolo.IdFornitore)}}</td>
-            <td>{{manutenzioneVeicolo.Costo}}</td>
-            <td>{{manutenzioneVeicolo.Note}}</td>
-            <td><button mat-flat-button (click)="convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicolo)">Converti in scadenza</button>
-            </td>
-            <td><button mat-flat-button (click)="deleteManutenzioneVeicolo(manutenzioneVeicolo.IdManutenzioneVeicoli)">Elimina</button></td>
-        </tr>
-        <tr><td>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newTipoScadenzaIdPerManutenzione"
-                name="scadenzaRiga">
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': manutenzioneVeicolo.id%2==0}"
+                *ngFor="let manutenzioneVeicolo of listManutenzioniVeicoli">
+                <td>{{ manutenzioneVeicolo.Data | date:'dd/MM/yyyy' }}</td>
+                <td>{{getNomeCausaleManutenzioneById(manutenzioneVeicolo.IdCausaleManutenzione)}}</td>
+                <td>{{getTargaById(manutenzioneVeicolo.IdVeicolo)}} {{getMarcaById(manutenzioneVeicolo.IdVeicolo)}}
+                    {{getModelloById(manutenzioneVeicolo.IdVeicolo)}}</td>
+                <td>{{getNomeFornitoreById(manutenzioneVeicolo.IdFornitore)}}</td>
+                <td>{{manutenzioneVeicolo.Costo}}</td>
+                <td>{{manutenzioneVeicolo.Note}}</td>
+                <td><button mat-flat-button
+                        (click)="convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicolo, newIdTipoScadenzaPerConversione)">Converti
+                        in
+                        scadenza</button>
+                </td>
+                <td><button mat-flat-button
+                        (click)="deleteManutenzioneVeicolo(manutenzioneVeicolo.IdManutenzioneVeicoli)">Elimina</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <tr>
+        <td>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza"
+                [(ngModel)]="newIdTipoScadenzaPerConversione" name="scadenzaRiga">
                 <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
                     {{scadenzaRiga.Scadenza}}
                 </mat-option>
-            </mat-select></td></tr>
-        </tbody>
-    </table>
-    {{listTipiScadenza[0].Scadenza}}
+            </mat-select>
+        </td>
+    </tr>
 </div>
 
 <div *ngIf="page == 'dettaglioSingolaScadenzaPerVeicolo'">
@@ -262,7 +261,6 @@
                 <tr>
                     <td>Tipo di scadenza</td>
                     <td>{{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza)}}</td>
-                    <!-- <button mat-flat-button (click)="addNuovoTipoScadenza()">Aggiungi un nuovo tipo di scadenza</button> -->
                 </tr>
                 <tr>
                     <td>Costo scadenza</td>
@@ -284,9 +282,6 @@
                 <tr *ngIf="!(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">
                     <td>√ Documento aggiunto:</td>
                     <td>
-
-                        <!-- <button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
-                            documento #{{scadenzaVeicoloDetail.IdDocumento}}</button> -->
                         <!-- Pulsante Vedi documento vecchio (sx) -->
                         <button
                             *ngIf="!(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)&&showDocViewerDetail==false"
@@ -352,9 +347,6 @@
     <div>
         <button mat-flat-button (click)="editScadenzaVeicoloView(scadenzaVeicoloDetail)">Modifica questa
             scandenza</button>
-        <!-- <br /> -->
-        <!-- <button mat-flat-button (click)="creaNuovaScadenzaAVeicoloId(scadenzaVeicoloDetail.IdVeicolo)">Crea una scadenza a questo veicolo {{getTargaById(scadenzaVeicoloDetail.IdVeicolo)}} {{getMarcaById(scadenzaVeicoloDetail.IdVeicolo)}}
-                {{getModelloById(scadenzaVeicoloDetail.IdVeicolo)}}</button> -->
     </div>
 </div>
 
@@ -380,16 +372,9 @@
                             </mat-option>
                         </mat-select>
                     </td>
-                    <td *ngIf="getTargaById(scadenzaVeicoloDetail.IdVeicolo)!=getTargaById(newScadenzaVeicoloDetail.IdVeicolo)">∆</td>
-                    <!-- <td>
-                        <mat-form-field>
-                            <mat-select placeholder="Veicolo" [(ngModel)]="newTempVeicolo" name="veicoloRiga">
-                                <mat-option *ngFor="let veicoloRiga of listVeicoli" [value]="veicoloRiga">
-                                    {{veicoloRiga.Targa}} {{veicoloRiga.Marca}} {{veicoloRiga.Modello}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </td> -->
+                    <td
+                        *ngIf="getTargaById(scadenzaVeicoloDetail.IdVeicolo)!=getTargaById(newScadenzaVeicoloDetail.IdVeicolo)">
+                        ∆</td>
                 </tr>
                 <tr>
                     <td>Targa</td>
@@ -420,13 +405,6 @@
                     <td>Data della scadenza</td>
                     <td>{{ scadenzaVeicoloDetail.Data | date:'dd/MM/yyyy' }}</td>
                     <td>
-                        <!-- <mat-form-field>
-                            <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker"
-                                placeholder="Immatricolazione">
-                            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                            <mat-datepicker #myDatepicker></mat-datepicker>
-                        </mat-form-field> -->
-
                         <mat-form-field>
                             <input matInput [(ngModel)]="newScadenzaVeicoloDetail.Scadenza" [matDatepicker]="pickedDate"
                                 placeholder="Scadenza">
@@ -434,14 +412,6 @@
                             <mat-datepicker #pickedDate></mat-datepicker>
                         </mat-form-field>
                     </td>
-
-                    <!--  <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newScadenzaVeicoloDetail.IdScadenza"
-                            name="scadenzaRiga">
-                            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
-                                {{scadenzaRiga.Scadenza}}
-                            </mat-option>
-                        </mat-select>-->
-
                 </tr>
                 <tr>
                     <td>Oggi</td>
@@ -494,14 +464,6 @@
                             </mat-option>
                         </mat-select>
                     </td>
-                    <!-- <td>
-                        <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newTempTipoScadenza"
-                            name="scadenzaRiga">
-                            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga">
-                                {{scadenzaRiga.Scadenza}}
-                            </mat-option>
-                        </mat-select>
-                    </td> -->
                     <td *ngIf="scadenzaVeicoloDetail.IdScadenza!=newScadenzaVeicoloDetail.IdScadenza">∆</td>
                 </tr>
 
@@ -526,29 +488,6 @@
                 <tr>
                     <td>Documenti:</td>
                 </tr>
-                <!-- <tr *ngIf="isItsIdDocPropUndefined(scadenzaVeicoloDetail)==true"></tr> -->
-                <!-- <tr *ngIf="isItsIdDocPropUndefined(scadenzaVeicoloDetail)==false&&(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)"></tr> -->
-                <!-- <tr>
-                    <td>× Documento NON aggiunto.</td>
-                    <td><mat-form-field>
-                            <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento" name="docRiga">
-                                <mat-option *ngFor="let docRiga of listDocumenti" [value]="docRiga.IdDocumento">
-                                        {{docRiga.IdDocumento}}
-                                </mat-option>
-                            </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
-                                    documento #{{newSscadenzaVeicoloDetail.IdDocumento}}</button> 
-                        </mat-form-field></td> -->
-
-
-                        <!-- <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
-                            name="docRiga">
-                            <mat-option *ngFor="let idDocRiga of listDocumenti" [value]="docRiga.IdDocumento">
-                                {{idDocRiga.IdDocumento}}
-                            </mat-option>
-                        </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
-                            documento #{{newSscadenzaVeicoloDetail.IdDocumento}}</button>
-                    </td> -->
-                <!-- </tr> -->
 
                 <tr>
                     <td>Presenza doumento</td>
@@ -587,7 +526,9 @@
                         <!-- Pulsante disabilitato se NON è impostato un documento (sx) -->
                         <button
                             *ngIf="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)"
-                            disabled [disabled]="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">Nessun documento</button>
+                            disabled
+                            [disabled]="(scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined)">Nessun
+                            documento</button>
                     </td>
                     <td>
                         <!-- Pulsante Vedi documento nuovo (dx) -->
@@ -658,7 +599,7 @@
                         </mat-form-field>
                     </td>
                     <td *ngIf="scadenzaVeicoloDetail.Note!=newScadenzaVeicoloDetail.Note">∆</td>
-                    
+
                 </tr>
 
                 <tr>
@@ -708,49 +649,46 @@
     <div>
         <button mat-flat-button (click)="editScadenzaVeicolo(newScadenzaVeicoloDetail)">Salvare le modifiche a questa
             scadenza</button>
-        <!-- <br /> -->
-        <!-- <button mat-flat-button (click)="creaNuovaScadenzaAVeicoloId(scadenzaVeicoloDetail.IdVeicolo)">Crea da zero una nuova scadenza a questo veicolo {{getTargaById(scadenzaVeicoloDetail.IdVeicolo)}} {{getMarcaById(scadenzaVeicoloDetail.IdVeicolo)}}
-                        {{getModelloById(scadenzaVeicoloDetail.IdVeicolo)}}</button> -->
     </div>
 </div>
 
 <div *ngIf="page == 'editTipoScadenza' && isEditing==true">
     <div>Modifica del tipo di scadenza «{{scadenzaDetail.Scadenza}}».</div>
-        <br /><br />
-<table mat-tableid>
-    <thead>
-        <tr>
-            <!-- <th>&nbsp;</th> -->
-            <th></th>
-            <th>Scadenza attuale</th>
-            <th>Scadenza aggiornata</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong>Nome del tipo di scadenza</strong></td>
-            <td>{{scadenzaDetail.Scadenza}}</td>
-            <td>
+    <br /><br />
+    <table mat-tableid>
+        <thead>
+            <tr>
+                <!-- <th>&nbsp;</th> -->
+                <th></th>
+                <th>Scadenza attuale</th>
+                <th>Scadenza aggiornata</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Nome del tipo di scadenza</strong></td>
+                <td>{{scadenzaDetail.Scadenza}}</td>
+                <td>
                     <mat-form-field>
-                            <input matInput [(ngModel)]="newTipoScadenza.Scadenza" placeholder="Nome scadenza">
-                        </mat-form-field>
-            </td>
-            <td *ngIf="scadenzaDetail.Scadenza!=newTipoScadenza.Scadenza">∆</td>
-        </tr>
-        <tr>
-            <td><strong>Giorni di preavviso necessarî</strong></td>
-            <td>{{scadenzaDetail.GiorniPreavviso}}</td>
-            <td>
+                        <input matInput [(ngModel)]="newTipoScadenza.Scadenza" placeholder="Nome scadenza">
+                    </mat-form-field>
+                </td>
+                <td *ngIf="scadenzaDetail.Scadenza!=newTipoScadenza.Scadenza">∆</td>
+            </tr>
+            <tr>
+                <td><strong>Giorni di preavviso necessarî</strong></td>
+                <td>{{scadenzaDetail.GiorniPreavviso}}</td>
+                <td>
                     <mat-form-field>
-                            <input matInput [(ngModel)]="newTipoScadenza.GiorniPreavviso" placeholder="Giorni di preavviso">
-                        </mat-form-field>
-            </td>
-            <td *ngIf="scadenzaDetail.GiorniPreavviso!=newTipoScadenza.GiorniPreavviso">∆</td>
-        </tr>
-    </tbody>
-</table>
-<button mat-flat-button (click)="editTipoScadenza(newTipoScadenza)">Aggiorna tipo scadenza</button>
-<button mat-flat-button (click)="listTipiScadenzaView()">Annulla</button>
+                        <input matInput [(ngModel)]="newTipoScadenza.GiorniPreavviso" placeholder="Giorni di preavviso">
+                    </mat-form-field>
+                </td>
+                <td *ngIf="scadenzaDetail.GiorniPreavviso!=newTipoScadenza.GiorniPreavviso">∆</td>
+            </tr>
+        </tbody>
+    </table>
+    <button mat-flat-button (click)="editTipoScadenza(newTipoScadenza)">Aggiorna tipo scadenza</button>
+    <button mat-flat-button (click)="listTipiScadenzaView()">Annulla</button>
 </div>
 
 <div *ngIf="page=='creazioneScadenzaVeicolo' && isEditing==true">
@@ -802,13 +740,6 @@
                 <tr>
                     <td>Data della scadenza</td>
                     <td>
-                        <!-- <mat-form-field>
-                                    <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker"
-                                        placeholder="Immatricolazione">
-                                    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #myDatepicker></mat-datepicker>
-                                </mat-form-field> -->
-
                         <mat-form-field>
                             <input matInput [(ngModel)]="newScadenzaPerSingoloVeicolo.Scadenza"
                                 [matDatepicker]="pickedDate" placeholder="Scadenza">
@@ -816,14 +747,6 @@
                             <mat-datepicker #pickedDate></mat-datepicker>
                         </mat-form-field>
                     </td>
-
-                    <!--  <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newScadenzaPerSingoloVeicolo.IdScadenza"
-                                    name="scadenzaRiga">
-                                    <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
-                                        {{scadenzaRiga.Scadenza}}
-                                    </mat-option>
-                                </mat-select>-->
-
                 </tr>
                 <tr>
                     <td>Oggi</td>
@@ -865,14 +788,6 @@
                             </mat-option>
                         </mat-select>
                     </td>
-                    <!-- <td>
-                                <mat-select placeholder="Tipo di scadenza" [(ngModel)]="newTempTipoScadenza"
-                                    name="scadenzaRiga">
-                                    <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga">
-                                        {{scadenzaRiga.Scadenza}}
-                                    </mat-option>
-                                </mat-select>
-                            </td> -->
                 </tr>
 
                 <tr>
@@ -893,19 +808,6 @@
                 <tr>
                     <td>Documenti:</td>
                 </tr>
-                <!-- <tr *ngIf="scadenzaVeicoloDetail.IdDocumento==null||scadenzaVeicoloDetail.IdDocumento==undefined">
-                            <td>× Documento NON aggiunto.</td>
-                            <td>
-                                <mat-select placeholder="ID Documento" [(ngModel)]="newScadenzaVeicoloDetail.IdDocumento"
-                                    name="docRiga">
-                                    <mat-option *ngFor="let idDocRiga of listDocumenti" [value]="docRiga.IdDocumento">
-                                        {{idDocRiga.IdDocumento}}
-                                    </mat-option>
-                                </mat-select><button (click)="showDocViewerDetail=!showDocViewerDetail">Vedi
-                                    documento #{{scadenzaVeicoloDetail.IdDocumento}}</button>
-                            </td>
-                        </tr> -->
-
                 <tr>
                     <td>Presenza doumento</td>
                     <td>
@@ -933,8 +835,8 @@
                             #{{newScadenzaPerSingoloVeicolo.IdDocumento}}</button>
 
                         <!-- Pulsante disabilitato se NON è impostato un documento (dx) -->
-                        <button *ngIf="isDocBtnEnabled==false" (click)="showDocViewerNew=!showDocViewerNew" [disabled]="showDocViewerNew"
-                            disabled>Nessun documento</button>
+                        <button *ngIf="isDocBtnEnabled==false" (click)="showDocViewerNew=!showDocViewerNew"
+                            [disabled]="showDocViewerNew" disabled>Nessun documento</button>
                     </td>
                 </tr>
                 <tr *ngIf="isDocBtnEnabled==true">
