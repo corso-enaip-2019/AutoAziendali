@@ -25,6 +25,7 @@ export class CarsComponent {
   public picker: Date;
 
   constructor(private data: DataService) {
+    this.page="";
     var self = this;
     data.getListVeicoli(function (items: Array<Veicolo>): void {
       self.listVeicoli = items;
@@ -36,11 +37,11 @@ export class CarsComponent {
     
 
   }
-  // displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'Dettaglio', 'Elimina'];
-  // dataSource = new MatTableDataSource(this.listVeicoli);
+  displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'Dettaglio', 'Elimina'];
+  dataSource = new MatTableDataSource(this.listVeicoli);
 
 
-  getListProvince(data: DataService) {
+  getListProvince(data: DataService) : void {
     var self = this;
     data.getListProvince(function (items: Array<Province>): void {
       self.listProvince = items;
@@ -48,7 +49,7 @@ export class CarsComponent {
     })
   }
 
-  deleteVeicolo(id: number) {
+  deleteVeicolo(id: number) : void {
     if (Veicolo.operationConfirm()) {
       this.data.deleteVeicolo(id)
         .subscribe(
@@ -64,7 +65,7 @@ export class CarsComponent {
   }
 
 
-  beginEdit() {
+  beginEdit() : void {
     if (this.isEditing == false) {
       this.isEditing = true;
       this.getListProvince(this.data);
@@ -106,13 +107,13 @@ export class CarsComponent {
       );
   };
 
-  addVeicoloView() {
+  addVeicoloView() : void {
     this.page = 'aggiungi';
     this.newVeicolo = new Veicolo(1, "", "", "", "", "", new Date(), 0, 0, 0, 0, "", "", "", "", null);
     this.getListProvince(this.data)
   };
 
-  returnList() {
+  returnList() : void {
     this.page = "listaVeicolo";
   }
 }

@@ -1,8 +1,43 @@
+<mat-spinner *ngIf='page == ""'></mat-spinner>
 <div *ngIf="page == 'listaVeicolo'">
     <h1 class="title">Lista Veicoli</h1>
+    <table mat-table [dataSource]="listVeicoli" >
+
+        <ng-container matColumnDef="Targa">
+            <th mat-header-cell *matHeaderCellDef> Targa </th>
+            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Targa}} </td>
+        </ng-container>
 
 
-    <table mat-tableid>
+        <ng-container matColumnDef="Marca">
+            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Marca}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Modello">
+            <th mat-header-cell *matHeaderCellDef>Modello </th>
+            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Modello}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Dettaglio">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let veicolo"> <button (click)="detailItemView(veicolo)"
+                    mat-flat-button>Dettaglio</button> </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Elimina">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let veicolo"> <button (click)="deleteVeicolo(veicolo.IdVeicolo)"
+                    mat-flat-button>Elimina</button></td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef=" displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
         <th> Modello </th>
@@ -15,7 +50,7 @@
             <hr>
         </tr>
     </table>
-    <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button>
+    <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
 </div>
 <!-- <div>
 

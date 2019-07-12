@@ -115,7 +115,7 @@ export class DataService {
 
             );
 
-    };
+    }
 
     /* • Scadenza (tipi di scadenza) */
 
@@ -221,11 +221,11 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                   
+
                 }
             );
     }
-    
+
     editStatoVeicolo(statoVeicolo: StatoVeicolo): Observable<StatoVeicolo> {
         return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/editstatoveicolo`, statoVeicolo);
     }
@@ -233,8 +233,8 @@ export class DataService {
     addStatoVeicolo(statoVeicolo: StatoVeicolo): Observable<StatoVeicolo> {
         return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addstatoveicolo`, statoVeicolo)
     }
-    
-    /* • Stato */
+
+    /*Stato*/
 
     public getListStati(callback: (items: Array<Stato>) => void): void {
         var item = this.http.get<Array<Stato>>(`${PERCORSO_BASE}${PORTA}/api/getstati`)
@@ -244,7 +244,7 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -259,7 +259,7 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -274,7 +274,7 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                   
+
                 }
             );
     }
@@ -289,7 +289,7 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                   
+
                 }
             );
     }

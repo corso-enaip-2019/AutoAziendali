@@ -8,5 +8,8 @@ export class StatoVeicolo
         public IdModalita: number, public IdAnagrafica: string,public Note: string){
 
     }
-
+    
+    public static operationConfirm() : boolean {
+        return window.confirm("Vuoi procedere con l'operazione?");
+    }
 }

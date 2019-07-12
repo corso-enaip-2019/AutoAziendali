@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatOptionModule, MatFormFieldModule, MatTableModule, MatListModule, MatButtonModule, MatSortModule, MatCheckboxModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatIconModule, MatNativeDateModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatOptionModule, MatFormFieldModule, MatTableModule, MatListModule, MatButtonModule, MatSortModule, MatCheckboxModule } from '@angular/material';
 
 //import { FilterPipeModule } from 'ngx-filter-pipe';
 
@@ -52,6 +52,7 @@ import { DocviewerComponent } from './components/docviewer/docviewer.component';
     MatNativeDateModule,
     MatSortModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
     //FilterPipeModule
   ],
   providers: [DataService],
