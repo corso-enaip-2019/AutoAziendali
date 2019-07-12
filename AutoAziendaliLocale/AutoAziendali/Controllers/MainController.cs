@@ -133,7 +133,7 @@ namespace AutoAziendali.Controllers
         [Route("getutilizzi")]
         public List<UtilizzoVeicoli> GetUtilizziVeicoli()
         {
-            var u = _context.UtilizzoVeicoli.ToList();
+            var u = _context.UtilizzoVeicoli.ToList ();
             return u;
         }
 
@@ -277,9 +277,9 @@ namespace AutoAziendali.Controllers
             }
             else
             {
-                _context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
-                //currentScadenza.Scadenza = scadenza.Scadenza;
-                //currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
+                //_context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
+                currentScadenza.Scadenza = scadenza.Scadenza;
+                currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
 
                 _context.Scadenze.Add(currentScadenza);
                 await _context.SaveChangesAsync();
@@ -532,7 +532,56 @@ namespace AutoAziendali.Controllers
         }
 
         #endregion
-        
+
+        #region ManutenzioniVeicoli
+
+        [HttpGet]
+        [Route("getmanutenzioniveicoli")]
+        public List<ManutenzioniVeicoli> GetManutenzioniVeicoli()
+        {
+            return _context.ManutenzioniVeicoli.ToList();
+        }
+
+        [HttpPost]
+        [Route("deletemanutenzione")]
+        public async Task<HttpResponseMessage> DeleteManutenzione([FromBody]int id)
+        {
+            var currentManutenzione = await _context.ManutenzioniVeicoli.FirstOrDefaultAsync(mV => mV.IdManutenzioneVeicoli == id);
+            if (currentManutenzione == null)
+            {
+                /* Non è stata trovata una scadenzaVeicolo con quell'id. */
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            _context.ManutenzioniVeicoli.Remove(currentManutenzione);
+            await _context.SaveChangesAsync();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        #endregion
+
+        #region CausaliManutenzione
+
+        [HttpGet]
+        [Route("getcausalimanutenzione")]
+        public List<CausaliManutenzione> GetCausaliManutenzione()
+        {
+            return _context.CausaliManutenzione.ToList();
+        }
+
+        #endregion
+
+        #region Fornitori
+
+        [HttpGet]
+        [Route("getfornitori")]
+        public List<Fornitori> GetFornitori()
+        {
+            return _context.Fornitori.ToList();
+        }
+
+        #endregion
+
         //#region email
         //
         //}
