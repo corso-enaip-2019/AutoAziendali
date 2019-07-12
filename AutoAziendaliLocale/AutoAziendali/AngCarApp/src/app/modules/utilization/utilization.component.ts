@@ -23,11 +23,13 @@ export class UtilizationComponent {
   public listUtilizzi: Array<Utilizzo>;
   public listVeicoli: Array<Veicolo>;
   public listCommesse: Array<Commessa>;
+  public dataSource: MatTableDataSource<Utilizzo>;
+
 
   constructor(private data: DataService) {
     var self = this;
     data.getListUtilizzi(function (items: Array<Utilizzo>): void {
-      self.listUtilizzi = items;
+      self.dataSource = new MatTableDataSource(items);
     });
     data.getListVeicoli(function (items: Array<Veicolo>): void {
       self.listVeicoli = items;
@@ -48,8 +50,11 @@ export class UtilizationComponent {
   }
 
   displayedColumns: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione','Dettaglio', 'Elimina'];
-  dataSource = new MatTableDataSource(this.listUtilizzi);
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
   getTargaById(id: number): string {
     if (this.listVeicoli != null && this.listVeicoli != null) {
       var veicoloById = this.listVeicoli.find(v => v.IdVeicolo == id);

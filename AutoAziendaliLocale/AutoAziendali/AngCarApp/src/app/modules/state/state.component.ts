@@ -32,11 +32,13 @@ export class StateComponent {
   public statoVeicoloDetail: StatoVeicolo;
   public targaDettaglio: string;
   public newStatoVeicolo: StatoVeicolo;
+  public dataSource: MatTableDataSource<Veicolo>;
+
 
   constructor(private data: DataService) {
     var self = this;
     data.getListVeicoli(function (items: Array<Veicolo>): void {
-      self.listVeicoli = items;
+      self.dataSource = new MatTableDataSource(items);
     });
     data.getListStatoVeicoli(function (items: Array<StatoVeicolo>): void {
       self.listStatoVeicoli = items;
@@ -55,6 +57,12 @@ export class StateComponent {
     this.targaDettaglio = "";
     this.listTelepassViacard = null;
     this.listModalita = null;
+  }
+
+  displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'StoricoStati'];
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   createListStatoVeicoliById(id: number): Array<StatoVeicolo> {

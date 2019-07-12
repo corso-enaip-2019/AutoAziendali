@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data-service';
 import { Veicolo } from 'src/app/models/veicolo';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { from } from 'rxjs';
 import { Provider } from '@angular/compiler/src/core';
 import { Province } from 'src/app/models/province';
+import { MatPaginator, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-cars',
@@ -13,7 +14,7 @@ import { Province } from 'src/app/models/province';
   styleUrls: ['./cars.component.css']
 })
 
-export class CarsComponent {
+export class CarsComponent{
 
   public newVeicolo: Veicolo;
   public veicoloDetail: Veicolo;
@@ -23,25 +24,32 @@ export class CarsComponent {
   public isButtonDisabled: boolean;
   public listProvince: Array<Province>;
   public picker: Date;
+  public dataSource: MatTableDataSource<Veicolo>;
 
   constructor(private data: DataService) {
-    this.page="";
+    this.page = "";
     var self = this;
     data.getListVeicoli(function (items: Array<Veicolo>): void {
-      self.listVeicoli = items;
-    })
-    this.isButtonDisabled = false;
-    this.isEditing = false;
-    this.page = 'listaVeicolo';
-    this.veicoloDetail = null;
-    
-
+      self.dataSource = new MatTableDataSource(items);
+      self.isButtonDisabled = false;
+      self.isEditing = false;
+      self.page = 'listaVeicolo';
+      self.veicoloDetail = null;
+    });
   }
   displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'Dettaglio', 'Elimina'];
-  dataSource = new MatTableDataSource(this.listVeicoli);
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
-  getListProvince(data: DataService) : void {
+  
+  // @ViewChild(MatSort, {static: true}) sort: MatSort;
+  // ngOnInit() {
+  //   this.dataSource.sort = this.sort;
+  // }
+
+  getListProvince(data: DataService): void {
     var self = this;
     data.getListProvince(function (items: Array<Province>): void {
       self.listProvince = items;
@@ -49,7 +57,7 @@ export class CarsComponent {
     })
   }
 
-  deleteVeicolo(id: number) : void {
+  deleteVeicolo(id: number): void {
     if (Veicolo.operationConfirm()) {
       this.data.deleteVeicolo(id)
         .subscribe(
@@ -65,7 +73,7 @@ export class CarsComponent {
   }
 
 
-  beginEdit() : void {
+  beginEdit(): void {
     if (this.isEditing == false) {
       this.isEditing = true;
       this.getListProvince(this.data);
@@ -107,13 +115,13 @@ export class CarsComponent {
       );
   };
 
-  addVeicoloView() : void {
+  addVeicoloView(): void {
     this.page = 'aggiungi';
     this.newVeicolo = new Veicolo(1, "", "", "", "", "", new Date(), 0, 0, 0, 0, "", "", "", "", null);
     this.getListProvince(this.data)
   };
 
-  returnList() : void {
+  returnList(): void {
     this.page = "listaVeicolo";
   }
 }

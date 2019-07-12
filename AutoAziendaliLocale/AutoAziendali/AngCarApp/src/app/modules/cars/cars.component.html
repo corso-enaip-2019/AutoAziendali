@@ -1,21 +1,26 @@
 <mat-spinner *ngIf='page == ""'></mat-spinner>
 <div *ngIf="page == 'listaVeicolo'">
     <h1 class="title">Lista Veicoli</h1>
-    <table mat-table [dataSource]="listVeicoli" >
+
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca Targa">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="Targa">
-            <th mat-header-cell *matHeaderCellDef> Targa </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Targa </th>
             <td mat-cell *matCellDef="let veicolo"> {{veicolo.Targa}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="Marca">
-            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
             <td mat-cell *matCellDef="let veicolo"> {{veicolo.Marca}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Modello">
-            <th mat-header-cell *matHeaderCellDef>Modello </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modello </th>
             <td mat-cell *matCellDef="let veicolo"> {{veicolo.Modello}} </td>
         </ng-container>
 
@@ -32,10 +37,10 @@
                     mat-flat-button>Elimina</button></td>
         </ng-container>
 
-
         <tr mat-header-row *matHeaderRowDef=" displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button>
 
     <!-- <table mat-tableid>
         <th> Targa </th>
@@ -52,45 +57,6 @@
     </table>
     <button mat-flat-button (click)="addVeicoloView()">Aggiungi</button> -->
 </div>
-<!-- <div>
-
-    <table mat-table [dataSource]="listVeicoli" >
-
-        <ng-container matColumnDef="Targa">
-            <th mat-header-cell *matHeaderCellDef> Targa </th>
-            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Targa}} </td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="Marca">
-            <th mat-header-cell *matHeaderCellDef> Marca </th>
-            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Marca}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Modello">
-            <th mat-header-cell *matHeaderCellDef>Modello </th>
-            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Modello}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Dettaglio">
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let veicolo"> <button (click)="detailItemView(veicolo)"
-                    mat-flat-button>Dettaglio</button> </td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="Elimina">
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let veicolo"> <button (click)="deleteVeicolo(veicolo.IdVeicolo)"
-                    mat-flat-button>Elimina</button></td>
-        </ng-container>
-
-
-        <tr mat-header-row *matHeaderRowDef=" displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-</div> -->
-
 
 <div *ngIf="page == 'dettaglio'">
 
@@ -100,47 +66,77 @@
         </div>
 
         <div id="sx">
-                <mat-list>
-                    <mat-list-item><h4>Targa:</h4> {{veicoloDetail.Targa}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Versione:</h4> {{veicoloDetail.Versione}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Cilindrata:</h4> {{veicoloDetail.Cilindrata}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Cv Fiscali:</h4> {{veicoloDetail.CvFiscali}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Alimentazione:</h4> {{veicoloDetail.Alimentazione}}</mat-list-item>
-                </mat-list>
-            </div>
-     
-            <div id="centro">
-                <mat-list>
-                    <mat-list-item><h4>Marca:</h4> {{veicoloDetail.Marca}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Telaio:</h4> {{veicoloDetail.Telaio}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Cv Vapore:</h4> {{veicoloDetail.CvVapore}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Colore:</h4> {{veicoloDetail.Colore}}</mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><h4>Normativa Euro:</h4> {{veicoloDetail.NormativaEuro}}</mat-list-item>
-                </mat-list>
-            </div>
-     
-            <div id="dx">
-              <mat-list>
-                <mat-list-item><h4>Modello:</h4> {{veicoloDetail.Modello}}</mat-list-item>
+            <mat-list>
+                <mat-list-item>
+                    <h4>Targa:</h4> {{veicoloDetail.Targa}}
+                </mat-list-item>
                 <mat-divider></mat-divider>
-                <mat-list-item><h4>Immatricolazione:</h4> {{ veicoloDetail.Immatricolazione | date: 'dd/MM/yyyy' }}</mat-list-item>
+                <mat-list-item>
+                    <h4>Versione:</h4> {{veicoloDetail.Versione}}
+                </mat-list-item>
                 <mat-divider></mat-divider>
-                <mat-list-item><h4>Kw:</h4> {{veicoloDetail.Kw}}</mat-list-item>
+                <mat-list-item>
+                    <h4>Cilindrata:</h4> {{veicoloDetail.Cilindrata}}
+                </mat-list-item>
                 <mat-divider></mat-divider>
-                <mat-list-item><h4>Formato:</h4> {{veicoloDetail.Formato}}</mat-list-item>
+                <mat-list-item>
+                    <h4>Cv Fiscali:</h4> {{veicoloDetail.CvFiscali}}
+                </mat-list-item>
                 <mat-divider></mat-divider>
-                <mat-list-item><h4>Provincia:</h4> {{veicoloDetail.Provincia}}</mat-list-item>
-              </mat-list>
-            </div>
-     
+                <mat-list-item>
+                    <h4>Alimentazione:</h4> {{veicoloDetail.Alimentazione}}
+                </mat-list-item>
+            </mat-list>
+        </div>
+
+        <div id="centro">
+            <mat-list>
+                <mat-list-item>
+                    <h4>Marca:</h4> {{veicoloDetail.Marca}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Telaio:</h4> {{veicoloDetail.Telaio}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Cv Vapore:</h4> {{veicoloDetail.CvVapore}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Colore:</h4> {{veicoloDetail.Colore}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Normativa Euro:</h4> {{veicoloDetail.NormativaEuro}}
+                </mat-list-item>
+            </mat-list>
+        </div>
+
+        <div id="dx">
+            <mat-list>
+                <mat-list-item>
+                    <h4>Modello:</h4> {{veicoloDetail.Modello}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Immatricolazione:</h4> {{ veicoloDetail.Immatricolazione | date: 'dd/MM/yyyy' }}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Kw:</h4> {{veicoloDetail.Kw}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Formato:</h4> {{veicoloDetail.Formato}}
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <h4>Provincia:</h4> {{veicoloDetail.Provincia}}
+                </mat-list-item>
+            </mat-list>
+        </div>
+
         <button class="bigbtn" mat-flat-button (click)="returnList()">Torna alla lista</button>
         <button class="bigbtn" mat-flat-button (click)="beginEdit()">Modifica</button>
     </div>
@@ -172,7 +168,8 @@
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker" placeholder="Immatricolazione">
+                <input matInput [(ngModel)]="veicoloDetail.Immatricolazione" [matDatepicker]="myDatepicker"
+                    placeholder="Immatricolazione">
                 <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
                 <mat-datepicker #myDatepicker></mat-datepicker>
             </mat-form-field>
@@ -258,7 +255,8 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput [(ngModel)]="newVeicolo.Immatricolazione" [matDatepicker]="myDatepicker" placeholder="Immatricolazione">
+            <input matInput [(ngModel)]="newVeicolo.Immatricolazione" [matDatepicker]="myDatepicker"
+                placeholder="Immatricolazione">
             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker></mat-datepicker>
         </mat-form-field>
