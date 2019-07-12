@@ -1,3 +1,4 @@
+<mat-spinner *ngIf='page == ""'></mat-spinner>
 <div *ngIf="page == 'listaVeicoli'">
     <h1 class="title">Lista Veicoli Stato</h1>
 
@@ -75,6 +76,7 @@
 
         <h1 class="title">Modifica Stato Veicolo</h1>
         <div>
+
             <mat-form-field>
                 <mat-select placeholder="Cognome Nome" [(ngModel)]="statoVeicoloDetail.IdAnagrafica" name="Dipendente">
                     <mat-option *ngFor="let anagrafica of listAnagrafiche" [value]="anagrafica.IdAnagrafica">

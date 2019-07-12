@@ -110,7 +110,7 @@ export class DataService {
 
             );
 
-    };
+    }
 
     /* • Scadenza (tipi di scadenza) */
 
@@ -280,9 +280,8 @@ export class DataService {
 
                 }
             );
-    }
+    };
 
-    /*TelepassViacard*/
     public getListTelepassViacard(callback: (items: Array<TelepassViacard>) => void): void {
         var item = this.http.get<Array<TelepassViacard>>(`${PERCORSO_BASE}${PORTA}/api/gettelepassviacard`)
             .subscribe(

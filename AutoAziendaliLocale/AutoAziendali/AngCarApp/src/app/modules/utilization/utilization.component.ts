@@ -80,7 +80,7 @@ export class UtilizationComponent {
     }
   }
 
-  deleteUtilizzo(id: number) {
+  deleteUtilizzo(id: number) : void {
     if (Utilizzo.operationConfirm()) {
       this.data.deleteUtilizzo(id)
         .subscribe(
@@ -119,7 +119,7 @@ export class UtilizationComponent {
       );
   };
 
-  addUtilizzoView() {
+  addUtilizzoView() : void {
     this.page = 'aggiungi';
     this.newUtilizzo = new Utilizzo(1,1,new Date(),new Date(),null,null,"",null,null,"","");
   };
@@ -129,7 +129,7 @@ export class UtilizationComponent {
     this.utilizzoDetail = utilizzo;
   }
 
-  beginEdit() {
+  beginEdit() : void {
     if (this.isEditing == false) {
       this.isEditing = true;
     }
@@ -139,7 +139,7 @@ export class UtilizationComponent {
     }
   }
 
-  returnList() {
+  returnList() : void {
     this.page = "listaUtilizzo";
   }
 }
