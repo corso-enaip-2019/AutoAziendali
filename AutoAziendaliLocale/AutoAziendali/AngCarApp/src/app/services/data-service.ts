@@ -125,9 +125,6 @@ export class DataService {
                 data => {
                     // Ho i dati
 
-                    console.log('Dati (tipi scadenze) in data-service:');
-                    console.log(data);
-
                     callback(data);
                 },
                 error => {
@@ -156,9 +153,6 @@ export class DataService {
             .subscribe(
                 data => {
                     // Ho i dati
-
-                    console.log('Dati (scadVei) in data-service:');
-                    console.log(data);
 
                     callback(data);
                 },
@@ -222,7 +216,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
 
@@ -246,7 +239,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
 
@@ -262,7 +254,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
 
@@ -278,7 +269,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
 
@@ -294,7 +284,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
 
@@ -310,7 +299,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
                    
@@ -326,7 +314,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
                     console.log("Errore in getfornitori.");
@@ -343,7 +330,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
                     console.log("Errore in getcausalimanutenzione.");
@@ -360,7 +346,6 @@ export class DataService {
                 data => {
                     // Ho i dati
                     callback(data);
-
                 },
                 error => {
                     console.log("Errore in getmanutenzioniveicoli.");

@@ -34,12 +34,13 @@ export class ExpiryComponent implements OnInit {
   public listFornitori: Array<Fornitori>;
   public listCausaliManutenzione: Array<CausaliManutenzione>;
   public listManutenzioniVeicoli: Array<ManutenzioniVeicoli>;
-  public newTipoScadenzaIdPerManutenzione:number; // Usato durante la conversione
 
   public newTipoScadenza: Scadenza; // Per la creazione d'un nuovo tipo di scadenza.
   public newScadenzaPerSingoloVeicolo: ScadenzaVeicolo; // Per l'aggiunta (ad un veicolo) d'una nuova scadenza.
   public newScadenzaVeicoloDetail: ScadenzaVeicolo; // Per la aggiunta(creazione) d'una nuova scadenza ad un veicolo.
+  public newScadenzaVeicoloPerConversione: ScadenzaVeicolo; // Per la conversione d'una manutenzione in una scadenzaVeicolo.
   public newTempVeicolo: Veicolo; // Per la aggiunta(creazione) d'una nuova scadenza ad un veicolo.
+  public newIdTipoScadenzaPerConversione: number;
 
   public scadenzaDetail: Scadenza; // Per mostrare oltre al nome anche i gg di preavviso
   public scadenzaVeicoloDetail: ScadenzaVeicolo; // Per la visualizzazione/modifica delle scadenze impostate su d'un veicolo.
@@ -67,15 +68,14 @@ export class ExpiryComponent implements OnInit {
     this.listManutenzioniVeicoli = null;
 
     this.scadenzaVeicoloDetail = null;
-    //this.scadenzaVeicoloDetail=new ScadenzaVeicolo(1,1,new Date('19991224'),1,1,1,'no',false,false);
     this.newScadenzaVeicoloDetail = null;
-    //this.newScadenzaVeicoloDetail=new ScadenzaVeicolo(1,1,new Date('19991224'),1,1,1,'no',false,false);
 
     this.newTempVeicolo = null;
     this.newTipoScadenza = null;
     this.newScadenzaPerSingoloVeicolo = null;
     this.newScadenzaVeicoloDetail = null;
     this.newTempVeicolo = null;
+    this.newScadenzaVeicoloPerConversione = null;
     this.scadenzaDetail = null;
     this.scadenzaVeicoloDetail = null;
     this.pickedDate = null;
@@ -84,7 +84,7 @@ export class ExpiryComponent implements OnInit {
     this.showDocViewerNew = null;
     this.documentoDaMostrare = null;
     this.oggi = null;
-    this.newTipoScadenzaIdPerManutenzione=1;
+    this.newIdTipoScadenzaPerConversione = 1;
 
     var self = this;
     dataSrvc.getListDocumenti(function (items: Array<Documento>): void { self.listDocumenti = items; });
@@ -153,9 +153,11 @@ export class ExpiryComponent implements OnInit {
   listManutenzioniVeicoliView(): void {
     this.page = 'listManutenzioniVeicoli';
 
-    this.titolo = 'Scadenze - lista delle manutenzioni';
+    this.titolo = 'Scadenze - Lista delle manutenzioni';
     this.isEditing = false;
     this.isDocBtnEnabled = false;
+
+    this.newIdTipoScadenzaPerConversione = this.listTipiScadenza[0].IdScadenza;
   }
 
   detailSingolaScadenzaPerVeicoloView(sV: ScadenzaVeicolo): void {
@@ -164,8 +166,6 @@ export class ExpiryComponent implements OnInit {
 
     this.scadenzaVeicoloDetail = null;
     this.scadenzaVeicoloDetail = sV;
-    console.log("veicolo per dettagli");
-    console.log(this.scadenzaVeicoloDetail);
     this.isEditing = false;
     this.isDocBtnEnabled = false;
     this.showDocViewerDetail = false;
@@ -235,8 +235,8 @@ export class ExpiryComponent implements OnInit {
     this.titolo = `Scadenze - Creazione ed assegnamento di una nuova scadenza ad un veicolo`;
 
     this.newScadenzaPerSingoloVeicolo = null;
-    /* La #10 è la prima auto. */
-    this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, 10, new Date('1999-12-31'), 1, 8888, 1, 'Note - ND', false, false);
+    /* this.listVeicoli[0] = 1ªauto */
+    this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, this.listVeicoli[0].IdVeicolo, new Date('1999-12-31'), 1, 8888, this.listDocumenti[0].IdDocumento, 'Note - ND', false, false);
     //Commentato via finchè non riesco a risolvere la sstoria del doc=null.
     //this.newScadenzaPerSingoloVeicolo = new ScadenzaVeicolo(1, 1, new Date('19991231'), 1, 8888, null, 'Note - ND', false, false);
     this.isEditing = true;
@@ -361,8 +361,6 @@ export class ExpiryComponent implements OnInit {
   }
 
   editTipoScadenza(scadenzaModificata: Scadenza): void {
-    console.log("scadenza in uscita per l\'edit:");
-    console.log(scadenzaModificata);
     this.dataSrvc.editScadenza(scadenzaModificata)
       .subscribe(
         data => {
@@ -377,9 +375,38 @@ export class ExpiryComponent implements OnInit {
       );
   }
 
-//!!!!!!!!!!!!!!!!!!!!!!!!
-  convertManutenzioneVeicoloToScadenzaAndAddToList(objDaConvertire:ManutenzioniVeicoli):void{}
-  deleteManutenzioneVeicolo(id:number):void{}
+  /* Metodo speciale per convertire una ManutenzioneVeicolo in una ScadenzaVeicolo e salvarla nel DB. */
+  convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicoloDaConvertire: ManutenzioniVeicoli, idScadenza: number): void {
+    this.newScadenzaVeicoloPerConversione = null;
+    this.newScadenzaVeicoloPerConversione = new ScadenzaVeicolo(1, this.listVeicoli[0].IdVeicolo, this.oggi, this.listTipiScadenza[0].IdScadenza, 1, this.listDocumenti[0].IdDocumento, "NOTE - ND", false, false);
+    this.newScadenzaVeicoloPerConversione.Costo = manutenzioneVeicoloDaConvertire.Costo;
+    // Commentato via per problemi con le date
+    //this.newScadenzaVeicoloPerConversione.Data = manutenzioneVeicoloDaConvertire.Data;
+    this.newScadenzaVeicoloPerConversione.Data = new Date('1999-12-31');
+    this.newScadenzaVeicoloPerConversione.IdDocumento = manutenzioneVeicoloDaConvertire.IdDocumento;
+    this.newScadenzaVeicoloPerConversione.IdScadenza = idScadenza;
+    this.newScadenzaVeicoloPerConversione.IdVeicolo = manutenzioneVeicoloDaConvertire.IdVeicolo;
+    this.newScadenzaVeicoloPerConversione.Note = `Manutenzione veicolo convertita in Scadenza; Note: «${manutenzioneVeicoloDaConvertire.Note}»; Causale: «${this.getNomeCausaleManutenzioneById(manutenzioneVeicoloDaConvertire.IdManutenzioneVeicoli)}»`;
+
+    this.addScadenzaVeicolo(this.newScadenzaVeicoloPerConversione);
+  }
+
+  deleteManutenzioneVeicolo(id: number): void {
+    if (ScadenzaVeicolo.operationConfirm()) {
+      this.dataSrvc.deleteManutenzioneVeicolo(id)
+        .subscribe(
+          data => {
+            let index = this.listManutenzioniVeicoli.findIndex(mV => mV.IdManutenzioneVeicoli == id);
+            this.listManutenzioniVeicoli.splice(index, 1);
+            location.reload();
+            this.page = 'listManutenzioniVeicoli';
+          },
+          error => {
+            console.log("3rr in delete ManutenzioniVeicoli");
+          }
+        );
+    }
+  }
 
   /* Metodi per il confronto di date. */
 
@@ -442,8 +469,7 @@ export class ExpiryComponent implements OnInit {
     else {
       return "";
     }
-    console.log("");
-    console.log();
+
   }
 
   getModelloById(id: number): string {
@@ -498,38 +524,38 @@ export class ExpiryComponent implements OnInit {
     }
   }
 
-// Tabella CausaliManutenzione
+  // Tabella CausaliManutenzione
 
-getNomeCausaleManutenzioneById(idCausale:number):string{
-  if (this.listCausaliManutenzione != null && this.listCausaliManutenzione != null) {
-    var causaleManutenzioneById = this.listCausaliManutenzione.find(cM => cM.IdCausaleManutenzione == idCausale);
+  getNomeCausaleManutenzioneById(idCausale: number): string {
+    if (this.listCausaliManutenzione != null && this.listCausaliManutenzione != null) {
+      var causaleManutenzioneById = this.listCausaliManutenzione.find(cM => cM.IdCausaleManutenzione == idCausale);
 
-    return causaleManutenzioneById.CausaleManutenzione;
+      return causaleManutenzioneById.CausaleManutenzione;
+    }
+    else {
+      return "listaVuota";
+    }
   }
-  else {
-    return "listaVuota";
-  }
-}
 
-// Tabella Fornitori
+  // Tabella Fornitori
 
-getNomeFornitoreById(idFornitore:number):string{
-  if (this.listFornitori != null && this.listFornitori != null) {
-    var fornitoreById = this.listFornitori.find(f => f.IdFornitore == idFornitore);
+  getNomeFornitoreById(idFornitore: number): string {
+    if (this.listFornitori != null && this.listFornitori != null) {
+      var fornitoreById = this.listFornitori.find(f => f.IdFornitore == idFornitore);
 
-    return fornitoreById.Fornitore;
+      return fornitoreById.Fornitore;
+    }
+    else {
+      return "listaVuota";
+    }
   }
-  else {
-    return "listaVuota";
-  }
-}
 
   // Tabella Documenti
 
   //Vedi il component docviewer
   //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
   //incompleto
-  getDocumentoImgByIdDocumento(idDocumento:number): any {
+  getDocumentoImgByIdDocumento(idDocumento: number): any {
     if (this.listDocumenti != null && this.listDocumenti != null) {
       var documentoById = this.listDocumenti.find(d => d.IdDocumento == idDocumento);
       return documentoById.Documento;
