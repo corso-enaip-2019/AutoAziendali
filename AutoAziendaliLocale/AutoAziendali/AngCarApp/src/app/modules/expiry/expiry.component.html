@@ -1,13 +1,13 @@
 <h1 class="title">{{titolo}}</h1>
 
 <br />
-
-<button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i
-    veicoli)</button><br />
-<button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button><br />
-<button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di scadenzaveicoli</button><br />
-<button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button><br />
-
+<div id="seriePulsantiInAlto">
+    <div id="btnAlto"><button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i
+    veicoli)</button></div>&nbsp;
+<div id="btnAlto"><button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button>&nbsp;</div>
+<div id="btnAlto"><button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di scadenzaveicoli</button>&nbsp;</div>
+<div id="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button></div>
+</div>
 <br />
 
 <div *ngIf="page == 'listVeicoli'">
@@ -73,7 +73,11 @@
                     <strong>{{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg da oggi &#9888;</strong>
                 </td>
                 <td
-                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false">
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false&&(0>=differenzaOggiData2(scadenzaVeicolo.Data))">
+                    {{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg da oggi
+                </td>
+                <td
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false&&(differenzaOggiData2(scadenzaVeicolo.Data)>0)">
                     {{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg ad oggi
                 </td>
                 <td>{{getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza)}}</td>
@@ -870,7 +874,7 @@
 
 <div *ngIf="page == 'creazioneTipoScadenza'">
     <div>
-        Creazione di un nuovo tipo di scadenza chiamato {{newTipoScadenza.Scadenza}}, con
+        Creazione di un nuovo tipo di scadenza chiamato «{{newTipoScadenza.Scadenza}}», con
         {{newTipoScadenza.GiorniPreavviso}} giorni di preavviso.
     </div>
     <br /><br />
@@ -878,13 +882,13 @@
         <table mat-tableid>
             <tbody>
                 <tr>
-                    <td>Nome del tipo di scadenza:</td>
+                    <td><strong>Nome del tipo di scadenza:</strong></td>
                     <mat-form-field>
                         <input matInput [(ngModel)]="newTipoScadenza.Scadenza" placeholder="Nome del tipo di scadenza">
                     </mat-form-field>
                 </tr>
                 <tr>
-                    <td>Giorni di preavviso previsti:</td>
+                    <td><strong>Giorni di preavviso previsti:</strong></td>
                     <mat-form-field>
                         <input matInput [(ngModel)]="newTipoScadenza.GiorniPreavviso"
                             placeholder="Giorni di preavviso previsti">
@@ -926,6 +930,8 @@
 </div>
 
 <div *ngIf="page == 'editTipoScadenza'">
+        <div>Modifica del tipo di scadenza «{{scadenzaDetail.Scadenza}}».</div>
+            <br /><br />
     <table mat-tableid>
         <thead>
             <tr>
@@ -936,7 +942,7 @@
         </thead>
         <tbody>
             <tr>
-                <td>Nome del tipo di scadenza</td>
+                <td><strong>Nome del tipo di scadenza</strong></td>
                 <td>{{scadenzaDetail.Scadenza}}</td>
                 <td>
                         <mat-form-field>
@@ -945,7 +951,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Giorni di preavviso necessarî</td>
+                <td><strong>Giorni di preavviso necessarî</strong></td>
                 <td>{{scadenzaDetail.GiorniPreavviso}}</td>
                 <td>
                         <mat-form-field>
