@@ -361,8 +361,6 @@ export class ExpiryComponent implements OnInit {
   }
 
   editTipoScadenza(scadenzaModificata: Scadenza): void {
-    console.log("scadenza in uscita per l\'edit:");
-    console.log(scadenzaModificata);
     this.dataSrvc.editScadenza(scadenzaModificata)
       .subscribe(
         data => {

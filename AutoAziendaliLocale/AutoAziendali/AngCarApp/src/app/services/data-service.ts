@@ -125,9 +125,6 @@ export class DataService {
                 data => {
                     // Ho i dati
 
-                    console.log('Dati (tipi scadenze) in data-service:');
-                    console.log(data);
-
                     callback(data);
                 },
                 error => {
