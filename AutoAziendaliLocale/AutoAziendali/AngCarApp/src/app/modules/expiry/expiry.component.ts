@@ -7,6 +7,9 @@ import { ScadenzaVeicolo } from 'src/app/models/scadenzaVeicolo';
 import { Province } from 'src/app/models/province';
 import { Veicolo } from 'src/app/models/Veicolo';
 import { Documento } from 'src/app/models/documento';
+import { Fornitori } from 'src/app/models/fornitori';
+import { CausaliManutenzione } from 'src/app/models/causalimanutenzione';
+import { ManutenzioniVeicoli } from 'src/app/models/manutenzioniveicoli';
 
 //import { DocviewerComponent } from 'src/app/components/docviewer';
 
@@ -27,6 +30,11 @@ export class ExpiryComponent implements OnInit {
   public listScadenzeDelSingoloVeicolo: Array<ScadenzaVeicolo>; // Scadenze d'un singolo veicolo.
   public listDocumenti: Array<Documento>; // Sono le immagini dei varii documenti.
   public listProvince: Array<Province>;
+
+  public listFornitori: Array<Fornitori>;
+  public listCausaliManutenzione: Array<CausaliManutenzione>;
+  public listManutenzioniVeicoli: Array<ManutenzioniVeicoli>;
+  public newTipoScadenzaIdPerManutenzione:number; // Usato durante la conversione
 
   public newTipoScadenza: Scadenza; // Per la creazione d'un nuovo tipo di scadenza.
   public newScadenzaPerSingoloVeicolo: ScadenzaVeicolo; // Per l'aggiunta (ad un veicolo) d'una nuova scadenza.
@@ -54,6 +62,10 @@ export class ExpiryComponent implements OnInit {
     this.listProvince = null;
     this.listDocumenti = null;
 
+    this.listFornitori = null;
+    this.listCausaliManutenzione = null;
+    this.listManutenzioniVeicoli = null;
+
     this.scadenzaVeicoloDetail = null;
     //this.scadenzaVeicoloDetail=new ScadenzaVeicolo(1,1,new Date('19991224'),1,1,1,'no',false,false);
     this.newScadenzaVeicoloDetail = null;
@@ -72,6 +84,7 @@ export class ExpiryComponent implements OnInit {
     this.showDocViewerNew = null;
     this.documentoDaMostrare = null;
     this.oggi = null;
+    this.newTipoScadenzaIdPerManutenzione=1;
 
     var self = this;
     dataSrvc.getListDocumenti(function (items: Array<Documento>): void { self.listDocumenti = items; });
@@ -79,6 +92,10 @@ export class ExpiryComponent implements OnInit {
     dataSrvc.getListVeicoli(function (items: Array<Veicolo>): void { self.listVeicoli = items; });
     dataSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void { self.listTipiScadenza = items; });
     dataSrvc.getListScadenzeVeicoli(function (items: Array<ScadenzaVeicolo>): void { self.listScadenzeTuttiVeicoli = items; });
+
+    dataSrvc.getListFornitori(function (items: Array<Fornitori>): void { self.listFornitori = items; });
+    dataSrvc.getCausaliManutenzione(function (items: Array<CausaliManutenzione>): void { self.listCausaliManutenzione = items; });
+    dataSrvc.getManutenzioniVeicoli(function (items: Array<ManutenzioniVeicoli>): void { self.listManutenzioniVeicoli = items; });
 
     this.page = 'listScadenzeTuttiVeicoli';
     this.titolo = 'Scadenze';
@@ -110,7 +127,6 @@ export class ExpiryComponent implements OnInit {
     this.isDocBtnEnabled = false;
   }
 
-  /*incompleto*/
   listVeicoliView(): void {
     this.page = 'listVeicoli';
 
@@ -119,17 +135,27 @@ export class ExpiryComponent implements OnInit {
     this.isDocBtnEnabled = false;
   }
 
-  listScadenzePerVeicoloView(veicolo: Veicolo): void {
+  listScadenzeVeicoloView(veicolo: Veicolo): void {
     this.page = 'listScadenzePerVeicolo';
 
     this.titolo = `Scadenze per veicolo ${veicolo.Marca} ${veicolo.Modello}`;
     this.isEditing = false;
     this.isDocBtnEnabled = false;
 
-    //this.listScadenzePerVeicolo=[];
-    //.forEach(element => {
+    this.listScadenzeDelSingoloVeicolo = [];
+    for (let i = 0; i < this.listScadenzeTuttiVeicoli.length; i++) {
+      if (this.listScadenzeTuttiVeicoli[i].IdVeicolo == veicolo.IdVeicolo) {
+        this.listScadenzeDelSingoloVeicolo.push(this.listScadenzeTuttiVeicoli[i]);
+      }
+    }
+  }
 
-    //});
+  listManutenzioniVeicoliView(): void {
+    this.page = 'listManutenzioniVeicoli';
+
+    this.titolo = 'Scadenze - lista delle manutenzioni';
+    this.isEditing = false;
+    this.isDocBtnEnabled = false;
   }
 
   detailSingolaScadenzaPerVeicoloView(sV: ScadenzaVeicolo): void {
@@ -148,8 +174,9 @@ export class ExpiryComponent implements OnInit {
   /*editTipoScadenzaView*/
   editTipoScadenzaView(scadenzaOriginale: Scadenza): void {
     this.page = 'editTipoScadenza';
-    this.titolo = `Scadenze - Dettaglio della scadenzaModifica del tipo di scadenza`;
+    this.titolo = `Scadenze - Modifica del tipo di scadenza`;
 
+    this.isEditing = true;
     this.scadenzaDetail = null;
     this.newTipoScadenza = null;
     this.scadenzaDetail = new Scadenza(scadenzaOriginale.IdScadenza, scadenzaOriginale.Scadenza, scadenzaOriginale.GiorniPreavviso);
@@ -261,15 +288,15 @@ export class ExpiryComponent implements OnInit {
     scadenzaVeicoloAggiornata.Avviso = this.newScadenzaVeicoloDetail.Avviso;
     //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato; // Per adesso mantengo quella "vecchia" già presente nel DB.
     /* Conversione data. */
-    // scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
+    //scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
 
     console.log("data ricevuta");
     console.log(scadenzaVeicoloAggiornata.Data);
 
-    this.dateStr = `${this.newScadenzaPerSingoloVeicolo.Data.getFullYear().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getMonth().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getDate().toString()}`;
-    scadenzaVeicoloAggiornata.Data = new Date(this.dateStr);
-    console.log("data inviata");
-    console.log(scadenzaVeicoloAggiornata.Data);
+    // this.dateStr = `${this.newScadenzaPerSingoloVeicolo.Data.getFullYear().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getMonth().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getDate().toString()}`;
+    // scadenzaVeicoloAggiornata.Data = new Date(this.dateStr);
+    // console.log("data inviata");
+    // console.log(scadenzaVeicoloAggiornata.Data);
 
     /*  */
 
@@ -350,6 +377,9 @@ export class ExpiryComponent implements OnInit {
       );
   }
 
+//!!!!!!!!!!!!!!!!!!!!!!!!
+  convertManutenzioneVeicoloToScadenzaAndAddToList(objDaConvertire:ManutenzioniVeicoli):void{}
+  deleteManutenzioneVeicolo(id:number):void{}
 
   /* Metodi per il confronto di date. */
 
@@ -412,6 +442,8 @@ export class ExpiryComponent implements OnInit {
     else {
       return "";
     }
+    console.log("");
+    console.log();
   }
 
   getModelloById(id: number): string {
@@ -466,12 +498,38 @@ export class ExpiryComponent implements OnInit {
     }
   }
 
+// Tabella CausaliManutenzione
+
+getNomeCausaleManutenzioneById(idCausale:number):string{
+  if (this.listCausaliManutenzione != null && this.listCausaliManutenzione != null) {
+    var causaleManutenzioneById = this.listCausaliManutenzione.find(cM => cM.IdCausaleManutenzione == idCausale);
+
+    return causaleManutenzioneById.CausaleManutenzione;
+  }
+  else {
+    return "listaVuota";
+  }
+}
+
+// Tabella Fornitori
+
+getNomeFornitoreById(idFornitore:number):string{
+  if (this.listFornitori != null && this.listFornitori != null) {
+    var fornitoreById = this.listFornitori.find(f => f.IdFornitore == idFornitore);
+
+    return fornitoreById.Fornitore;
+  }
+  else {
+    return "listaVuota";
+  }
+}
+
   // Tabella Documenti
 
   //Vedi il component docviewer
   //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
   //incompleto
-  getDocumentoImgByIdDocumento(idDocumento): any {
+  getDocumentoImgByIdDocumento(idDocumento:number): any {
     if (this.listDocumenti != null && this.listDocumenti != null) {
       var documentoById = this.listDocumenti.find(d => d.IdDocumento == idDocumento);
       return documentoById.Documento;

@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Portal } from '@angular/cdk/portal';
 import { Observable } from 'rxjs';
 
 import { Veicolo } from '../models/Veicolo';
@@ -10,7 +11,6 @@ import { Scadenza } from '../models/scadenza';
 import { Anagrafica } from '../models/anagrafica';
 import { Commessa } from '../models/commessa';
 import { ScadenzaVeicolo } from '../models/scadenzaVeicolo';
-import { Portal } from '@angular/cdk/portal';
 import { Documento } from '../models/documento';
 import { StatoVeicolo } from '../models/StatoVeicolo';
 import { Stato } from '../models/stato';
@@ -18,6 +18,9 @@ import { Societa } from '../models/societa';
 import { BusinessUnit } from '../models/businessUnit';
 import { TelepassViacard } from '../models/telepassViacard';
 import { Modalita } from '../models/modalita';
+import { Fornitori } from '../models/fornitori';
+import { CausaliManutenzione } from '../models/causalimanutenzione';
+import { ManutenzioniVeicoli } from '../models/manutenzioniveicoli';
 
 /* const string per i percorsi*/
 const PERCORSO_BASE: string = "http://localhost";
@@ -28,6 +31,8 @@ export class DataService {
 
     constructor(private http: HttpClient) {
     }
+
+    /* • Veicoli */
 
     public getListVeicoli(callback: (items: Array<Veicolo>) => void): void {
         var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}${PORTA}/api/getveicoli`)
@@ -209,7 +214,7 @@ export class DataService {
             );
     }
 
-    /*Stato Veicoli*/
+    /* • Stato Veicoli */
 
     public getListStatoVeicoli(callback: (items: Array<StatoVeicolo>) => void): void {
         var item = this.http.get<Array<StatoVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getstatoveicoli`)
@@ -233,7 +238,7 @@ export class DataService {
         return this.http.post<StatoVeicolo>(`${PERCORSO_BASE}${PORTA}/api/addstatoveicolo`, statoVeicolo)
     }
     
-    /*Stato*/
+    /* • Stato */
 
     public getListStati(callback: (items: Array<Stato>) => void): void {
         var item = this.http.get<Array<Stato>>(`${PERCORSO_BASE}${PORTA}/api/getstati`)
@@ -249,7 +254,7 @@ export class DataService {
             );
     }
 
-    /*Societa*/
+    /* • Societa */
 
     public getListSocieta(callback: (items: Array<Societa>) => void): void {
         var item = this.http.get<Array<Societa>>(`${PERCORSO_BASE}${PORTA}/api/getsocieta`)
@@ -265,7 +270,7 @@ export class DataService {
             );
     }
 
-    /*BusinessUnit*/
+    /* • BusinessUnit*/
 
     public getListBusinessUnit(callback: (items: Array<BusinessUnit>) => void): void {
         var item = this.http.get<Array<BusinessUnit>>(`${PERCORSO_BASE}${PORTA}/api/getbusinessunit`)
@@ -281,7 +286,8 @@ export class DataService {
             );
     }
 
-    /*TelepassViacard*/
+    /* • TelepassViacard*/
+
     public getListTelepassViacard(callback: (items: Array<TelepassViacard>) => void): void {
         var item = this.http.get<Array<TelepassViacard>>(`${PERCORSO_BASE}${PORTA}/api/gettelepassviacard`)
             .subscribe(
@@ -295,7 +301,8 @@ export class DataService {
                 }
             );
     }
-    /*Modalita*/
+    
+    /* • Modalita*/
 
     public getListModalita(callback: (items: Array<Modalita>) => void): void {
         var item = this.http.get<Array<Modalita>>(`${PERCORSO_BASE}${PORTA}/api/getmodalita`)
@@ -311,4 +318,58 @@ export class DataService {
             );
     }
 
+    /* • Fornitori */
+    
+    public getListFornitori(callback: (items: Array<Fornitori>) => void): void {
+        var item = this.http.get<Array<Fornitori>>(`${PERCORSO_BASE}${PORTA}/api/getfornitori`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                    console.log("Errore in getfornitori.");
+                    // Gestire eventuali errori della chiamata
+                }
+            );
+    }
+
+    /* • Causali di manutenzione */
+    
+    public getCausaliManutenzione(callback: (items: Array<CausaliManutenzione>) => void): void {
+        var item = this.http.get<Array<CausaliManutenzione>>(`${PERCORSO_BASE}${PORTA}/api/getcausalimanutenzione`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                    console.log("Errore in getcausalimanutenzione.");
+                    // Gestire eventuali errori della chiamata
+                }
+            );
+    }
+
+    /* • Manutenzioni veicoli */
+
+    public getManutenzioniVeicoli(callback: (items: Array<ManutenzioniVeicoli>) => void): void {
+        var item = this.http.get<Array<ManutenzioniVeicoli>>(`${PERCORSO_BASE}${PORTA}/api/getmanutenzioniveicoli`)
+            .subscribe(
+                data => {
+                    // Ho i dati
+                    callback(data);
+
+                },
+                error => {
+                    console.log("Errore in getmanutenzioniveicoli.");
+                    // Gestire eventuali errori della chiamata
+                }
+            );
+    }
+
+    deleteManutenzioneVeicolo(id: number): Observable<number> {
+        return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/manutenzioneveicolo/`, id);
+    }
 }
