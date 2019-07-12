@@ -17,14 +17,15 @@ th{
 
 button{
   background-color: #003d7e;
-  width: 100px;
+  min-width: 150px;
+  /* width: 100px; */
  color: white;
  margin:20px
 }
 
 .bigbtn {
   background-color: #003d7e;
-  width: 150px;
+ width: 150px;
  color: white;
  margin:20px
 }
