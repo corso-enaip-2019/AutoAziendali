@@ -2,6 +2,43 @@
 <div *ngIf="page == 'listaVeicoli'">
     <h1 class="title">Lista Veicoli Stato</h1>
 
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca Targa">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="Targa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Targa </th>
+            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Targa}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Marca}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Modello">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modello </th>
+            <td mat-cell *matCellDef="let veicolo"> {{veicolo.Modello}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="StoricoStati">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let veicolo"> <button (click)="listStateView(veicolo)"
+                    mat-flat-button>Storico Stati</button> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef=" displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+
+<!-- 
+
+
     <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
@@ -12,7 +49,7 @@
             <td>{{veicolo.Modello}}</td>
             <td><button class="bigbtn" mat-flat-button (click)="listStateView(veicolo)">Storico Stati</button></td>
         </tr>
-    </table>
+    </table> -->
 </div>
 
 <div *ngIf="page == 'listaStati'">
