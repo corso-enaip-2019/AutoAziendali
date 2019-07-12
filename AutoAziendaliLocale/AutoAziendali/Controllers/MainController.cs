@@ -39,10 +39,6 @@ namespace AutoAziendali.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-
-
-
-
         [HttpPost]
         [Route("editVeicolo")]
         public async Task<HttpResponseMessage> EditVeicolo([FromBody]Veicoli veicolo)
@@ -206,7 +202,6 @@ namespace AutoAziendali.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
         }
-
 
         #endregion
 
@@ -469,7 +464,6 @@ namespace AutoAziendali.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
         }
-        
 
         #endregion
 
