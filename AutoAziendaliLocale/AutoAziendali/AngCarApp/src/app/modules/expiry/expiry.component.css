@@ -17,9 +17,13 @@
 
   button{
     background-color: #003d7e;
-    width: 100px;
+    width: 150px;
    color: white;
    margin:20px
+}
+
+.btnAlto{
+  width: 400px;
 }
 
 .bigbtn {

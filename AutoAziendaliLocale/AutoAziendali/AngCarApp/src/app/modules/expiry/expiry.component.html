@@ -1,12 +1,11 @@
 <h1 class="title">{{titolo}}</h1>
 
 <br />
-<div id="seriePulsantiInAlto">
-    <div id="btnAlto"><button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i
-    veicoli)</button></div>&nbsp;
-<div id="btnAlto"><button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button>&nbsp;</div>
-<div id="btnAlto"><button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di scadenzaveicoli</button>&nbsp;</div>
-<div id="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button></div>
+<div class="seriePulsantiInAlto">
+    <div id="btnAlto"><button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti i veicoli)</button></div>
+<div class="btnAlto"><button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative scadenze)</button></div>
+<div class="btnAlto"><button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di scadenza</button></div>
+<div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button></div>
 </div>
 <br />
 
@@ -54,12 +53,9 @@
             <th>Targa</th>
             <th>Marca</th>
             <th>Modello</th>
-            <th><em>&nbsp;</em></th>
-            <!-- <th><em>Dettaglio</em></th> -->
-            <th><em>&nbsp;</em></th>
-            <!-- <th><em>Modifica</em></th> -->
-            <th><em>&nbsp;</em></th>
-            <!-- <th><em>Elimina</em></th> -->
+            <!-- <th><em>&nbsp;Dettaglio</em></th> -->
+            <!-- <th><em>&nbsp;Modifica</em></th> -->
+            <!-- <th><em>&nbsp;Elimina</em></th> -->
         </thead>
         <!--<tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}"
         *ngFor="let scadenzaVeicolo of listScadenzeTuttiVeicoli">-->
@@ -935,7 +931,8 @@
     <table mat-tableid>
         <thead>
             <tr>
-                <th>&nbsp;</th>
+                <!-- <th>&nbsp;</th> -->
+                <th></th>
                 <th>Scadenza attuale</th>
                 <th>Scadenza aggiornata</th>
             </tr>
