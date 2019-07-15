@@ -290,7 +290,7 @@ export class DataService {
                 }
             );
     }
-    
+
     /* • Modalita*/
 
     public getListModalita(callback: (items: Array<Modalita>) => void): void {
@@ -301,13 +301,13 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-                   
+
                 }
             );
     }
 
     /* • Fornitori */
-    
+
     public getListFornitori(callback: (items: Array<Fornitori>) => void): void {
         var item = this.http.get<Array<Fornitori>>(`${PERCORSO_BASE}${PORTA}/api/getfornitori`)
             .subscribe(
@@ -323,7 +323,7 @@ export class DataService {
     }
 
     /* • Causali di manutenzione */
-    
+
     public getCausaliManutenzione(callback: (items: Array<CausaliManutenzione>) => void): void {
         var item = this.http.get<Array<CausaliManutenzione>>(`${PERCORSO_BASE}${PORTA}/api/getcausalimanutenzione`)
             .subscribe(
@@ -356,5 +356,12 @@ export class DataService {
 
     deleteManutenzioneVeicolo(id: number): Observable<number> {
         return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/manutenzioneveicolo/`, id);
+    }
+
+    public operationConfirmWithMessage(message: string): boolean {
+        if (typeof (message) == null || typeof (message) == null || message == null) { message = "Vuoi procedere con l\'operazione?";
+    }
+
+        return window.confirm(message.toString());
     }
 }

@@ -56,3 +56,10 @@ mat-form-field{
   float:left;
   width:33%;
 }
+
+/* .search_dx
+{
+  float: right;
+  width:66%;
+  background-image: radial-gradient(whitesmoke 10%,#004ea1 10%,whitesmoke 80%);
+} */

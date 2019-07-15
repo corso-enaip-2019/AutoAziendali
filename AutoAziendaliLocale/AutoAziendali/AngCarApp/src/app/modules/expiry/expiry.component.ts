@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 
 import { DataService } from 'src/app/services/data-service';
@@ -19,7 +19,7 @@ import { ManutenzioniVeicoli } from 'src/app/models/manutenzioniveicoli';
   templateUrl: './expiry.component.html',
   styleUrls: ['./expiry.component.css']
 })
-export class ExpiryComponent implements OnInit {
+export class ExpiryComponent {
   public page: string; // Per gl'ngIf di "selezione" della schermata.
   public titolo: string; // Titolo da visualizzare sopra la tabella / il resto della schermata.
 
@@ -68,17 +68,17 @@ export class ExpiryComponent implements OnInit {
   //Definizione colonne
   //Tabelle List
   displayedColsListTipSc: string[] = ['NomeScadenza', 'GgDiPreavviso', 'ColBtnModifica', 'ColBtnElimina'];
-  displayedColsListVeico: string[] = ['Targa', 'Marca', 'Modello', 'VediScadenze'];
-  displayedColsListScTuV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
+  displayedColsListVeico: string[] = ['Targa', 'Marca', 'Modello', 'ColBtnVediScadenze'];
+  displayedColsListScTuV: string[] = ['DataScadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
   displayedColsListManVe: string[] = ['Data', 'Causale', 'Veicolo', 'Fornitore', 'Costo', 'Note', 'ColBtnConverti', 'ColBtnElimina']; //E' uguale a quella con tutte le scadenze di tutti i veicoli (ho deciso di lasciare Targa-Marca-Modello).
   //Tabelle Dettaglio
-  displayedColsDettScSiV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //Non so bene come farla, la vedo bene così com'è; con la lista?.
+  displayedColsDettScSiV: string[] = ['Data scadenza', 'GgAllaScadenza', 'GgAllaScadenza', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //Non so bene come farla, la vedo bene così com'è; con la lista?.
   //Tabelle Edit
-  displayedColsEditTipSc: string[] = ['ColTitoli', 'Scadenza attuale', , 'Scadenza aggiornata', 'ColDelta'];
-  displayedColsEditScSiV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
+  displayedColsEditTipSc: string[] = ['ColTitoli', 'ScadenzaAttuale', 'ScadenzaAggiornata', 'ColDelta'];
+  displayedColsEditScSiV: string[] = ['Data scadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
   //Tabelle New
   //displayedColsNewTipSc: string[] = ['ColTitoli', 'ColDati']; //E' così minima che la lascio come tabella normale.
-  displayedColsNewScSiV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
+  displayedColsNewScSiV: string[] = ['Data scadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
 
   constructor(private dataSrvc: DataService) {
     // "Inizializzazioni" necessarie.
@@ -112,12 +112,27 @@ export class ExpiryComponent implements OnInit {
     this.oggi = null;
     this.newIdTipoScadenzaPerConversione = 1;
 
+    /* Riempimento DataSorce. */
     var self = this;
-    dataSrvc.getListDocumenti(function (items: Array<Documento>): void { self.listDocumenti = items; });
-    dataSrvc.getListProvince(function (items: Array<Province>): void { self.listProvince = items; });
-    dataSrvc.getListVeicoli(function (items: Array<Veicolo>): void { self.listVeicoli = items; });
-    dataSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void { self.listTipiScadenza = items; });
-    dataSrvc.getListScadenzeVeicoli(function (items: Array<ScadenzaVeicolo>): void { self.listScadenzeTuttiVeicoli = items; });
+    dataSrvc.getListDocumenti(function (items: Array<Documento>): void {
+      self.listDocumenti = items; self.dtSrcDocumenti = new MatTableDataSource(self.listDocumenti);
+    });
+
+    dataSrvc.getListProvince(function (items: Array<Province>): void {
+      self.listProvince = items; self.dtSrcProvince = new MatTableDataSource(self.listProvince);
+    });
+
+    dataSrvc.getListVeicoli(function (items: Array<Veicolo>): void {
+      self.listVeicoli = items; self.dtSrcVeicoli = new MatTableDataSource(self.listVeicoli);
+    });
+
+    dataSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void {
+      self.listTipiScadenza = items; self.dtSrcTipiScadenza = new MatTableDataSource(self.listTipiScadenza);
+    });
+
+    dataSrvc.getListScadenzeVeicoli(function (items: Array<ScadenzaVeicolo>): void {
+      self.listScadenzeTuttiVeicoli = items; self.dtSrcScadenzeTuttiVeicoli = new MatTableDataSource(self.listScadenzeTuttiVeicoli);
+    });
 
     dataSrvc.getListFornitori(function (items: Array<Fornitori>): void { self.listFornitori = items; });
     dataSrvc.getCausaliManutenzione(function (items: Array<CausaliManutenzione>): void { self.listCausaliManutenzione = items; });
@@ -147,14 +162,10 @@ export class ExpiryComponent implements OnInit {
     this.isDocBtnEnabled = false;
     this.showDocViewerDetail = false;
     this.showDocViewerNew = false;
-    this.dateStr = '1999-12-31';
+    //this.dateStr = '1999-12-31';
 
-    //Schermata da mostrare all'arrivo alla/della pagina.
+    //Schermata da mostrare all'arrivo alla / caricamento della pagina.
     this.listScadenzeTuttiVeicoliView();
-  }
-
-  ngOnInit() {
-    // this.rimpolpamentoDeiNull();
   }
 
   /* Metodi per il "cambio di schermata". */
@@ -246,7 +257,7 @@ export class ExpiryComponent implements OnInit {
   }
 
   newTipoScadenzaViewQuestion(): void {
-    if (Veicolo.operationConfirm()) {
+    if (this.dataSrvc.operationConfirmWithMessage("Passare alla creazione d\'un nuovo tipo di scadenza? I dati attuali verranno persi.")) {
       this.isEditing = true;
       this.newTipoScadenzaView();
     }
@@ -293,10 +304,8 @@ export class ExpiryComponent implements OnInit {
   /* funzionano: cambioVeicolo, note, cambio prezzo, documento, presenza/assenza doc (non mette null), avviso */
   /* non funzionano: cambio tipo scadenza (err406), data (da convertire in formato !=). */
   editScadenzaVeicolo(scadenzaVeicoloAggiornata: ScadenzaVeicolo): void {
-    /* "Nullabilità" dei vari campi, presa manualmente dallo script di creazione. */
-    // NoteIsNullableInDB: boolean = true;
-    // AvvisoIsNullableInDB: boolean = true;
-    // AvvisoInviatoIsNullableInDB: boolean = true;
+    /* "Nullabilità" dei vari campi, presa manualmente dallo script di creazione:
+     * NoteIsNullableInDB = true; AvvisoIsNullableInDB = true; AvvisoInviatoIsNullableInDB = true; */
 
     if (typeof (scadenzaVeicoloAggiornata.Costo) == 'undefined') {
       scadenzaVeicoloAggiornata.Costo = null;
@@ -344,6 +353,7 @@ export class ExpiryComponent implements OnInit {
           this.detailSingolaScadenzaPerVeicoloView(this.scadenzaVeicoloDetail);
           location.reload();
           this.page = 'dettaglioSingolaScadenzaPerVeicolo';
+          this.isEditing = false;
         },
         error => {
           console.log("Errore durante la fase d\'edit di scadenzaveicolo.");
@@ -353,7 +363,7 @@ export class ExpiryComponent implements OnInit {
   }
 
   deleteScadenzaVeicolo(id: number): void {
-    if (ScadenzaVeicolo.operationConfirm()) {
+    if (this.dataSrvc.operationConfirmWithMessage('Eliminare questa scadenza da questo veicolo?')) {
       this.dataSrvc.deleteScadenzaVeicolo(id)
         .subscribe(
           data => {
@@ -361,6 +371,7 @@ export class ExpiryComponent implements OnInit {
             this.listScadenzeTuttiVeicoli.splice(index, 1);
             location.reload();
             this.page = 'listScadenzeTuttiVeicoli';
+            this.isEditing = false;
           },
           error => {
             console.log('3rr in delete scad veicolo');
@@ -389,7 +400,7 @@ export class ExpiryComponent implements OnInit {
       .subscribe(
         data => {
           location.reload();
-          this.page = 'listScadenzeTuttiVeicoli';
+          this.page = 'listTipiScadenza';
           this.isEditing = false;
         },
         error => {
@@ -415,7 +426,7 @@ export class ExpiryComponent implements OnInit {
   }
 
   deleteTipoScadenza(id: number): void {
-    if (ScadenzaVeicolo.operationConfirm()) {
+    if (this.dataSrvc.operationConfirmWithMessage('Eliminare questo tipo di scadenza?')) {
       this.dataSrvc.deleteScadenza(id)
         .subscribe(
           data => {
@@ -423,6 +434,7 @@ export class ExpiryComponent implements OnInit {
             this.listTipiScadenza.splice(index, 1);
             location.reload();
             this.page = 'listTipiScadenza';
+            this.isEditing = false;
           },
           error => {
             console.log('Errore in delete tipo scad veicolo');
@@ -448,7 +460,7 @@ export class ExpiryComponent implements OnInit {
   }
 
   deleteManutenzioneVeicolo(id: number): void {
-    if (ScadenzaVeicolo.operationConfirm()) {
+    if (this.dataSrvc.operationConfirmWithMessage('Eliminare questa manutenzione veicolo?')) {
       this.dataSrvc.deleteManutenzioneVeicolo(id)
         .subscribe(
           data => {
@@ -456,6 +468,7 @@ export class ExpiryComponent implements OnInit {
             this.listManutenzioniVeicoli.splice(index, 1);
             location.reload();
             this.page = 'listManutenzioniVeicoli';
+            this.isEditing = false;
           },
           error => {
             console.log('3rr in delete ManutenzioniVeicoli');
