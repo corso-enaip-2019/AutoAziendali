@@ -11,7 +11,7 @@
         scadenza</button>
     <button mat-flat-button (click)="listManutenzioniVeicoliView()">Vedi lista delle
         manutenzioni</button>
-    <!-- <div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button> -->
+    <!-- <div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaViewQuestion()">Crea nuovo tipo di scadenza</button> -->
 </div>
 
 <br />
@@ -79,8 +79,11 @@
 </div>
 
 <div *ngIf="page == 'listTipiScadenza'">
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca nella lista">
+    </mat-form-field>
     <!-- <div *ngIf="page == 'NEW___listTipiScadenza'"> -->
-    <table mat-table [dataSource]="dtSrc_listTipiScadenza" matSort>
+    <table mat-table [dataSource]="dtSrcTipiScadenza" matSort>
         <!-- Colonna Nome tipo scadenza -->
         <ng-container matColumnDef="NomeScadenza">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
@@ -108,12 +111,15 @@
             <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button
                     (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
         </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColsListTipSc"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColsListTipSc;"></tr>
     </table>
     <div><button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button></div>
 </div>
 
+<!-- <div *ngIf="page == 'listTipiScadenza'"> -->
 <div *ngIf="page == 'OLD___listTipiScadenza'">
-    <!-- <div *ngIf="page == 'OLD___listTipiScadenza'"> -->
     <table mat-tableid>
         <thead>
             <th>Nome tipo scadenza</th>
@@ -490,7 +496,7 @@
                 <tr>
                     <td>Tipo scadenza:</td>
                     <td>&nbsp;</td>
-                    <td><button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di
+                    <td><button mat-flat-button (click)="newTipoScadenzaViewQuestion()">Aggiungi un nuovo tipo di
                             scadenza</button></td>
                 </tr>
                 <tr>
@@ -824,7 +830,7 @@
 
                 <tr>
                     <td>Tipo scadenza:</td>
-                    <td><button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di
+                    <td><button mat-flat-button (click)="newTipoScadenzaViewQuestion()">Aggiungi un nuovo tipo di
                             scadenza</button></td>
                 </tr>
                 <tr>
@@ -970,16 +976,21 @@
             <tbody>
                 <tr>
                     <td><strong>Nome del tipo di scadenza:</strong></td>
-                    <mat-form-field>
-                        <input matInput [(ngModel)]="newTipoScadenza.Scadenza" placeholder="Nome del tipo di scadenza">
-                    </mat-form-field>
+                    <td>
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="newTipoScadenza.Scadenza"
+                                placeholder="Nome del tipo di scadenza">
+                        </mat-form-field>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Giorni di preavviso previsti:</strong></td>
-                    <mat-form-field>
-                        <input matInput [(ngModel)]="newTipoScadenza.GiorniPreavviso"
-                            placeholder="Giorni di preavviso previsti">
-                    </mat-form-field>
+                    <td>
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="newTipoScadenza.GiorniPreavviso"
+                                placeholder="Giorni di preavviso previsti">
+                        </mat-form-field>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material';
 
 import { DataService } from 'src/app/services/data-service';
 
@@ -13,6 +13,7 @@ import { CausaliManutenzione } from 'src/app/models/causalimanutenzione';
 import { ManutenzioniVeicoli } from 'src/app/models/manutenzioniveicoli';
 
 //import { DocviewerComponent } from 'src/app/components/docviewer';
+
 
 @Component({
   selector: 'app-expiry',
@@ -36,25 +37,15 @@ export class ExpiryComponent implements OnInit {
   public listCausaliManutenzione: Array<CausaliManutenzione>;
   public listManutenzioniVeicoli: Array<ManutenzioniVeicoli>;
 
-  // public dtSrcVeicoli: MatTableDataSource<Veicolo>;
   public dtSrcTipiScadenza: MatTableDataSource<Scadenza>;
-  // public dtSrcScadenzeTuttiVeicoli: MatTableDataSource<ScadenzaVeicolo>;
-  // public dtSrcScadenzeSingoloVeicolo: MatTableDataSource<ScadenzaVeicolo>;
-  // public dtSrcDocumenti: MatTableDataSource<Documento>;
-  // public dtSrcProvince: MatTableDataSource<Province>;
-  // public dtSrcFornitori: MatTableDataSource<Fornitori>;
-  // public dtSrcCasusaliManutenzione: MatTableDataSource<CausaliManutenzione>;
-  // public dtSrcManutenzioniVeicoli: MatTableDataSource<ManutenzioniVeicoli>;
-
-  displayedColumnsVei: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
-  displayedColumnsTSc: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
-  displayedColumnsSTV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello'/*,'Modifica','Elimina'*/];
-  displayedColumnsSSV: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
-  displayedColumnsDoc: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
-  displayedColumnsPro: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
-  displayedColumnsFor: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
-  //displayedColumnsCMa: string[] = ['IdCausaleManutenzione', 'NomeCausaleManutenzione']; //Non serve mostrarla.
-  displayedColumnsMaV: string[] = ['Data', 'Causale', 'Targa', 'Marca', 'Modello', 'Fornitore', 'Costo', 'Note' /*,'Converti', 'Elimina'*/];
+  public dtSrcDocumenti: MatTableDataSource<Documento>;
+  public dtSrcProvince: MatTableDataSource<Province>;
+  public dtSrcFornitori: MatTableDataSource<Fornitori>;
+  public dtSrcCasusaliManutenzione: MatTableDataSource<CausaliManutenzione>;
+  public dtSrcVeicoli: MatTableDataSource<Veicolo>;
+  public dtSrcScadenzeTuttiVeicoli: MatTableDataSource<ScadenzaVeicolo>;
+  public dtSrcScadenzeSingoloVeicolo: MatTableDataSource<ScadenzaVeicolo>;
+  public dtSrcManutenzioniVeicoli: MatTableDataSource<ManutenzioniVeicoli>;
 
   public newTipoScadenza: Scadenza; // Per la creazione d'un nuovo tipo di scadenza.
   public newScadenzaPerSingoloVeicolo: ScadenzaVeicolo; // Per l'aggiunta (ad un veicolo) d'una nuova scadenza.
@@ -74,6 +65,21 @@ export class ExpiryComponent implements OnInit {
   public documentoDaMostrare: Documento;
   public oggi: Date;
   public dateStr: string;
+
+  //Definizione colonne
+  //Tabelle List
+  displayedColsListTipSc: string[] = ['NomeScadenza', 'GgDiPreavviso', 'ColBtnModifica', 'ColBtnElimina'];
+  displayedColsListVeico: string[] = ['Targa', 'Marca', 'Modello', 'VediScadenze'];
+  displayedColsListScTuV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
+  displayedColsListManVe: string[] = ['Data', 'Causale', 'Veicolo', 'Fornitore', 'Costo', 'Note', 'ColBtnConverti', 'ColBtnElimina']; //E' uguale a quella con tutte le scadenze di tutti i veicoli (ho deciso di lasciare Targa-Marca-Modello).
+  //Tabelle Dettaglio
+  displayedColsDettScSiV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //Non so bene come farla, la vedo bene così com'è; con la lista?.
+  //Tabelle Edit
+  displayedColsEditTipSc: string[] = ['ColTitoli', 'Scadenza attuale', , 'Scadenza aggiornata', 'ColDelta'];
+  displayedColsEditScSiV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
+  //Tabelle New
+  //displayedColsNewTipSc: string[] = ['ColTitoli', 'ColDati']; //E' così minima che la lascio come tabella normale.
+  displayedColsNewScSiV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
 
   constructor(private dataSrvc: DataService) {
     // "Inizializzazioni" necessarie.
@@ -119,6 +125,18 @@ export class ExpiryComponent implements OnInit {
     dataSrvc.getManutenzioniVeicoli(function (items: Array<ManutenzioniVeicoli>): void { self.listManutenzioniVeicoli = items; });
 
     /* Preparazione dei MatTableDataSource. */
+    dataSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void { self.dtSrcTipiScadenza = new MatTableDataSource(items); });
+    // dataSrvc.getListDocumenti(function (items: Array<Documento>): void {
+    //   self.dtSrcDocumenti = new MatTableDataSource(items);
+    // }); dataSrvc.getListProvince(function (items: Array<Province>): void {
+    //   self.dtSrcProvince = new MatTableDataSource(items);
+    // });
+    // dataSrvc.getListFornitori(function (items: Array<Fornitori>): void { self.dtSrcFornitori = new MatTableDataSource(items); });
+    // dataSrvc.getCausaliManutenzione(function (items: Array<CausaliManutenzione>): void { self.dtSrcCasusaliManutenzione = new MatTableDataSource(items); });
+    // dataSrvc.getListVeicoli(function (items: Array<Veicolo>): void { self.dtSrcVeicoli = new MatTableDataSource(items); });
+    // dataSrvc.getListScadenzeVeicoli(function (items: Array<ScadenzaVeicolo>): void { self.dtSrcScadenzeTuttiVeicoli = new MatTableDataSource(items); });
+    // dataSrvc.getListScadenzeVeicoli(function (items: Array<ScadenzaVeicolo>): void { self.dtSrcScadenzeSingoloVeicolo = new MatTableDataSource(items); });
+    // dataSrvc.getManutenzioniVeicoli(function (items: Array<ManutenzioniVeicoli>): void { self.dtSrcManutenzioniVeicoli = new MatTableDataSource(items); });
 
     this.page = 'listScadenzeTuttiVeicoli';
     this.titolo = 'Scadenze';
@@ -228,29 +246,23 @@ export class ExpiryComponent implements OnInit {
     this.page = 'editSingolaScadenzaPerVeicolo';
   }
 
+  newTipoScadenzaViewQuestion(): void {
+    if (Veicolo.operationConfirm()) {
+      this.isEditing = true;
+      this.newTipoScadenzaView();
+    }
+  }
+
   newTipoScadenzaView(): void {
-    if (this.isEditing) {
-      if (Veicolo.operationConfirm()) {
-        this.page = 'creazioneTipoScadenza';
-        this.titolo = `Scadenze - Creazione di un nuovo tipo di scadenza`;
+    this.page = 'creazioneTipoScadenza';
+    this.titolo = `Scadenze - Creazione di un nuovo tipo di scadenza`;
+    this.isEditing = true;
 
-        this.newTipoScadenza = null;
-        this.newTipoScadenza = new Scadenza(1, 'NOME TIPO SCADENZA - ND', 1);
+    this.newTipoScadenza = null;
+    this.newTipoScadenza = new Scadenza(1, 'NOME TIPO SCADENZA - ND', 1);
 
-        this.isDocBtnEnabled = false;
-        this.showDocViewerDetail = false;
-      }
-    }
-    else {
-      this.page = 'creazioneTipoScadenza';
-      this.titolo = `Scadenze - Creazione di un nuovo tipo di scadenza`;
-
-      this.newTipoScadenza = null;
-      this.newTipoScadenza = new Scadenza(1, 'NOME TIPO SCADENZA - ND', 1);
-
-      this.isDocBtnEnabled = false;
-      this.showDocViewerDetail = false;
-    }
+    this.isDocBtnEnabled = false;
+    this.showDocViewerDetail = false;
   }
 
   newScadenzaVeicoloView(): void {
