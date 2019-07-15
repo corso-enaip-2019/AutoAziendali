@@ -54,6 +54,7 @@ import { DocviewerComponent } from './components/docviewer/docviewer.component';
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatSortModule,
     //FilterPipeModule
   ],
   providers: [DataService],

@@ -22,12 +22,20 @@ button{
  color: white;
  margin:20px
 }
+button:hover{
+  background-color:#004ea1;
 
+}
 .bigbtn {
   background-color: #003d7e;
  width: 150px;
  color: white;
  margin:20px
+}
+
+.bigbtn:hover{
+  background-color:#004ea1;
+
 }
 
 mat-form-field{
