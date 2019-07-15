@@ -4,38 +4,37 @@
   color: black;
 }
 
-table {
+table{
   width: 100%;
-
-  
 }
+
 th{
-    background: whitesmoke;
-    color: black;
-    font-size: 20px;
+  background: whitesmoke;
+  color: black;
+  font-size: 20px;
 }
 
 button{
   background-color: #003d7e;
   min-width: 150px;
   /* width: 100px; */
- color: white;
- margin:20px
+  color: white;
+  margin:20px
 }
+
 button:hover{
   background-color:#004ea1;
-
 }
-.bigbtn {
+
+.bigbtn{
   background-color: #003d7e;
- width: 150px;
- color: white;
- margin:20px
+  width: 150px;
+  color: white;
+  margin:20px
 }
 
 .bigbtn:hover{
   background-color:#004ea1;
-
 }
 
 mat-form-field{
@@ -44,6 +43,16 @@ mat-form-field{
   width: 200px
 }
 
-#sx {float:left; width:33%;}
-#centro {float:left; width:34%;}
-#dx {float:left; width:33%;}
+#sx{
+  float:left; 
+  width:33%;
+}
+#centro{
+  float:left; 
+  width:34%;
+}
+
+#dx{
+  float:left;
+  width:33%;
+}

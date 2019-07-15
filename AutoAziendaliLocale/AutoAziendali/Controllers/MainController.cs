@@ -253,6 +253,8 @@ namespace AutoAziendali.Controllers
                 currentScadenza.Scadenza = scadenza.Scadenza;
                 currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
 
+                currentScadenza.Scadenza = RiduzioneStringaAMaxLunghezzaConAvvisoPersonalizzabile(currentScadenza.Scadenza  , 50, "*");
+
                 await _context.SaveChangesAsync();
 
                 return Request.CreateResponse(HttpStatusCode.OK);

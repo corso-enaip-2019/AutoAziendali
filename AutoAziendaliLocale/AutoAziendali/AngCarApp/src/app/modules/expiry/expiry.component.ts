@@ -14,7 +14,6 @@ import { ManutenzioniVeicoli } from 'src/app/models/manutenzioniveicoli';
 
 //import { DocviewerComponent } from 'src/app/components/docviewer';
 
-
 @Component({
   selector: 'app-expiry',
   templateUrl: './expiry.component.html',
@@ -279,7 +278,7 @@ export class ExpiryComponent implements OnInit {
     this.showDocViewerDetail = false;
   }
 
-  listTipoScadenzaView(): void {
+  listTipiScadenzaView(): void {
     this.page = 'listTipiScadenza';
     this.titolo = `Scadenze - Lista di tipi di scadenze`;
 
@@ -413,6 +412,23 @@ export class ExpiryComponent implements OnInit {
           console.log(scadenzaModificata);
         }
       );
+  }
+
+  deleteTipoScadenza(id: number): void {
+    if (ScadenzaVeicolo.operationConfirm()) {
+      this.dataSrvc.deleteScadenza(id)
+        .subscribe(
+          data => {
+            let index = this.listTipiScadenza.findIndex(s => s.IdScadenza == id);
+            this.listTipiScadenza.splice(index, 1);
+            location.reload();
+            this.page = 'listTipiScadenza';
+          },
+          error => {
+            console.log('Errore in delete tipo scad veicolo');
+          }
+        );
+    }
   }
 
   /* Metodo speciale per convertire una ManutenzioneVeicolo in una ScadenzaVeicolo e salvarla nel DB. */
@@ -609,25 +625,32 @@ export class ExpiryComponent implements OnInit {
     return (typeof (sV.IdDocumento) == 'undefined');
   }
 
-  rimpolpamentoDeiNullDiScadenzaVeicolo(sV: ScadenzaVeicolo): ScadenzaVeicolo {
+  /* • Metodi per i filtri delle view. */
+  applyFilterVeicoli(filterValue: string) { this.dtSrcVeicoli.filter = filterValue.trim().toLowerCase(); }
+  applyFilterTipiScadenza(filterValue: string) { this.dtSrcTipiScadenza.filter = filterValue.trim().toLowerCase(); }
+  applyFilterScadenzeTuttiVeicoli(filterValue: string) { this.dtSrcScadenzeTuttiVeicoli.filter = filterValue.trim().toLowerCase(); }
+  applyFilterScadenzeVeicolo(filterValue: string) { this.dtSrcScadenzeSingoloVeicolo.filter = filterValue.trim().toLowerCase(); }
+  applyFilterManutenzioni(filterValue: string) { this.dtSrcManutenzioniVeicoli.filter = filterValue.trim().toLowerCase(); }
 
-    if (typeof (sV.Costo) == 'undefined') {
-      sV.Costo = null;
-    }
-    if (typeof (sV.IdDocumento) == 'undefined') {
-      sV.IdDocumento = null;
-    }
-    if (typeof (sV.Note) == 'undefined') {
-      sV.Note = null;
-    }
-    if (typeof (sV.Avviso) == 'undefined') {
-      sV.Avviso = null;
-      sV.AvvisoInviato = null;
-    }
-    if (typeof (sV.AvvisoInviato) == 'undefined') {
-      sV.AvvisoInviato = null;
-    }
+  // rimpolpamentoDeiNullDiScadenzaVeicolo(sV: ScadenzaVeicolo): ScadenzaVeicolo {
 
-    return sV;
-  }
+  //   if (typeof (sV.Costo) == 'undefined') {
+  //     sV.Costo = null;
+  //   }
+  //   if (typeof (sV.IdDocumento) == 'undefined') {
+  //     sV.IdDocumento = null;
+  //   }
+  //   if (typeof (sV.Note) == 'undefined') {
+  //     sV.Note = null;
+  //   }
+  //   if (typeof (sV.Avviso) == 'undefined') {
+  //     sV.Avviso = null;
+  //     sV.AvvisoInviato = null;
+  //   }
+  //   if (typeof (sV.AvvisoInviato) == 'undefined') {
+  //     sV.AvvisoInviato = null;
+  //   }
+
+  //   return sV;
+  // }
 }

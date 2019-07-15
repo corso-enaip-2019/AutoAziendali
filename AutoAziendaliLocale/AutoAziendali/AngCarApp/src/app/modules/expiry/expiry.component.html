@@ -1,22 +1,27 @@
-<h1 class="title">{{titolo}}</h1>
+<h1>{{titolo}}</h1>
 
 <br />
 
 <div class="seriePulsantiInAlto">
-    <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti
+    <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Tutte le scadenze (di tutti
         i veicoli)</button>
-    <button mat-flat-button (click)="listVeicoliView()">Vedi lista dei veicoli (per relative
+    <button mat-flat-button (click)="listVeicoliView()">Veicoli (per relative
         scadenze)</button>
-    <button mat-flat-button (click)="listTipoScadenzaView()">Vedi lista dei tipi di
+    <button mat-flat-button (click)="listTipiScadenzaView()">Tipi di
         scadenza</button>
-    <button mat-flat-button (click)="listManutenzioniVeicoliView()">Vedi lista delle
-        manutenzioni</button>
+    <button mat-flat-button (click)="listManutenzioniVeicoliView()">Manutenzioni</button>
     <!-- <div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaViewQuestion()">Crea nuovo tipo di scadenza</button> -->
 </div>
 
 <br />
 
 <div *ngIf="page == 'listScadenzeTuttiVeicoli'">
+
+    <mat-form-field class="dx">
+        <input matInput (keyup)="--applyFilterScadenzeVeicolo($event.target.value)"
+            placeholder="Cerca scadenza/veicolo">
+    </mat-form-field>
+
     <table mat-tableid>
         <thead>
             <th>Data scadenza</th>
@@ -63,7 +68,8 @@
     <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un veicolo</button>
 </div>
 
-<div *ngIf="page == 'listVeicoli'">
+<!-- <div *ngIf="page == 'listVeicoli'"> -->
+<div *ngIf="page == 'OLD___listVeicoli'">
     <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
@@ -78,10 +84,67 @@
     </table>
 </div>
 
-<div *ngIf="page == 'listTipiScadenza'">
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca nella lista">
+<div *ngIf="page == 'listVeicoli'">
+    <!-- <div *ngIf="page == 'NEW___listVeicoli'"> -->
+
+    <mat-form-field class="dx">
+        <input matInput (keyup)="--applyFilterVeicoli($event.target.value)" placeholder="Cerca veicolo">
     </mat-form-field>
+
+    <table mat-tableid>
+        <th> Targa </th>
+        <th> Marca </th>
+        <th> Modello </th>
+        <tr class="dettaglio" [ngClass]="{'alternativeRow': veicolo.id%2==0}" *ngFor="let veicolo of listVeicoli">
+            <td>{{veicolo.Targa}}</td>
+            <td>{{veicolo.Marca}}</td>
+            <td>{{veicolo.Modello}}</td>
+            <td><button mat-flat-button (click)="listScadenzeVeicoloView(veicolo)">Vedi Scadenze</button>
+            </td>
+        </tr>
+    </table>
+
+    <h1 class="title">Lista Veicoli Stato</h1>
+
+    <mat-form-field class="dx">
+        <input matInput (keyup)="--applyFilterVeicoli($event.target.value)" placeholder="Cerca veicolo">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dtSrcVeicoli" matSort>
+
+        <ng-container matColumnDef="Targa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Targa</th>
+            <td mat-cell *matCellDef="let veicolo">{{veicolo.Targa}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+            <td mat-cell *matCellDef="let veicolo">{{veicolo.Marca}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Modello">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modello</th>
+            <td mat-cell *matCellDef="let veicolo">{{veicolo.Modello}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="VediScadenze">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let veicolo"><button mat-flat-button
+                    (click)="listScadenzeVeicoloView(veicolo)">Vedi Scadenze</button></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColsListVeico"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColsListVeico;"></tr>
+    </table>
+</div>
+
+<!--applyFilterTipiScadenza         -->
+<div *ngIf="page == 'listTipiScadenza'">
+
+    <mat-form-field class="dx">
+        <input matInput (keyup)="--applyFilterTipiScadenza($event.target.value)" placeholder="Cerca tipo di scadenza">
+    </mat-form-field>
+
     <!-- <div *ngIf="page == 'NEW___listTipiScadenza'"> -->
     <table mat-table [dataSource]="dtSrcTipiScadenza" matSort>
         <!-- Colonna Nome tipo scadenza -->
@@ -118,29 +181,13 @@
     <div><button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button></div>
 </div>
 
-<!-- <div *ngIf="page == 'listTipiScadenza'"> -->
-<div *ngIf="page == 'OLD___listTipiScadenza'">
-    <table mat-tableid>
-        <thead>
-            <th>Nome tipo scadenza</th>
-            <th>Giorni di preavviso</th>
-            <!-- <th><em>>&nbsp;Modifica</em></th> -->
-            <!-- <th><em>>&nbsp;Elimina</em></th> -->
-        </thead>
-        <tbody>
-            <tr class="dettaglio" [ngClass]="{'alternativeRow': tipoScadenza.IdScadenza%2==0}"
-                *ngFor="let tipoScadenza of listTipiScadenza">
-                <td>{{tipoScadenza.Scadenza}}</td>
-                <td>{{tipoScadenza.GiorniPreavviso}}</td>
-                <td><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
-                <td><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
-</div>
-
 <div *ngIf="page == 'listScadenzePerVeicolo'">
+
+    <mat-form-field class="dx">
+        <input matInput (keyup)="--applyFilterScadenzeVeicolo($event.target.value)"
+            placeholder="Cerca scadenza/veicolo">
+    </mat-form-field>
+
     <table mat-tableid>
         <thead>
             <th>Data scadenza</th>
@@ -188,6 +235,12 @@
 </div>
 
 <div *ngIf="page == 'listManutenzioniVeicoli'">
+
+    <mat-form-field class="dx">
+        <input matInput (keyup)="--applyFilterManutenzioni($event.target.value)"
+            placeholder="Cerca all\'interno della tabella'">
+    </mat-form-field>
+
     <table mat-tableid>
         <thead>
             <th>Data</th>
@@ -389,6 +442,9 @@
     <div>
         <button mat-flat-button (click)="editScadenzaVeicoloView(scadenzaVeicoloDetail)">Modifica questa
             scandenza</button>
+        <button mat-flat-button (click)="listScadenzeVeicoloView(getVeicoloById(scadenzaVeicoloDetail.IdVeicolo))">Vai
+            alla lista delle scadenze di questo veicolo</button>
+
     </div>
 </div>
 
@@ -689,8 +745,7 @@
                             già inviato
                             (dato pre-esistente)</em></td>
                     <td *ngIf="newScadenzaVeicoloDetail.Avviso==true&&newScadenzaVeicoloDetail.AvvisoInviato==false&&scadenzaVeicoloDetail.Avviso==true"
-                        title="Dato pre-esistente, verrà eventualmente aggiornato dal server."><em>× Avviso
-                            NON inviato
+                        title="Dato pre-esistente, verrà eventualmente aggiornato dal server."><em>× Avviso NON inviato
                             (dato pre-esistente)</em></td>
                 </tr>
             </tbody>
@@ -701,6 +756,8 @@
         <button mat-flat-button (click)="editScadenzaVeicolo(newScadenzaVeicoloDetail)">Salvare le modifiche
             a questa
             scadenza</button>
+        <button mat-flat-button (click)="detailSingolaScadenzaPerVeicoloView(scadenzaVeicoloDetail)">Annulla e torna
+            alla vista di dettaglio</button>
     </div>
 </div>
 
@@ -959,9 +1016,9 @@
     </div>
     <br />
     <div>
-        <button mat-flat-button (click)="addScadenzaVeicolo(newScadenzaPerSingoloVeicolo)">Salvare questa
-            nuova
+        <button mat-flat-button (click)="addScadenzaVeicolo(newScadenzaPerSingoloVeicolo)">Salvare questa nuova
             scadenza</button>
+        <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Annulla</button>
     </div>
 </div>
 
@@ -999,5 +1056,29 @@
     <div>
         <button mat-flat-button (click)="addTipoScadenza(newTipoScadenza)">Salvare questo nuovo tipo di
             scadenza</button>
+        <button mat-flat-button (click)="listTipiScadenzaView()">Annulla</button>
     </div>
+</div>
+
+
+
+<div *ngIf="page == 'OLD___listTipiScadenza'">
+    <table mat-tableid>
+        <thead>
+            <th>Nome tipo scadenza</th>
+            <th>Giorni di preavviso</th>
+            <!-- <th><em>>&nbsp;Modifica</em></th> -->
+            <!-- <th><em>>&nbsp;Elimina</em></th> -->
+        </thead>
+        <tbody>
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': tipoScadenza.IdScadenza%2==0}"
+                *ngFor="let tipoScadenza of listTipiScadenza">
+                <td>{{tipoScadenza.Scadenza}}</td>
+                <td>{{tipoScadenza.GiorniPreavviso}}</td>
+                <td><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
+                <td><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
 </div>
