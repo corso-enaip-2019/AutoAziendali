@@ -1,6 +1,7 @@
 <h1 class="title">{{titolo}}</h1>
 
 <br />
+
 <div class="seriePulsantiInAlto">
     <button mat-flat-button (click)="listScadenzeTuttiVeicoliView()">Vedi tutte le scadenze (di tutti
         i veicoli)</button>
@@ -12,6 +13,7 @@
         manutenzioni</button>
     <!-- <div class="btnAlto"><button mat-flat-button (click)="newTipoScadenzaView()">Crea nuovo tipo di scadenza</button> -->
 </div>
+
 <br />
 
 <div *ngIf="page == 'listScadenzeTuttiVeicoli'">
@@ -76,7 +78,8 @@
     </table>
 </div>
 
-<div *ngIf="page == 'NEW___listTipiScadenza'">
+<div *ngIf="page == 'listTipiScadenza'">
+        <!-- <div *ngIf="page == 'NEW___listTipiScadenza'"> -->
     <table mat-table [dataSource]="dtSrc_listTipiScadenza" matSort>
         <!-- Colonna Nome tipo scadenza -->
         <ng-container matColumnDef="NomeScadenza">
@@ -84,51 +87,32 @@
             <td mat-cell *matCellDef="let tipoScadenza"> {{tipoScadenza.Scadenza}}</td>
         </ng-container>
 
-          <!-- Colonna Giorni di preavviso -->
-          <ng-container matColumnDef="GgDiPreavviso">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Giorni di preavviso</th>
-                <td mat-cell *matCellDef="let tipoScadenza"> {{tipoScadenza.GiorniPreavviso}}</td>
-            </ng-container>
+        <!-- Colonna Giorni di preavviso -->
+        <ng-container matColumnDef="GgDiPreavviso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Giorni di preavviso</th>
+            <td mat-cell *matCellDef="let tipoScadenza"> {{tipoScadenza.GiorniPreavviso}}</td>
+        </ng-container>
 
-              <!-- Colonna Btn Modifica -->
-          <ng-container matColumnDef="ColBtnModifica">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header><em>>&nbsp;Modifica</em></th> -->
-                <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
-            </ng-container>
+        <!-- Colonna Btn Modifica -->
+        <ng-container matColumnDef="ColBtnModifica">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header><em>>&nbsp;Modifica</em></th> -->
+            <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button
+                    (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
+        </ng-container>
 
-             <!-- Colonna Btn Elimina -->
-          <ng-container matColumnDef="ColBtnElimina">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header><em>>&nbsp;Modifica</em></th> -->
-                <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
-            </ng-container>
-
-
-
-
-<!-- !!!!!!!!!!!!!!!!!! -->
-
-        <thead>
-            <th>Nome scadenza</th>
-            <th>Giorni di preavviso</th>
-            <!-- <th><em>>&nbsp;Modifica</em></th> -->
-            <!-- <th><em>>&nbsp;Elimina</em></th> -->
-        </thead>
-        <tbody>
-            <tr class="dettaglio" [ngClass]="{'alternativeRow': tipoScadenza.IdScadenza%2==0}"
-                *ngFor="let tipoScadenza of listTipiScadenza">
-                <td>{{tipoScadenza.Scadenza}}</td>
-                <td>{{tipoScadenza.GiorniPreavviso}}</td>
-                <td><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
-                <td><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
-            </tr>
-        </tbody>
+        <!-- Colonna Btn Elimina -->
+        <ng-container matColumnDef="ColBtnElimina">
+            <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header><em>>&nbsp;Modifica</em></th> -->
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button
+                    (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
+        </ng-container>
     </table>
-    <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
+    <div><button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button></div>
 </div>
 
-<div *ngIf="page == 'listTipiScadenza'">
+<div *ngIf="page == 'OLD___listTipiScadenza'">
     <!-- <div *ngIf="page == 'OLD___listTipiScadenza'"> -->
     <table mat-tableid>
         <thead>
@@ -232,20 +216,18 @@
             </tr>
         </tbody>
     </table>
-    <tr>
-        <td>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza"
-                [(ngModel)]="newIdTipoScadenzaPerConversione" name="scadenzaRiga">
-                <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
-                    {{scadenzaRiga.Scadenza}}
-                </mat-option>
-            </mat-select>
-        </td>
-    </tr>
+    <div>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza"
+            [(ngModel)]="newIdTipoScadenzaPerConversione" name="scadenzaRiga">
+            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
+                {{scadenzaRiga.Scadenza}} </mat-option>
+        </mat-select>
+    </div>
 </div>
 
 <div *ngIf="page == 'dettaglioSingolaScadenzaPerVeicolo'">
     <div>
-        Dettaglio della scadenza {{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza)}} del
+        Dettaglio della scadenza {{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza)}}
+        del
         {{ scadenzaVeicoloDetail.Data | date:'dd/MM/yyyy' }}, per
         {{getTargaById(scadenzaVeicoloDetail.IdVeicolo)}} {{getMarcaById(scadenzaVeicoloDetail.IdVeicolo)}}
         {{getModelloById(scadenzaVeicoloDetail.IdVeicolo)}}
@@ -291,7 +273,8 @@
                     <td>Giorni alla scadenza</td>
                     <td
                         *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==true">
-                        <strong>{{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }} &#9888;</strong>
+                        <strong>{{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }}
+                            &#9888;</strong>
                     </td>
                     <td
                         *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==false">
@@ -388,9 +371,11 @@
                 <tr>
                     <td *ngIf="scadenzaVeicoloDetail.Avviso==true">√ Avviso attivato</td>
                     <td *ngIf="scadenzaVeicoloDetail.Avviso==false">× Avviso NON attivato</td>
-                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==true">√ Avviso
+                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==true">
+                        √ Avviso
                         inviato</td>
-                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==false">× Avviso
+                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==false">
+                        × Avviso
                         NON inviato</td>
                 </tr>
             </tbody>
@@ -405,7 +390,8 @@
 
 <div *ngIf="page=='editSingolaScadenzaPerVeicolo' && isEditing==true">
     <div>
-        Modifica della scadenza {{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza)}} del
+        Modifica della scadenza {{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza)}}
+        del
         {{ scadenzaVeicoloDetail.Data | date:'dd/MM/yyyy' }}, per
         {{getTargaById(scadenzaVeicoloDetail.IdVeicolo)}} {{getMarcaById(scadenzaVeicoloDetail.IdVeicolo)}}
         {{getModelloById(scadenzaVeicoloDetail.IdVeicolo)}}
@@ -475,7 +461,8 @@
                     <td>Giorni alla scadenza</td>
                     <td
                         *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==true">
-                        <strong>{{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }} &#9888;</strong>
+                        <strong>{{ differenzaOggiData2(scadenzaVeicoloDetail.Data) | number:'1.0-0' }}
+                            &#9888;</strong>
                     </td>
                     <td
                         *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicoloDetail.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicoloDetail.IdScadenza))==false">
@@ -600,7 +587,8 @@
                         <button *ngIf="isDocBtnEnabled==false" (click)="showDocViewerNew=!showDocViewerNew"
                             disabled>Nessun documento</button>
                     </td>
-                    <td *ngIf="scadenzaVeicoloDetail.IdDocumento!=newScadenzaVeicoloDetail.IdDocumento">∆</td>
+                    <td *ngIf="scadenzaVeicoloDetail.IdDocumento!=newScadenzaVeicoloDetail.IdDocumento">∆
+                    </td>
                 </tr>
                 <tr *ngIf="isDocBtnEnabled==true">
                     <td>&nbsp;</td>
@@ -682,17 +670,21 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==true">√ Avviso
+                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==true">
+                        √ Avviso
                         inviato</td>
-                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==false">× Avviso
+                    <td *ngIf="scadenzaVeicoloDetail.Avviso==true&&scadenzaVeicoloDetail.AvvisoInviato==false">
+                        × Avviso
                         NON inviato</td>
                     <td *ngIf="scadenzaVeicoloDetail.Avviso==false">&nbsp;</td>
 
                     <td *ngIf="newScadenzaVeicoloDetail.Avviso==true&&newScadenzaVeicoloDetail.AvvisoInviato==true&&scadenzaVeicoloDetail.Avviso==true"
-                        title="Dato pre-esistente, verrà eventualmente aggiornato dal server."><em>√ Avviso già inviato
+                        title="Dato pre-esistente, verrà eventualmente aggiornato dal server."><em>√ Avviso
+                            già inviato
                             (dato pre-esistente)</em></td>
                     <td *ngIf="newScadenzaVeicoloDetail.Avviso==true&&newScadenzaVeicoloDetail.AvvisoInviato==false&&scadenzaVeicoloDetail.Avviso==true"
-                        title="Dato pre-esistente, verrà eventualmente aggiornato dal server."><em>× Avviso NON inviato
+                        title="Dato pre-esistente, verrà eventualmente aggiornato dal server."><em>× Avviso
+                            NON inviato
                             (dato pre-esistente)</em></td>
                 </tr>
             </tbody>
@@ -700,7 +692,8 @@
     </div>
     <br />
     <div>
-        <button mat-flat-button (click)="editScadenzaVeicolo(newScadenzaVeicoloDetail)">Salvare le modifiche a questa
+        <button mat-flat-button (click)="editScadenzaVeicolo(newScadenzaVeicoloDetail)">Salvare le modifiche
+            a questa
             scadenza</button>
     </div>
 </div>
@@ -817,7 +810,8 @@
                 </tr>
                 <tr>
                     <td>Giorni di preavviso necessarî</td>
-                    <td>{{getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaPerSingoloVeicolo.IdScadenza)}}</td>
+                    <td>{{getGiorniDiPreavvisoByIdTipoScadenza(newScadenzaPerSingoloVeicolo.IdScadenza)}}
+                    </td>
                 </tr>
 
                 <tr>
@@ -957,7 +951,8 @@
     </div>
     <br />
     <div>
-        <button mat-flat-button (click)="addScadenzaVeicolo(newScadenzaPerSingoloVeicolo)">Salvare questa nuova
+        <button mat-flat-button (click)="addScadenzaVeicolo(newScadenzaPerSingoloVeicolo)">Salvare questa
+            nuova
             scadenza</button>
     </div>
 </div>
