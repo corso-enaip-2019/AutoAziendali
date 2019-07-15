@@ -250,8 +250,8 @@ namespace AutoAziendali.Controllers
             else
             {
                 _context.Entry(currentScadenza).CurrentValues.SetValues(scadenza);
-                //currentScadenza.Scadenza = scadenza.Scadenza;
-                //currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
+                currentScadenza.Scadenza = scadenza.Scadenza;
+                currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
 
                 await _context.SaveChangesAsync();
 
@@ -331,7 +331,6 @@ namespace AutoAziendali.Controllers
             else
             {
                 //_context.Entry(currentScadenzaVeicolo).CurrentValues.SetValues(scadVeicolo);
-                currentScadenzaVeicolo.IdScadenzeVeicoli = scadVeicolo.IdScadenzeVeicoli;
                 currentScadenzaVeicolo.IdVeicolo = scadVeicolo.IdVeicolo;
                 currentScadenzaVeicolo.Data = scadVeicolo.Data;
                 currentScadenzaVeicolo.IdScadenza = scadVeicolo.IdScadenza;
@@ -351,6 +350,8 @@ namespace AutoAziendali.Controllers
                 /* Conversione da JS.Ticks a C#.Ticks (tick da 1ms a 100ns, aggiungi i tick al 1970-01-01). */
                 if (currentScadenzaVeicolo.Data.Ticks <= (new DateTime(1970, 1, 2)).Ticks)
                     currentScadenzaVeicolo.Data = (new DateTime((scadVeicolo.Data.Ticks * 10_000) + (new DateTime(1970, 1, 1)).Ticks));
+
+                currentScadenzaVeicolo.Note = RiduzioneStringaAMaxLunghezzaConAvvisoPersonalizzabile(currentScadenzaVeicolo.Note, 50, "*");
 
                 await _context.SaveChangesAsync();
 
@@ -391,6 +392,15 @@ namespace AutoAziendali.Controllers
                 /* Conversione da JS.Ticks a C#.Ticks (tick da 1ms a 100ns, aggiungi i tick al 1970-01-01). */
                 if (currentScadenzaVeicolo.Data.Ticks <= (new DateTime(1970, 1, 2)).Ticks)
                     currentScadenzaVeicolo.Data = (new DateTime((scadVeicolo.Data.Ticks * 10_000) + (new DateTime(1970, 1, 1)).Ticks));
+
+                /* Attualmente le noto hanno al massimo 50 caratteri, se li eccedono taglio a 49 ed agiungo un "*" */
+                //if (currentScadenzaVeicolo.Note.Length>50)
+                //{
+                //    currentScadenzaVeicolo.Note=currentScadenzaVeicolo.Note.Substring(0, 49);
+                //    currentScadenzaVeicolo.Note=String.Concat(currentScadenzaVeicolo.Note, "*");
+                //}
+                currentScadenzaVeicolo.Note = RiduzioneStringaAMaxLunghezzaConAvvisoPersonalizzabile(currentScadenzaVeicolo.Note, 50, "*");
+
 
                 _context.ScadenzeVeicoli.Add(currentScadenzaVeicolo);
                 await _context.SaveChangesAsync();
@@ -610,5 +620,18 @@ namespace AutoAziendali.Controllers
         //}
         //
         //#endregion
+
+        public string RiduzioneStringaAMaxLunghezzaConAvvisoPersonalizzabile(string inString, int maxLunghezzaFinale, string messaggio = "*")
+        {
+            string outString = inString;
+            if (inString.Length > maxLunghezzaFinale)
+            {
+                outString = inString.Substring(0, (maxLunghezzaFinale-messaggio.Length));
+                outString= String.Concat(outString, messaggio);
+
+                return outString;
+            }
+            return inString;
+        }
     }
 }
