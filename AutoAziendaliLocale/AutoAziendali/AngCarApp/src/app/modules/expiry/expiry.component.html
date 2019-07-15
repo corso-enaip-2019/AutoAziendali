@@ -79,7 +79,7 @@
 </div>
 
 <div *ngIf="page == 'listTipiScadenza'">
-        <!-- <div *ngIf="page == 'NEW___listTipiScadenza'"> -->
+    <!-- <div *ngIf="page == 'NEW___listTipiScadenza'"> -->
     <table mat-table [dataSource]="dtSrc_listTipiScadenza" matSort>
         <!-- Colonna Nome tipo scadenza -->
         <ng-container matColumnDef="NomeScadenza">
@@ -186,9 +186,7 @@
         <thead>
             <th>Data</th>
             <th>Causale</th>
-            <th>Targa</th>
-            <th> Marca </th>
-            <th> Modello </th>
+            <th>Veicolo</th>
             <th>Fornitore</th>
             <th>Costo</th>
             <th>Note</th>
@@ -445,10 +443,12 @@
                     <td>{{ scadenzaVeicoloDetail.Data | date:'dd/MM/yyyy' }}</td>
                     <td>
                         <mat-form-field>
-                            <input matInput [(ngModel)]="newScadenzaVeicoloDetail.Scadenza" [matDatepicker]="pickedDate"
+                            <!-- <input matInput [(ngModel)]="newScadenzaVeicoloDetail.Scadenza" [matDatepicker]="pickedDate"
+                                placeholder="Scadenza"> -->
+                            <input matInput [(ngModel)]="pickedDate" [matDatepicker]="pickerDateEditScadVei"
                                 placeholder="Scadenza">
-                            <mat-datepicker-toggle matSuffix [for]="pickedDate"></mat-datepicker-toggle>
-                            <mat-datepicker #pickedDate></mat-datepicker>
+                            <mat-datepicker-toggle matSuffix [for]="pickerDateEditScadVei"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerDateEditScadVei></mat-datepicker>
                         </mat-form-field>
                     </td>
                 </tr>
@@ -787,10 +787,12 @@
                     <td>Data della scadenza</td>
                     <td>
                         <mat-form-field>
-                            <input matInput [(ngModel)]="newScadenzaPerSingoloVeicolo.Scadenza"
-                                [matDatepicker]="pickedDate" placeholder="Scadenza">
-                            <mat-datepicker-toggle matSuffix [for]="pickedDate"></mat-datepicker-toggle>
-                            <mat-datepicker #pickedDate></mat-datepicker>
+                            <!-- <input matInput [(ngModel)]="newScadenzaPerSingoloVeicolo.Scadenza"
+                                [matDatepicker]="pickedDate" placeholder="Scadenza"> -->
+                            <input matInput [(ngModel)]="pickedDate" [matDatepicker]="pickerDateNewScadVei"
+                                placeholder="Scadenza">
+                            <mat-datepicker-toggle matSuffix [for]="pickerDateNewScadVei"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerDateNewScadVei></mat-datepicker>
                         </mat-form-field>
                     </td>
                 </tr>

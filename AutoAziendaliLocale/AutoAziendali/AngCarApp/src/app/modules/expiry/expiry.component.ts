@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { DataService } from 'src/app/services/data-service';
 
@@ -34,6 +35,26 @@ export class ExpiryComponent implements OnInit {
   public listFornitori: Array<Fornitori>;
   public listCausaliManutenzione: Array<CausaliManutenzione>;
   public listManutenzioniVeicoli: Array<ManutenzioniVeicoli>;
+
+  // public dtSrcVeicoli: MatTableDataSource<Veicolo>;
+  public dtSrcTipiScadenza: MatTableDataSource<Scadenza>;
+  // public dtSrcScadenzeTuttiVeicoli: MatTableDataSource<ScadenzaVeicolo>;
+  // public dtSrcScadenzeSingoloVeicolo: MatTableDataSource<ScadenzaVeicolo>;
+  // public dtSrcDocumenti: MatTableDataSource<Documento>;
+  // public dtSrcProvince: MatTableDataSource<Province>;
+  // public dtSrcFornitori: MatTableDataSource<Fornitori>;
+  // public dtSrcCasusaliManutenzione: MatTableDataSource<CausaliManutenzione>;
+  // public dtSrcManutenzioniVeicoli: MatTableDataSource<ManutenzioniVeicoli>;
+
+  displayedColumnsVei: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
+  displayedColumnsTSc: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
+  displayedColumnsSTV: string[] = ['Data scadenza', 'gg. alla scadenza', 'gg. di preavviso', 'Tipo di scadenza', 'Targa', 'Marca', 'Modello'/*,'Modifica','Elimina'*/];
+  displayedColumnsSSV: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
+  displayedColumnsDoc: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
+  displayedColumnsPro: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
+  displayedColumnsFor: string[] = ['Targa', 'Dipendente', 'DataInizio', 'Destinazione', 'Dettaglio', 'Elimina'];
+  //displayedColumnsCMa: string[] = ['IdCausaleManutenzione', 'NomeCausaleManutenzione']; //Non serve mostrarla.
+  displayedColumnsMaV: string[] = ['Data', 'Causale', 'Targa', 'Marca', 'Modello', 'Fornitore', 'Costo', 'Note' /*,'Converti', 'Elimina'*/];
 
   public newTipoScadenza: Scadenza; // Per la creazione d'un nuovo tipo di scadenza.
   public newScadenzaPerSingoloVeicolo: ScadenzaVeicolo; // Per l'aggiunta (ad un veicolo) d'una nuova scadenza.
@@ -97,6 +118,8 @@ export class ExpiryComponent implements OnInit {
     dataSrvc.getCausaliManutenzione(function (items: Array<CausaliManutenzione>): void { self.listCausaliManutenzione = items; });
     dataSrvc.getManutenzioniVeicoli(function (items: Array<ManutenzioniVeicoli>): void { self.listManutenzioniVeicoli = items; });
 
+    /* Preparazione dei MatTableDataSource. */
+
     this.page = 'listScadenzeTuttiVeicoli';
     this.titolo = 'Scadenze';
 
@@ -107,7 +130,7 @@ export class ExpiryComponent implements OnInit {
     this.isDocBtnEnabled = false;
     this.showDocViewerDetail = false;
     this.showDocViewerNew = false;
-    this.dateStr = "1999-12-31";
+    this.dateStr = '1999-12-31';
 
     //Schermata da mostrare all'arrivo alla/della pagina.
     this.listScadenzeTuttiVeicoliView();
@@ -212,7 +235,7 @@ export class ExpiryComponent implements OnInit {
         this.titolo = `Scadenze - Creazione di un nuovo tipo di scadenza`;
 
         this.newTipoScadenza = null;
-        this.newTipoScadenza = new Scadenza(1, "NOME TIPO SCADENZA - ND", 1);
+        this.newTipoScadenza = new Scadenza(1, 'NOME TIPO SCADENZA - ND', 1);
 
         this.isDocBtnEnabled = false;
         this.showDocViewerDetail = false;
@@ -223,7 +246,7 @@ export class ExpiryComponent implements OnInit {
       this.titolo = `Scadenze - Creazione di un nuovo tipo di scadenza`;
 
       this.newTipoScadenza = null;
-      this.newTipoScadenza = new Scadenza(1, "NOME TIPO SCADENZA - ND", 1);
+      this.newTipoScadenza = new Scadenza(1, 'NOME TIPO SCADENZA - ND', 1);
 
       this.isDocBtnEnabled = false;
       this.showDocViewerDetail = false;
@@ -289,13 +312,16 @@ export class ExpiryComponent implements OnInit {
     //scadenzaVeicoloAggiornata.AvvisoInviato=this.newScadenzaVeicoloDetail.AvvisoInviato; // Per adesso mantengo quella "vecchia" già presente nel DB.
     /* Conversione data. */
     //scadenzaVeicoloAggiornata.Data = new Date(this.pickedDate.getTime());
+    scadenzaVeicoloAggiornata.Data = this.pickedDate;
 
-    console.log("data ricevuta");
+
+    console.log('data ricevuta');
     console.log(scadenzaVeicoloAggiornata.Data);
+    console.log(this.pickedDate);
 
     // this.dateStr = `${this.newScadenzaPerSingoloVeicolo.Data.getFullYear().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getMonth().toString()}-${this.newScadenzaPerSingoloVeicolo.Data.getDate().toString()}`;
     // scadenzaVeicoloAggiornata.Data = new Date(this.dateStr);
-    // console.log("data inviata");
+    // console.log('data inviata');
     // console.log(scadenzaVeicoloAggiornata.Data);
 
     /*  */
@@ -303,13 +329,15 @@ export class ExpiryComponent implements OnInit {
     this.dataSrvc.editScadenzaVeicolo(scadenzaVeicoloAggiornata)
       .subscribe(
         data => {
-          //this.isEditing = false;
           this.scadenzaVeicoloDetail = scadenzaVeicoloAggiornata;
           this.detailSingolaScadenzaPerVeicoloView(this.scadenzaVeicoloDetail);
-          //location.reload();
-          //this.page = 'dettaglioSingolaScadenzaPerVeicolo';
+          location.reload();
+          this.page = 'dettaglioSingolaScadenzaPerVeicolo';
         },
-        error => { console.log("errore durante la fase d\'edit di scadenzaveicolo.") }
+        error => {
+          console.log("Errore durante la fase d\'edit di scadenzaveicolo.");
+          console.log(scadenzaVeicoloAggiornata);
+        }
       );
   }
 
@@ -324,7 +352,7 @@ export class ExpiryComponent implements OnInit {
             this.page = 'listScadenzeTuttiVeicoli';
           },
           error => {
-            console.log("3rr in delete scad veicolo");
+            console.log('3rr in delete scad veicolo');
           }
         );
     }
@@ -339,7 +367,7 @@ export class ExpiryComponent implements OnInit {
           this.isEditing = false;
         },
         error => {
-          console.log("Errore durante l'aggiunta d'una nuova scadenzaVeicolo ad un veicolo.")
+          console.log("Errore durante l\'aggiunta d\'una nuova scadenzaVeicolo ad un veicolo.");
           console.log(scadenzaVeicoloDAggiungere);
         }
       );
@@ -354,7 +382,7 @@ export class ExpiryComponent implements OnInit {
           this.isEditing = false;
         },
         error => {
-          console.log("Errore durante l'aggiunta d'un nuovo tipo di scadenza.")
+          console.log("Errore durante l\'aggiunta d\'un nuovo tipo di scadenza.")
           console.log(tipoScadenzaDaAggiungere);
         }
       );
@@ -369,7 +397,7 @@ export class ExpiryComponent implements OnInit {
           this.isEditing = false;
         },
         error => {
-          console.log("Errore durante la modifica d'un tipo di scadenza.")
+          console.log("Errore durante la modifica d\'un tipo di scadenza.")
           console.log(scadenzaModificata);
         }
       );
@@ -378,7 +406,7 @@ export class ExpiryComponent implements OnInit {
   /* Metodo speciale per convertire una ManutenzioneVeicolo in una ScadenzaVeicolo e salvarla nel DB. */
   convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicoloDaConvertire: ManutenzioniVeicoli, idScadenza: number): void {
     this.newScadenzaVeicoloPerConversione = null;
-    this.newScadenzaVeicoloPerConversione = new ScadenzaVeicolo(1, this.listVeicoli[0].IdVeicolo, this.oggi, this.listTipiScadenza[0].IdScadenza, 1, this.listDocumenti[0].IdDocumento, "NOTE - ND", false, false);
+    this.newScadenzaVeicoloPerConversione = new ScadenzaVeicolo(1, this.listVeicoli[0].IdVeicolo, this.oggi, this.listTipiScadenza[0].IdScadenza, 1, this.listDocumenti[0].IdDocumento, 'NOTE - ND', false, false);
     this.newScadenzaVeicoloPerConversione.Costo = manutenzioneVeicoloDaConvertire.Costo;
     // Commentato via per problemi con le date
     //this.newScadenzaVeicoloPerConversione.Data = manutenzioneVeicoloDaConvertire.Data;
@@ -402,7 +430,7 @@ export class ExpiryComponent implements OnInit {
             this.page = 'listManutenzioniVeicoli';
           },
           error => {
-            console.log("3rr in delete ManutenzioniVeicoli");
+            console.log('3rr in delete ManutenzioniVeicoli');
           }
         );
     }
@@ -467,7 +495,7 @@ export class ExpiryComponent implements OnInit {
       return veicoloById.Targa;
     }
     else {
-      return "";
+      return '';
     }
 
   }
@@ -478,7 +506,7 @@ export class ExpiryComponent implements OnInit {
       return veicoloById.Modello;
     }
     else {
-      return "";
+      return '';
     }
   }
 
@@ -488,7 +516,7 @@ export class ExpiryComponent implements OnInit {
       return veicoloById.Marca;
     }
     else {
-      return "";
+      return '';
     }
   }
 
@@ -500,7 +528,7 @@ export class ExpiryComponent implements OnInit {
       return tipoScadenzaById.Scadenza;
     }
     else {
-      return "";
+      return '';
     }
   }
 
@@ -533,7 +561,7 @@ export class ExpiryComponent implements OnInit {
       return causaleManutenzioneById.CausaleManutenzione;
     }
     else {
-      return "listaVuota";
+      return 'listaVuota';
     }
   }
 
@@ -546,7 +574,7 @@ export class ExpiryComponent implements OnInit {
       return fornitoreById.Fornitore;
     }
     else {
-      return "listaVuota";
+      return 'listaVuota';
     }
   }
 

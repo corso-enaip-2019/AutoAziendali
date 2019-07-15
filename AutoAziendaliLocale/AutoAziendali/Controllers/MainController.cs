@@ -129,7 +129,7 @@ namespace AutoAziendali.Controllers
         [Route("getutilizzi")]
         public List<UtilizzoVeicoli> GetUtilizziVeicoli()
         {
-            var u = _context.UtilizzoVeicoli.ToList ();
+            var u = _context.UtilizzoVeicoli.ToList();
             return u;
         }
 
@@ -341,6 +341,17 @@ namespace AutoAziendali.Controllers
                 currentScadenzaVeicolo.Avviso = scadVeicolo.Avviso;
                 currentScadenzaVeicolo.AvvisoInviato = scadVeicolo.AvvisoInviato;
 
+                /* Il DateTime di JS parte dal 1970-01-01.
+                 * Se risulta una data precedente a tale data (se vicino all'anno "1") vuol dire che ha preso i tick di JS (x*1 ms passati da 1970-01-01) e li ha usati come tick di C# (y*100 ns passati dal 0001-01-01).
+                 * 1 ms = 10_000 C#tick da 100ns */
+
+                /* Versione "semplice", che lo sovrascrive al 1977-07-17. */
+                //if (currentScadenzaVeicolo.Data.Ticks < (new DateTime(1977, 7, 17)).Ticks)
+                //    currentScadenzaVeicolo.Data = (new DateTime(1977, 7, 17));
+                /* Conversione da JS.Ticks a C#.Ticks (tick da 1ms a 100ns, aggiungi i tick al 1970-01-01). */
+                if (currentScadenzaVeicolo.Data.Ticks <= (new DateTime(1970, 1, 2)).Ticks)
+                    currentScadenzaVeicolo.Data = (new DateTime((scadVeicolo.Data.Ticks * 10_000) + (new DateTime(1970, 1, 1)).Ticks));
+
                 await _context.SaveChangesAsync();
 
                 return Request.CreateResponse(HttpStatusCode.OK);
@@ -366,8 +377,20 @@ namespace AutoAziendali.Controllers
                 currentScadenzaVeicolo.IdDocumento = scadVeicolo.IdDocumento;
                 currentScadenzaVeicolo.IdScadenza = scadVeicolo.IdScadenza;
                 currentScadenzaVeicolo.IdVeicolo = scadVeicolo.IdVeicolo;
-                currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note)?"":scadVeicolo.Note;
+                currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note) ? "" : scadVeicolo.Note;
                 //currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note)?null:scadVeicolo.Note;
+
+                /*Il DateTime di JS parte dal 1970 - 01 - 01.
+
+                * Se risulta una data precedente a tale data(se vicino all'anno "1") vuol dire che ha preso i tick di JS (x*1 ms passati da 1970-01-01) e li ha usati come tick di C# (y*100 ns passati dal 0001-01-01).
+                * 1 ms = 10_000 C#tick da 100ns */
+
+                /* Versione "semplice", che lo sovrascrive al 1977-07-17. */
+                //if (currentScadenzaVeicolo.Data.Ticks < (new DateTime(1977, 7, 17)).Ticks)
+                //    currentScadenzaVeicolo.Data = (new DateTime(1977, 7, 17));
+                /* Conversione da JS.Ticks a C#.Ticks (tick da 1ms a 100ns, aggiungi i tick al 1970-01-01). */
+                if (currentScadenzaVeicolo.Data.Ticks <= (new DateTime(1970, 1, 2)).Ticks)
+                    currentScadenzaVeicolo.Data = (new DateTime((scadVeicolo.Data.Ticks * 10_000) + (new DateTime(1970, 1, 1)).Ticks));
 
                 _context.ScadenzeVeicoli.Add(currentScadenzaVeicolo);
                 await _context.SaveChangesAsync();
