@@ -76,11 +76,64 @@
     </table>
 </div>
 
-<div *ngIf="page == 'listTipiScadenza'">
-    <table mat-tableid>
+<div *ngIf="page == 'NEW___listTipiScadenza'">
+    <table mat-table [dataSource]="dtSrc_listTipiScadenza" matSort>
+        <!-- Colonna Nome tipo scadenza -->
+        <ng-container matColumnDef="NomeScadenza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let tipoScadenza"> {{tipoScadenza.Scadenza}}</td>
+        </ng-container>
+
+          <!-- Colonna Giorni di preavviso -->
+          <ng-container matColumnDef="GgDiPreavviso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Giorni di preavviso</th>
+                <td mat-cell *matCellDef="let tipoScadenza"> {{tipoScadenza.GiorniPreavviso}}</td>
+            </ng-container>
+
+              <!-- Colonna Btn Modifica -->
+          <ng-container matColumnDef="ColBtnModifica">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header><em>>&nbsp;Modifica</em></th> -->
+                <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
+            </ng-container>
+
+             <!-- Colonna Btn Elimina -->
+          <ng-container matColumnDef="ColBtnElimina">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header><em>>&nbsp;Modifica</em></th> -->
+                <td mat-cell *matCellDef="let tipoScadenza"><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
+            </ng-container>
+
+
+
+
+<!-- !!!!!!!!!!!!!!!!!! -->
+
         <thead>
             <th>Nome scadenza</th>
-            <th>gg. di preavviso</th>
+            <th>Giorni di preavviso</th>
+            <!-- <th><em>>&nbsp;Modifica</em></th> -->
+            <!-- <th><em>>&nbsp;Elimina</em></th> -->
+        </thead>
+        <tbody>
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': tipoScadenza.IdScadenza%2==0}"
+                *ngFor="let tipoScadenza of listTipiScadenza">
+                <td>{{tipoScadenza.Scadenza}}</td>
+                <td>{{tipoScadenza.GiorniPreavviso}}</td>
+                <td><button mat-flat-button (click)="editTipoScadenzaView(tipoScadenza)">Modifica</button></td>
+                <td><button mat-flat-button (click)="deleteTipoScadenza(tipoScadenza.IdScadenza)">Elimina</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
+</div>
+
+<div *ngIf="page == 'listTipiScadenza'">
+    <!-- <div *ngIf="page == 'OLD___listTipiScadenza'"> -->
+    <table mat-tableid>
+        <thead>
+            <th>Nome tipo scadenza</th>
+            <th>Giorni di preavviso</th>
             <!-- <th><em>>&nbsp;Modifica</em></th> -->
             <!-- <th><em>>&nbsp;Elimina</em></th> -->
         </thead>
@@ -567,12 +620,12 @@
                     <td *ngIf="showDocViewerDetail==false">&nbsp;</td>
                     <!--Mostra il vecchio documento id (sx) ...-->
                     <td *ngIf="showDocViewerDetail==true">
-                        <docviewer></docviewer>
+                        <docviewer idDoumentoDaMostrare="ScadenzaVeicoloDetail.IdDocumento"></docviewer>
                     </td>
                     <td *ngIf="showDocViewerNew==false">&nbsp;</td>
                     <!--Mostra il nuovo documento con id (dx) ...-->
                     <td *ngIf="showDocViewerNew==true&&isDocBtnEnabled==true">
-                        <docviewer></docviewer>
+                        <docviewer idDoumentoDaMostrare="newScadenzaVeicoloDetail.IdDocumento"></docviewer>
                     </td>
                 </tr>
 
@@ -856,7 +909,7 @@
                     <td *ngIf="showDocViewerNew==false">&nbsp;</td>
                     <!--Mostra il nuovo documento con id (dx) ...-->
                     <td *ngIf="showDocViewerNew==true&&isDocBtnEnabled==true">
-                        <docviewer></docviewer>
+                        <docviewer idDoumentoDaMostrare="newScadenzaVeicoloDetail.IdDocumento"></docviewer>
                     </td>
                 </tr>
 

@@ -22,20 +22,17 @@ export class DocviewerComponent {
 
     var self = this;
     data.getListDocumenti(function (items: Array<Documento>): void { self.listDocumenti = items; });
-
-    this.documentoDaMostrare.IdDocumento=this.inIdDocumentoDaMostrare;
-    this.documentoDaMostrare.Documento=this.getDocumentoImgByIdDocumento(this.inIdDocumentoDaMostrare);
+this.documentoDaMostrare=this.getDocumentoById(this.inIdDocumentoDaMostrare);
   }
 
   //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
-  //incompleto
-  getDocumentoImgByIdDocumento(idDocumento): any {
+  getDocumentoById(id: number): Documento {
     if (this.listDocumenti != null && this.listDocumenti != null) {
-      var documentoById = this.listDocumenti.find(d => d.IdDocumento == idDocumento);
-      return documentoById.Documento;
+      var documentoById = this.listDocumenti.find(d => d.IdDocumento == id);
+      return documentoById;
     }
     else {
-      return 0;
+      return new Documento(-1, 'docnonesistentecreatoalvolopernonfarschiattaretutto1');
     }
   }
 }
