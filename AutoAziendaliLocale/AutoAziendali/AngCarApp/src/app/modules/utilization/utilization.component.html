@@ -1,4 +1,4 @@
-<mat-spinner *ngIf='page == ""'></mat-spinner>
+<mat-spinner class="loading-shade" *ngIf='page == ""'></mat-spinner>
 <div *ngIf="page == 'listaUtilizzo'">
     <h1 class="title">Lista Utilizzo</h1>
 
@@ -174,7 +174,7 @@
 </div>
 
 <div *ngIf="page == 'aggiungi'">
-    <h1 class="title">Aggiungi Veicolo</h1>
+    <h1 class="title">Aggiungi Utilizzo</h1>
     <div>
         <mat-form-field>
             <mat-select placeholder="Cognome Nome" [(ngModel)]="newUtilizzo.IdAnagrafica" name="Dipendente">

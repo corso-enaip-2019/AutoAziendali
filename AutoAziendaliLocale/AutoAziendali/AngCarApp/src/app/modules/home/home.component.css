@@ -20,6 +20,11 @@ button{
   color: white;
 }
 
+button:hover{
+  background-color:#004ea1;
+
+}
+
 .mat-icon{
   font-size: 100px;
   width: 100px;

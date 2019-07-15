@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Veicolo } from 'src/app/models/Veicolo';
 import { DataService } from 'src/app/services/data-service';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSort, Sort, MatRadioButton } from '@angular/material';
 import { StatoVeicolo } from 'src/app/models/StatoVeicolo';
 import { Stato } from 'src/app/models/stato';
 import { Anagrafica } from 'src/app/models/anagrafica';
@@ -33,12 +33,15 @@ export class StateComponent {
   public targaDettaglio: string;
   public newStatoVeicolo: StatoVeicolo;
   public dataSource: MatTableDataSource<Veicolo>;
+  public dataSourceDue: MatTableDataSource<StatoVeicolo>;
 
 
   constructor(private data: DataService) {
     var self = this;
     data.getListVeicoli(function (items: Array<Veicolo>): void {
-      self.dataSource = new MatTableDataSource(items);
+      self.listVeicoli = items;
+      self.dataSource = new MatTableDataSource(self.listVeicoli);
+
     });
     data.getListStatoVeicoli(function (items: Array<StatoVeicolo>): void {
       self.listStatoVeicoli = items;
@@ -60,9 +63,16 @@ export class StateComponent {
   }
 
   displayedColumns: string[] = ['Targa', 'Marca', 'Modello', 'StoricoStati'];
+  displayedColumnsDue: string[] = ['Stato', 'Data', 'Dipendente', 'Dettaglio'];
+
+
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterDue(filterValue: string) {
+    this.dataSourceDue.filter = filterValue.trim().toLowerCase();
   }
 
   createListStatoVeicoliById(id: number): Array<StatoVeicolo> {
@@ -124,7 +134,7 @@ export class StateComponent {
     }
   }
 
-  getModalitaById(id: number) : string {
+  getModalitaById(id: number): string {
     if (this.listModalita != null && this.listModalita != undefined) {
       var modalitaById = this.listModalita.find(b => b.IdModalita == id);
       return modalitaById.Modalita1;
@@ -134,43 +144,43 @@ export class StateComponent {
     }
   }
 
-  getTelepassViacardById(id: number) : string {
-    var telepassViacardById = new TelepassViacard(0,"")
+  getTelepassViacardById(id: number): string {
+    var telepassViacardById = new TelepassViacard(0, "")
     if (id != null || id != undefined) {
       telepassViacardById = this.listTelepassViacard.find(t => t.IdTelepassViacard == id);
     }
     return telepassViacardById.TelepassViacard1;
   }
 
-  getListAnagrafica(data: DataService) : void {
+  getListAnagrafica(data: DataService): void {
     var self = this;
     data.getListAnagrafiche(function (items: Array<Anagrafica>): void {
       self.listAnagrafiche = items;
     });
   }
 
-  getListStati(data: DataService) : void {
+  getListStati(data: DataService): void {
     var self = this;
     data.getListStati(function (items: Array<Stato>): void {
       self.listStati = items;
     });
   }
 
-  getListBusinessUnit(data: DataService) : void {
+  getListBusinessUnit(data: DataService): void {
     var self = this;
     data.getListBusinessUnit(function (items: Array<BusinessUnit>): void {
       self.listBusinessUnit = items;
     });
   }
 
-  getListSocieta(data: DataService) : void {
+  getListSocieta(data: DataService): void {
     var self = this;
     data.getListSocieta(function (items: Array<Societa>): void {
       self.listSocieta = items;
     });
   }
 
-  getListModalita(data: DataService) : void {
+  getListModalita(data: DataService): void {
     var self = this;
     data.getListModalita(function (items: Array<Modalita>): void {
       self.listModalita = items;
@@ -186,12 +196,13 @@ export class StateComponent {
   }
 
   listStateView(veicolo: Veicolo): void {
-    this.listStatoVeicoliById = [];
+    this.listStatoVeicoliById = []; //svuota array ogni volta che si clicca dettaglio diverso//
     this.page = "listaStati";
     this.targaDettaglio = veicolo.Targa;
     this.getListAnagrafica(this.data);
     this.getListStati(this.data);
     this.listStatoVeicoliById = this.createListStatoVeicoliById(veicolo.IdVeicolo);
+    this.dataSourceDue = new MatTableDataSource(this.listStatoVeicoliById)
   }
 
   editStatoVeicolo(statoVeicolo: StatoVeicolo): void {
@@ -220,12 +231,15 @@ export class StateComponent {
   }
 
 
-  addStatoVeicoloView() : void {
+  addStatoVeicoloView(): void {
+    this.getListBusinessUnit(this.data);
+    this.getListSocieta(this.data);
+    this.getListModalita(this.data);
     this.page = 'aggiungi';
     this.newStatoVeicolo = new StatoVeicolo(1, null, null, null, null, null, new Date(), null, 0, null, null, null, "", "");
   }
 
-  beginEdit() : void {
+  beginEdit(): void {
     if (this.isEditing == false) {
       this.isEditing = true;
     }
@@ -235,11 +249,11 @@ export class StateComponent {
     }
   }
 
-  returnListVeicoli() : void {
+  returnListVeicoli(): void {
     this.page = "listaVeicoli";
   }
 
-  returnList() : void {
+  returnList(): void {
     this.page = "listaStati";
   }
 }
