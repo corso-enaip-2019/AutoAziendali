@@ -383,7 +383,7 @@ namespace AutoAziendali.Controllers
                 //currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note) ? "" : scadVeicolo.Note;
                 currentScadenzaVeicolo.Note = string.IsNullOrWhiteSpace(scadVeicolo.Note) ? null : scadVeicolo.Note;
 
-                /*Il DateTime di JS parte dal 1970 - 01 - 01.
+                /*Il DateTime di JS parte dal 1970-01-01.
                 * Se risulta una data precedente a tale data(se vicino all'anno "1") vuol dire che ha preso i tick di JS (x*1 ms passati da 1970-01-01) e li ha usati come tick di C# (y*100 ns passati dal 0001-01-01).
                 * 1 ms = 10_000 C#tick da 100ns */
                 /* Conversione da JS.Ticks a C#.Ticks (tick da 1ms a 100ns, aggiungi i tick al 1970-01-01) nel caso pre-1970. */

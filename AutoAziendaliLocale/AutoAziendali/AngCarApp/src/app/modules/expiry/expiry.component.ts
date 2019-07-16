@@ -73,7 +73,7 @@ export class ExpiryComponent {
   displayedColsListScSiV: string[] = ['DataScadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //E' uguale a quella con tutte le scadenze di tutti i veicoli (ho deciso di lasciare Targa-Marca-Modello).
   displayedColsListManVe: string[] = ['Data', 'Causale', 'Veicolo', 'Fornitore', 'Costo', 'Note', 'ColBtnConverti', 'ColBtnElimina'];
   //Tabelle Dettaglio
-  displayedColsDettScSiV: string[] = ['Data scadenza', 'GgAllaScadenza', 'GgAllaScadenza', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //Non so bene come farla, la vedo bene così com'è; con la lista?.
+  displayedColsDettScSiV: string[] = ['DataScadenza', 'GgAllaScadenza', 'GgAllaScadenza', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //Non so bene come farla, la vedo bene così com'è; con la lista?.
   //Tabelle Edit
   displayedColsEditTipSc: string[] = ['ColTitoli', 'ScadenzaAttuale', 'ScadenzaAggiornata', 'ColDelta'];
   displayedColsEditScSiV: string[] = ['Data scadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
@@ -137,7 +137,7 @@ export class ExpiryComponent {
 
     dataSrvc.getListFornitori(function (items: Array<Fornitori>): void { self.listFornitori = items; });
     dataSrvc.getCausaliManutenzione(function (items: Array<CausaliManutenzione>): void { self.listCausaliManutenzione = items; });
-    dataSrvc.getManutenzioniVeicoli(function (items: Array<ManutenzioniVeicoli>): void { self.listManutenzioniVeicoli = items; });
+    dataSrvc.getManutenzioniVeicoli(function (items: Array<ManutenzioniVeicoli>): void { self.dtSrcManutenzioniVeicoli = new MatTableDataSource(items); });
 
     /* Preparazione dei MatTableDataSource. */
     dataSrvc.getListTipiScadenza(function (items: Array<Scadenza>): void { self.dtSrcTipiScadenza = new MatTableDataSource(items); });
@@ -452,12 +452,12 @@ export class ExpiryComponent {
     this.newScadenzaVeicoloPerConversione = new ScadenzaVeicolo(1, this.listVeicoli[0].IdVeicolo, this.oggi, this.listTipiScadenza[0].IdScadenza, 1, this.listDocumenti[0].IdDocumento, 'NOTE - ND', false, false);
     this.newScadenzaVeicoloPerConversione.Costo = manutenzioneVeicoloDaConvertire.Costo;
     // Commentato via per problemi con le date
-    //this.newScadenzaVeicoloPerConversione.Data = manutenzioneVeicoloDaConvertire.Data;
-    this.newScadenzaVeicoloPerConversione.Data = new Date('1999-12-31');
+    this.newScadenzaVeicoloPerConversione.Data = manutenzioneVeicoloDaConvertire.Data;
+    // this.newScadenzaVeicoloPerConversione.Data = new Date('1999-12-31');
     this.newScadenzaVeicoloPerConversione.IdDocumento = manutenzioneVeicoloDaConvertire.IdDocumento;
     this.newScadenzaVeicoloPerConversione.IdScadenza = idScadenza;
     this.newScadenzaVeicoloPerConversione.IdVeicolo = manutenzioneVeicoloDaConvertire.IdVeicolo;
-    this.newScadenzaVeicoloPerConversione.Note = `Manutenzione veicolo convertita in Scadenza; Note: «${manutenzioneVeicoloDaConvertire.Note}»; Causale: «${this.getNomeCausaleManutenzioneById(manutenzioneVeicoloDaConvertire.IdManutenzioneVeicoli)}»`;
+    this.newScadenzaVeicoloPerConversione.Note = `Manut.conv.Scad.|Caus.:«${this.getNomeCausaleManutenzioneById(manutenzioneVeicoloDaConvertire.IdManutenzioneVeicoli)}»|Note:«${manutenzioneVeicoloDaConvertire.Note}»`;
 
     this.addScadenzaVeicolo(this.newScadenzaVeicoloPerConversione);
   }

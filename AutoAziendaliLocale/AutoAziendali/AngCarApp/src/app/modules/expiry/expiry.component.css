@@ -37,6 +37,11 @@ button:hover{
   background-color:#004ea1;
 }
 
+.BGAzzurrinoo{
+  /* background-image: linear-gradient(to right ,#003d7e 0%,#fff 1% , #003d7e 75%, #fff 100%) !important; */
+  background: whitesmoke !important;
+}
+
 mat-form-field{
   padding-right: 200px;
   margin-left: 20px;
@@ -47,6 +52,7 @@ mat-form-field{
   float:left; 
   width:33%;
 }
+
 #centro{
   float:left; 
   width:34%;
