@@ -195,12 +195,15 @@ export class DataService {
     /* La tabella Documenti è composta dalle colonne IdDocumento (tipo T-SQL "int") e Documento (tipo T-SQL "image", deprecato). */
     /* Tipo T-SQL "image" -> Tipo C# (Entity FW) byte[]. */
     /* Probabilmente bisogna fare in Angulare byte[]->base64, buttarlo in un nuovo oggetto, dar nell'html come src: « src="unsafe:data:image/png;base64,[object Object]" ». */
-
+    /*Apparentemente il DB salva il percorso assoluto nel file-sys in base64 al posto del file vero e proprio: 
+    Stringa Codificata in base64: «QzpcVXNlcnNcc3RhZ2VcRGVza3RvcFxkb2N1bWVudGliYXNlNjRcQ0lfQ0lFXzAxLnBuZw==»
+    Stringa de-codificata: «C:\Users\stage\Desktop\documentibase64\CI_CIE_01.png» */
     public getListDocumenti(callback: (items: Array<Documento>) => void): void {
         var item = this.http.get<Array<Documento>>(`${PERCORSO_BASE}${PORTA}/api/getdocumenti`)
             .subscribe(
                 data => {
                     callback(data);
+                    console.log(data);
                 },
                 error => {
                     console.log("Errore in «getdocumenti».");

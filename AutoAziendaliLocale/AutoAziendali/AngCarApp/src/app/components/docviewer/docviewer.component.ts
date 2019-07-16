@@ -32,6 +32,8 @@ export class DocviewerComponent {
     self.srcImgDocInBase64 = `data:image/png;base64,${self.documentoDaMostrare.Documento}`;
     // this.srcImgDocInBase64=`data:image/png;base64,${btoa(this.documentoDaMostrare.Documento)}`;
     console.log(this.srcImgDocInBase64);
+    //encodedData = window.btoa('Hello, world'); // encode a string
+    //decodedData = window.atob(encodedData);    // decode the string
   }
 
   //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
