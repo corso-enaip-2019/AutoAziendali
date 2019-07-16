@@ -253,7 +253,7 @@ namespace AutoAziendali.Controllers
                 currentScadenza.Scadenza = scadenza.Scadenza;
                 currentScadenza.GiorniPreavviso = scadenza.GiorniPreavviso;
 
-                currentScadenza.Scadenza = RiduzioneStringaAMaxLunghezzaConAvvisoPersonalizzabile(currentScadenza.Scadenza  , 50, "*");
+                currentScadenza.Scadenza = RiduzioneStringaAMaxLunghezzaConAvvisoPersonalizzabile(currentScadenza.Scadenza, 50, "*");
 
                 await _context.SaveChangesAsync();
 
@@ -617,8 +617,8 @@ namespace AutoAziendali.Controllers
             string outString = inString;
             if (inString.Length > maxLunghezzaFinale)
             {
-                outString = inString.Substring(0, (maxLunghezzaFinale-messaggio.Length));
-                outString= String.Concat(outString, messaggio);
+                outString = inString.Substring(0, (maxLunghezzaFinale - messaggio.Length));
+                outString = String.Concat(outString, messaggio);
 
                 return outString;
             }
