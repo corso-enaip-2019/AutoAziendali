@@ -28,7 +28,6 @@ const PORTA: string = ':50680';
 
 @Injectable()
 export class DataService {
-
     constructor(private http: HttpClient) {
     }
 
@@ -38,13 +37,10 @@ export class DataService {
         var item = this.http.get<Array<Veicolo>>(`${PERCORSO_BASE}${PORTA}/api/getveicoli`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
-
                 },
                 error => {
                     console.log("Errore in «getveicolo».");
-                    // Gestire eventuali errori della chiamata
                 }
             );
     }
@@ -92,7 +88,6 @@ export class DataService {
         return this.http.post<number>(`${PERCORSO_BASE}${PORTA}/api/deleteUtilizzo/`, id);
     }
 
-
     editUtilizzo(utilizzo: Utilizzo): Observable<Utilizzo> {
         return this.http.post<Utilizzo>(`${PERCORSO_BASE}${PORTA}/api/editutilizzo`, utilizzo);
     }
@@ -110,11 +105,9 @@ export class DataService {
                     callback(data)
                 },
                 error => {
-
+                    console.log(`Errore in getcommesse.`);
                 }
-
             );
-
     }
 
     /* • Scadenza (tipi di scadenza) */
@@ -123,13 +116,10 @@ export class DataService {
         var item = this.http.get<Array<Scadenza>>(`${PERCORSO_BASE}${PORTA}/api/getscadenze`)
             .subscribe(
                 data => {
-                    // Ho i dati
-
                     callback(data);
                 },
                 error => {
                     console.log(`Errore in getscadenze.`);
-                    // Gestire eventuali errori della chiamata
                 }
             );
     }
@@ -152,13 +142,10 @@ export class DataService {
         var item = this.http.get<Array<ScadenzaVeicolo>>(`${PERCORSO_BASE}${PORTA}/api/getscadenzeveicoli`)
             .subscribe(
                 data => {
-                    // Ho i dati
-
                     callback(data);
                 },
                 error => {
                     console.log(`Errore in «getscadenzeveicoli».`);
-                    // Gestire eventuali errori della chiamata
                 }
             );
     }
@@ -203,7 +190,6 @@ export class DataService {
             .subscribe(
                 data => {
                     callback(data);
-                    console.log(data);
                 },
                 error => {
                     console.log("Errore in «getdocumenti».");
@@ -221,7 +207,7 @@ export class DataService {
                     callback(data);
                 },
                 error => {
-
+                    console.log("Errore in getstatoveicoli.");
                 }
             );
     }
@@ -240,11 +226,10 @@ export class DataService {
         var item = this.http.get<Array<Stato>>(`${PERCORSO_BASE}${PORTA}/api/getstati`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
-
+                    console.log("Errore in getstati.");
                 }
             );
     }
@@ -255,11 +240,10 @@ export class DataService {
         var item = this.http.get<Array<Societa>>(`${PERCORSO_BASE}${PORTA}/api/getsocieta`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
-
+                    console.log("Errore in getsocieta.");
                 }
             );
     }
@@ -270,11 +254,10 @@ export class DataService {
         var item = this.http.get<Array<BusinessUnit>>(`${PERCORSO_BASE}${PORTA}/api/getbusinessunit`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
-
+                    console.log("Errore in getbusinessunit.");
                 }
             );
     }
@@ -285,11 +268,10 @@ export class DataService {
         var item = this.http.get<Array<TelepassViacard>>(`${PERCORSO_BASE}${PORTA}/api/gettelepassviacard`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
-
+                    console.log("Errore in gettelepassviacard.");
                 }
             );
     }
@@ -300,11 +282,10 @@ export class DataService {
         var item = this.http.get<Array<Modalita>>(`${PERCORSO_BASE}${PORTA}/api/getmodalita`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
-
+                    console.log("Errore in getmodalita.");
                 }
             );
     }
@@ -315,12 +296,10 @@ export class DataService {
         var item = this.http.get<Array<Fornitori>>(`${PERCORSO_BASE}${PORTA}/api/getfornitori`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
                     console.log("Errore in getfornitori.");
-                    // Gestire eventuali errori della chiamata
                 }
             );
     }
@@ -331,12 +310,10 @@ export class DataService {
         var item = this.http.get<Array<CausaliManutenzione>>(`${PERCORSO_BASE}${PORTA}/api/getcausalimanutenzione`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
                     console.log("Errore in getcausalimanutenzione.");
-                    // Gestire eventuali errori della chiamata
                 }
             );
     }
@@ -347,12 +324,10 @@ export class DataService {
         var item = this.http.get<Array<ManutenzioniVeicoli>>(`${PERCORSO_BASE}${PORTA}/api/getmanutenzioniveicoli`)
             .subscribe(
                 data => {
-                    // Ho i dati
                     callback(data);
                 },
                 error => {
                     console.log("Errore in getmanutenzioniveicoli.");
-                    // Gestire eventuali errori della chiamata
                 }
             );
     }
