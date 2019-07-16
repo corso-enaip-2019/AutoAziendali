@@ -70,7 +70,7 @@ export class ExpiryComponent {
   displayedColsListTipSc: string[] = ['NomeScadenza', 'GgDiPreavviso', 'ColBtnModifica', 'ColBtnElimina'];
   displayedColsListVeico: string[] = ['Targa', 'Marca', 'Modello', 'ColBtnVediScadenze'];
   displayedColsListScTuV: string[] = ['DataScadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'];
-  displayedColsListScSiV: string[] = ['DataScadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; // //E' uguale a quella con tutte le scadenze di tutti i veicoli (ho deciso di lasciare Targa-Marca-Modello).
+  displayedColsListScSiV: string[] = ['DataScadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //E' uguale a quella con tutte le scadenze di tutti i veicoli (ho deciso di lasciare Targa-Marca-Modello).
   displayedColsListManVe: string[] = ['Data', 'Causale', 'Veicolo', 'Fornitore', 'Costo', 'Note', 'ColBtnConverti', 'ColBtnElimina'];
   //Tabelle Dettaglio
   displayedColsDettScSiV: string[] = ['Data scadenza', 'GgAllaScadenza', 'GgAllaScadenza', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina']; //Non so bene come farla, la vedo bene così com'è; con la lista?.
@@ -200,6 +200,8 @@ export class ExpiryComponent {
         this.listScadenzeDelSingoloVeicolo.push(this.listScadenzeTuttiVeicoli[i]);
       }
     }
+
+    this.dtSrcScadenzeSingoloVeicolo = new MatTableDataSource(this.listScadenzeDelSingoloVeicolo);
   }
 
   listManutenzioniVeicoliView(): void {
