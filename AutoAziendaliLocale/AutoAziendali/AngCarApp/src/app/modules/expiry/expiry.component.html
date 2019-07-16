@@ -251,17 +251,8 @@
     <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un veicolo</button>
 </div>
 
-<!-- <div *ngIf="page == 'NEW___listManutenzioniVeicoli'"> -->
 <div *ngIf="page == 'listManutenzioniVeicoli'">
-
-    <mat-form-field class=".search_dx">
-        <input matInput (keyup)="--applyFilterManutenzioni($event.target.value)"
-            placeholder="Cerca all\'interno della tabella'">
-    </mat-form-field>
-
-
-
-
+    <!-- <div *ngIf="page == 'NEW___listManutenzioniVeicoli'"> -->
     <table mat-tableid>
         <thead>
             <th>Data</th>
@@ -301,59 +292,57 @@
         </mat-select>
     </div>
 
-
-
-    <mat-form-field class=".search_dx">
+    <!-- <mat-form-field class=".search_dx">
         <input matInput (keyup)="--applyFilterManutenzioni($event.target.value)"
             placeholder="Cerca all\'interno della tabella'">
-    </mat-form-field>
+    </mat-form-field> -->
 
-    <table mat-table [dataSource]="dtSrcManutenzioniVeicoli" matSort>
+    <!-- <table mat-table [dataSource]="dtSrcManutenzioniVeicoli" matSort> -->
         <!-- Colonna Data -->
-        <ng-container matColumnDef="Data">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="Data">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo">{{ manutenzioneVeicolo.Data | date:'dd/MM/yyyy' }}</td>
-        </ng-container>
+        </ng-container> -->
         <!-- Colonna Causale -->
-        <ng-container matColumnDef="Causale">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="Causale">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Causale</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo">
                 {{getNomeCausaleManutenzioneById(manutenzioneVeicolo.IdCausaleManutenzione)}}</td>
-        </ng-container>
+        </ng-container> -->
         <!-- Colonna Veicolo -->
-        <ng-container matColumnDef="Veicolo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="Veicolo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Veicolo</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo">{{getTargaById(manutenzioneVeicolo.IdVeicolo)}}
                 {{getMarcaById(manutenzioneVeicolo.IdVeicolo)}}
                 {{getModelloById(manutenzioneVeicolo.IdVeicolo)}}</td>
-        </ng-container>
+        </ng-container>  -->
         <!-- Colonna Fornitore -->
-        <ng-container matColumnDef="Fornitore">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="Fornitore">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fornitore</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo">{{getNomeFornitoreById(manutenzioneVeicolo.IdFornitore)}}
             </td>
-        </ng-container>
+        </ng-container> -->
         <!-- Colonna Costo -->
-        <ng-container matColumnDef="Costo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="Costo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo">{{manutenzioneVeicolo.Costo}}</td>
-        </ng-container>
+        </ng-container> -->
         <!-- Colonna Note -->
-        <ng-container matColumnDef="Note">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="Note">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Note</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo">{{manutenzioneVeicolo.Note}}</td>
-        </ng-container>
+        </ng-container> -->
         <!-- Colonna Btn Converti -->
-        <ng-container matColumnDef="ColBtnConverti">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="ColBtnConverti">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Converti</th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo"><button mat-flat-button
                     (click)="convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicolo, newIdTipoScadenzaPerConversione)">Converti
                     in
                     scadenza</button></td>
-        </ng-container>
+        </ng-container> -->
         <!-- Colonna Btn Elimina -->
-        <ng-container matColumnDef="ColBtnElimina">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+        <!-- <ng-container matColumnDef="ColBtnElimina">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let manutenzioneVeicolo"><button mat-flat-button
                     (click)="deleteManutenzioneVeicolo(manutenzioneVeicolo.IdManutenzioneVeicoli)">Elimina</button></td>
         </ng-container>
@@ -366,7 +355,7 @@
             <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
                 {{scadenzaRiga.Scadenza}} </mat-option>
         </mat-select>
-    </div>
+    </div> -->
 </div>
 
 <div *ngIf="page == 'dettaglioSingolaScadenzaPerVeicolo'">
