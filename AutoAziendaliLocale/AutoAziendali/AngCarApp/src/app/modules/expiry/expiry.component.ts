@@ -113,7 +113,7 @@ export class ExpiryComponent {
     this.oggi = null;
     this.newIdTipoScadenzaPerConversione = 1;
 
-    /* Riempimento DataSorce. */
+    /* Riempimento DataSource. */
     var self = this;
     dataSrvc.getListDocumenti(function (items: Array<Documento>): void {
       self.listDocumenti = items; self.dtSrcDocumenti = new MatTableDataSource(self.listDocumenti);
@@ -669,4 +669,19 @@ export class ExpiryComponent {
 
   //   return sV;
   // }
+
+  //"Documento" è un'immagine di tipo T-SQL "image", in C# "byte[]".
+  getDocumentoById(inIdDocumentoDaMostrare: number): Documento {
+    console.log('this.listDocumenti');
+    console.log(this.listDocumenti);
+    console.log('in id doc');
+    console.log(inIdDocumentoDaMostrare);
+    if (this.listDocumenti != null && this.listDocumenti != undefined) {
+      var documentoById = this.listDocumenti.find(d => d.IdDocumento == inIdDocumentoDaMostrare);
+      return documentoById;
+    }
+    else {
+      return new Documento(-1, 'docnonesistentecreatoalvolopernonfarschiattaretutto2');
+    }
+  }
 }

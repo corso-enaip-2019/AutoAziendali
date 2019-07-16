@@ -40,6 +40,7 @@ export class UtilizationComponent {
     data.getListCommesse(function (items: Array<Commessa>): void {
       self.listCommesse = items;
     });
+    
     this.isButtonDisabled = false;
     this.page = 'listaUtilizzo';
     this.isEditing = false;

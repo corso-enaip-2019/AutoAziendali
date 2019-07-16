@@ -1032,6 +1032,7 @@
                     <td *ngIf="showDocViewerNew==false">&nbsp;</td>
                     <!--Mostra il nuovo documento con id (dx) ...-->
                     <td *ngIf="showDocViewerNew==true&&isDocBtnEnabled==true">
+                        <img src="data:image/png;base64,listDocumenti[0].Documento">
                         <docviewer idDoumentoDaMostrare="newScadenzaVeicoloDetail.IdDocumento"></docviewer>
                     </td>
                 </tr>
