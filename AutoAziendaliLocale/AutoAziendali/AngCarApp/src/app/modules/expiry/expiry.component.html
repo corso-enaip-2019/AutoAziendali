@@ -176,10 +176,12 @@
     </mat-form-field>
 
     <table mat-table [dataSource]="dtSrcScadenzeSingoloVeicolo" matSort>
+        <!-- Colonna con la data della scadenza -->
         <ng-container matColumnDef="DataScadenza">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Data scadenza</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">{{ scadenzaVeicolo.Data | date:'dd/MM/yyyy' }}</td>
         </ng-container>
+        <!-- Colonna con i giorni restanti (formattazioen dinamica) -->
         <ng-container matColumnDef="GgAllaScadenza">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>gg. alla scadenza</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">
@@ -196,39 +198,47 @@
                     {{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg ad oggi</div>
             </td>
         </ng-container>
+        <!-- Colonna con i giorni di preavviso necessarî -->
         <ng-container matColumnDef="GgDiPreavviso">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>gg. di preavviso</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">
                 {{getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza)}}</td>
         </ng-container>
+        <!-- Colonna col nome del Tipo di scadenza -->
         <ng-container matColumnDef="TipoDiScadenza">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo di scadenza</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">
                 {{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicolo.IdScadenza)}}</td>
         </ng-container>
+        <!-- Colonna Targa -->
         <ng-container matColumnDef="Targa">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Targa</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">{{getTargaById(scadenzaVeicolo.IdVeicolo)}}</td>
         </ng-container>
+        <!-- Colonna Marca -->
         <ng-container matColumnDef="Marca">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">{{getMarcaById(scadenzaVeicolo.IdVeicolo)}}</td>
         </ng-container>
+        <!-- Colonna Modello -->
         <ng-container matColumnDef="Modello">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Modello</th>
             <td mat-cell *matCellDef="let scadenzaVeicolo">{{getModelloById(scadenzaVeicolo.IdVeicolo)}}</td>
         </ng-container>
+        <!-- Colonna Dettagli -->
         <ng-container matColumnDef="ColBtnVediDettagli">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let scadenzaVeicolo"><button mat-flat-button
                     (click)="detailSingolaScadenzaPerVeicoloView(scadenzaVeicolo)">Vedi
                     dettagli</button></td>
         </ng-container>
+        <!-- Colonna Btn Modifica -->
         <ng-container matColumnDef="ColBtnModifica">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let scadenzaVeicolo"><button mat-flat-button
                     (click)="editScadenzaVeicoloView(scadenzaVeicolo)">Modifica</button></td>
         </ng-container>
+        <!-- Colonna Btn Elimina -->
         <ng-container matColumnDef="ColBtnElimina">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let scadenzaVeicolo"><button mat-flat-button
@@ -241,12 +251,16 @@
     <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un veicolo</button>
 </div>
 
+<!-- <div *ngIf="page == 'NEW___listManutenzioniVeicoli'"> -->
 <div *ngIf="page == 'listManutenzioniVeicoli'">
 
     <mat-form-field class=".search_dx">
         <input matInput (keyup)="--applyFilterManutenzioni($event.target.value)"
             placeholder="Cerca all\'interno della tabella'">
     </mat-form-field>
+
+
+
 
     <table mat-tableid>
         <thead>
@@ -279,6 +293,73 @@
                 </td>
             </tr>
         </tbody>
+    </table>
+    <div>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza"
+            [(ngModel)]="newIdTipoScadenzaPerConversione" name="scadenzaRiga">
+            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
+                {{scadenzaRiga.Scadenza}} </mat-option>
+        </mat-select>
+    </div>
+
+
+
+    <mat-form-field class=".search_dx">
+        <input matInput (keyup)="--applyFilterManutenzioni($event.target.value)"
+            placeholder="Cerca all\'interno della tabella'">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dtSrcManutenzioniVeicoli" matSort>
+        <!-- Colonna Data -->
+        <ng-container matColumnDef="Data">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo">{{ manutenzioneVeicolo.Data | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+        <!-- Colonna Causale -->
+        <ng-container matColumnDef="Causale">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo">
+                {{getNomeCausaleManutenzioneById(manutenzioneVeicolo.IdCausaleManutenzione)}}</td>
+        </ng-container>
+        <!-- Colonna Veicolo -->
+        <ng-container matColumnDef="Veicolo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo">{{getTargaById(manutenzioneVeicolo.IdVeicolo)}}
+                {{getMarcaById(manutenzioneVeicolo.IdVeicolo)}}
+                {{getModelloById(manutenzioneVeicolo.IdVeicolo)}}</td>
+        </ng-container>
+        <!-- Colonna Fornitore -->
+        <ng-container matColumnDef="Fornitore">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo">{{getNomeFornitoreById(manutenzioneVeicolo.IdFornitore)}}
+            </td>
+        </ng-container>
+        <!-- Colonna Costo -->
+        <ng-container matColumnDef="Costo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo">{{manutenzioneVeicolo.Costo}}</td>
+        </ng-container>
+        <!-- Colonna Note -->
+        <ng-container matColumnDef="Note">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo">{{manutenzioneVeicolo.Note}}</td>
+        </ng-container>
+        <!-- Colonna Btn Converti -->
+        <ng-container matColumnDef="ColBtnConverti">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo"><button mat-flat-button
+                    (click)="convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicolo, newIdTipoScadenzaPerConversione)">Converti
+                    in
+                    scadenza</button></td>
+        </ng-container>
+        <!-- Colonna Btn Elimina -->
+        <ng-container matColumnDef="ColBtnElimina">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome tipo scadenza</th>
+            <td mat-cell *matCellDef="let manutenzioneVeicolo"><button mat-flat-button
+                    (click)="deleteManutenzioneVeicolo(manutenzioneVeicolo.IdManutenzioneVeicoli)">Elimina</button></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColsListManVe"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColsListManVe;"></tr>
     </table>
     <div>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza"
             [(ngModel)]="newIdTipoScadenzaPerConversione" name="scadenzaRiga">
@@ -1069,8 +1150,8 @@
 
 
 
-<!-- <div *ngIf="page == 'listVeicoli'"> -->
 <div *ngIf="page == 'OLD___listVeicoli'">
+    <!-- <div *ngIf="page == 'listVeicoli'"> -->
     <table mat-tableid>
         <th> Targa </th>
         <th> Marca </th>
@@ -1106,8 +1187,8 @@
     <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
 </div>
 
-<!-- <div *ngIf="page == 'listScadenzePerVeicolo'"> -->
 <div *ngIf="page == 'OLD___listScadenzePerVeicolo'">
+    <!-- <div *ngIf="page == 'listScadenzePerVeicolo'"> -->
     <table mat-tableid>
         <thead>
             <th>Data scadenza</th>
@@ -1209,4 +1290,52 @@
         </tbody>
     </table>
     <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un veicolo</button>
+</div>
+
+<div *ngIf="page == 'OLD___listManutenzioniVeicoli'">
+    <!-- <div *ngIf="page == 'listManutenzioniVeicoli'"> -->
+
+    <mat-form-field class=".search_dx">
+        <input matInput (keyup)="--applyFilterManutenzioni($event.target.value)"
+            placeholder="Cerca all\'interno della tabella'">
+    </mat-form-field>
+
+    <table mat-tableid>
+        <thead>
+            <th>Data</th>
+            <th>Causale</th>
+            <th>Veicolo</th>
+            <th>Fornitore</th>
+            <th>Costo</th>
+            <th>Note</th>
+            <!-- <th>&nbsp;Converti</th> -->
+            <!-- <th>&nbsp;Elimina</th> -->
+        </thead>
+        <tbody>
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': manutenzioneVeicolo.id%2==0}"
+                *ngFor="let manutenzioneVeicolo of listManutenzioniVeicoli">
+                <td>{{ manutenzioneVeicolo.Data | date:'dd/MM/yyyy' }}</td>
+                <td>{{getNomeCausaleManutenzioneById(manutenzioneVeicolo.IdCausaleManutenzione)}}</td>
+                <td>{{getTargaById(manutenzioneVeicolo.IdVeicolo)}} {{getMarcaById(manutenzioneVeicolo.IdVeicolo)}}
+                    {{getModelloById(manutenzioneVeicolo.IdVeicolo)}}</td>
+                <td>{{getNomeFornitoreById(manutenzioneVeicolo.IdFornitore)}}</td>
+                <td>{{manutenzioneVeicolo.Costo}}</td>
+                <td>{{manutenzioneVeicolo.Note}}</td>
+                <td><button mat-flat-button
+                        (click)="convertManutenzioneVeicoloToScadenzaAndAddToList(manutenzioneVeicolo, newIdTipoScadenzaPerConversione)">Converti
+                        in
+                        scadenza</button>
+                </td>
+                <td><button mat-flat-button
+                        (click)="deleteManutenzioneVeicolo(manutenzioneVeicolo.IdManutenzioneVeicoli)">Elimina</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>Tipo di scadenza da usare per la conversione: <mat-select placeholder="Tipo di scadenza"
+            [(ngModel)]="newIdTipoScadenzaPerConversione" name="scadenzaRiga">
+            <mat-option *ngFor="let scadenzaRiga of listTipiScadenza" [value]="scadenzaRiga.IdScadenza">
+                {{scadenzaRiga.Scadenza}} </mat-option>
+        </mat-select>
+    </div>
 </div>
