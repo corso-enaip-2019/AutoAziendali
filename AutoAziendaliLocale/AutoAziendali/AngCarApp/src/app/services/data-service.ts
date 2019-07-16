@@ -359,8 +359,9 @@ export class DataService {
     }
 
     public operationConfirmWithMessage(message: string): boolean {
-        if (typeof (message) == null || typeof (message) == null || message == null) { message = "Vuoi procedere con l\'operazione?";
-    }
+        if (typeof (message) == null || typeof (message) == undefined || message == null || message == "") {
+            message = "Vuoi procedere con l\'operazione?";
+        }
 
         return window.confirm(message.toString());
     }

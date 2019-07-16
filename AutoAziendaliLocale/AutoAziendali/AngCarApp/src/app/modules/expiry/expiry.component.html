@@ -149,6 +149,7 @@
 </div>
 
 <div *ngIf="page == 'listScadenzePerVeicolo'">
+    <!-- <div *ngIf="page == 'NEW___listScadenzePerVeicolo'"> -->
 
     <mat-form-field class=".search_dx">
         <input matInput (keyup)="--applyFilterScadenzeVeicolo($event.target.value)" placeholder="Cerca scadenza">
@@ -196,6 +197,60 @@
                         (click)="deleteScadenzaVeicolo(scadenzaVeicolo.IdScadenzeVeicoli)">Elimina</button></td>>
             </tr>
         </tbody>
+    </table>
+    <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un veicolo</button>
+
+
+    <!-- [filtro ricerca] -->
+
+    <table mat-table [dataSource]="dtSrcScadenzeSingoloVeicolo" matSort>
+        <!-- !!!!!!!!!!Da convertire nella mia tabella (vedi subito sopra) -->
+        <!-- Come riempire il dataSource  -->
+        <!-- ['DataScadenza', 'GgAllaScadenza', 'GgDiPreavviso', 'TipoDiScadenza', 'Targa', 'Marca', 'Modello', 'ColBtnVediDettagli', 'ColBtnModifica', 'ColBtnElimina'] -->
+        <!-- Non sono pronti, ho cambiato solo il nome della colonna -->
+        <ng-container matColumnDef="DataScadenza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data scadenza</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="GgAllaScadenza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>gg. alla scadenza</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="GgDiPreavviso">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>gg. di preavviso</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="TipoDiScadenza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo di scadenza</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Targa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Targa</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Modello">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modello</th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ColBtnVediDettagli">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ColBtnModifica">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ColBtnElimina">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let statoVeicolo"> {{getStatoById(statoVeicolo.IdStato)}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef=" displayedColsListScSiV"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColsListScSiV;"></tr>
     </table>
     <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un veicolo</button>
 </div>
@@ -1063,4 +1118,55 @@
         </tbody>
     </table>
     <button mat-flat-button (click)="newTipoScadenzaView()">Aggiungi un nuovo tipo di scadenza</button>
+</div>
+
+<!-- <div *ngIf="page == 'listScadenzePerVeicolo'"> -->
+<div *ngIf="page == 'OLD___listScadenzePerVeicolo'">
+    <table mat-tableid>
+        <thead>
+            <th>Data scadenza</th>
+            <th>gg. alla scadenza</th>
+            <th>gg. di preavviso</th>
+            <th>Tipo di scadenza</th>
+            <th>Targa</th>
+            <th>Marca</th>
+            <th>Modello</th>
+            <!-- <th><em>&nbsp;Dettaglio</em></th> -->
+            <!-- <th><em>&nbsp;Modifica</em></th> -->
+            <!-- <th><em>&nbsp;Elimina</em></th> -->
+        </thead>
+        <tbody>
+            <tr class="dettaglio" [ngClass]="{'alternativeRow': scadenzaVeicolo.IdScadenzeVeicoli%2==0}"
+                *ngFor="let scadenzaVeicolo of listScadenzeDelSingoloVeicolo">
+                <td>{{ scadenzaVeicolo.Data | date:'dd/MM/yyyy' }}</td>
+                <td
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==true">
+                    <!-- Per ora aggiunge solo il bold ed un "⚠" &#9888; -->
+                    <strong>{{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg da oggi
+                        &#9888;</strong>
+                </td>
+                <td
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false&&(0>=differenzaOggiData2(scadenzaVeicolo.Data))">
+                    {{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg da oggi
+                </td>
+                <td
+                    *ngIf="rimastiTroppoPochiGiorni(scadenzaVeicolo.Data, getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza))==false&&(differenzaOggiData2(scadenzaVeicolo.Data)>0)">
+                    {{ differenzaOggiData2(scadenzaVeicolo.Data) | number:'1.0-0' }} gg ad oggi
+                </td>
+                <td>{{getGiorniDiPreavvisoByIdTipoScadenza(scadenzaVeicolo.IdScadenza)}}</td>
+                <td>{{getNomeTipoScadenzaByIdTipoScadenza(scadenzaVeicolo.IdScadenza)}}</td>
+                <td>{{getTargaById(scadenzaVeicolo.IdVeicolo)}}</td>
+                <td>{{getMarcaById(scadenzaVeicolo.IdVeicolo)}}</td>
+                <td>{{getModelloById(scadenzaVeicolo.IdVeicolo)}}</td>
+                <td><button mat-flat-button (click)="detailSingolaScadenzaPerVeicoloView(scadenzaVeicolo)">Vedi
+                        dettagli</button></td>
+                <td><button mat-flat-button (click)="editScadenzaVeicoloView(scadenzaVeicolo)">Modifica</button>
+                </td>
+                <td><button mat-flat-button
+                        (click)="deleteScadenzaVeicolo(scadenzaVeicolo.IdScadenzeVeicoli)">Elimina</button></td>>
+            </tr>
+        </tbody>
+    </table>
+    <button mat-flat-button (click)="newScadenzaVeicoloView()">Crea una nuova scandenza riferita ad un
+        veicolo</button>
 </div>

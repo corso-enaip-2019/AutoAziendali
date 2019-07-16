@@ -635,5 +635,14 @@ namespace AutoAziendali.Controllers
             }
             return inString;
         }
+
+        public DateTime DaJSTickACSTick(DateTime inDateTime)
+        {
+            /* Il DateTime di JS parte dal 1970-01-01.
+                 * Se risulta una data precedente a tale data (se vicino all'anno "1") vuol dire che ha preso i tick di JS (x*1 ms passati dal 1970-01-01) e li ha usati come tick di C# (y*100 ns passati dal 0001-01-01).
+                 * 1 ms = 10_000 C#tick da 100ns */
+
+            return (new DateTime((inDateTime.Ticks * 10_000) + (new DateTime(1970, 1, 1)).Ticks));
+        }
     }
 }
